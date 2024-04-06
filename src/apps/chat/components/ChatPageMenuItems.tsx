@@ -92,7 +92,7 @@ export function ChatPageMenuItems(props: {
     {/* System Message(s) */}
     <MenuItem onClick={handleToggleSystemMessages}>
       <ListItemDecorator><SettingsSuggestOutlinedIcon /></ListItemDecorator>
-      System messages
+      角色信息 
       <Switch checked={showSystemMessages} onChange={handleToggleSystemMessages} sx={{ ml: 'auto' }} />
     </MenuItem>
 
@@ -103,10 +103,10 @@ export function ChatPageMenuItems(props: {
         : (isMultiPane ? <VerticalSplitIcon /> : <VerticalSplitOutlinedIcon />)
       }</ListItemDecorator>
       {/* Unsplit / Split text*/}
-      {isMultiPane ? 'Unsplit' : props.isMobile ? 'Split Down' : 'Split Right'}
+      {isMultiPane ? '取消分屏' : props.isMobile ? '向下分屏' : '向右分屏'}
       {/* '+' */}
       {isMultiPane && (
-        <Tooltip title='Add Another Split'>
+        <Tooltip title='增加分屏'>
           <IconButton
             size='sm'
             variant='outlined'
@@ -122,11 +122,12 @@ export function ChatPageMenuItems(props: {
 
     <MenuItem disabled={props.disableItems} onClick={handleConversationBranch}>
       <ListItemDecorator><ForkRightIcon /></ListItemDecorator>
-      Branch
+      建立分支
     </MenuItem>
 
     <ListDivider />
-
+    
+    {/* 
     <MenuItem disabled={props.disableItems} onClick={handleToggleMessageSelectionMode} sx={props.isMessageSelectionMode ? { fontWeight: 'lg' } : {}}>
       <ListItemDecorator>{props.isMessageSelectionMode ? <CheckBoxOutlinedIcon /> : <CheckBoxOutlineBlankOutlinedIcon />}</ListItemDecorator>
       Cleanup ...
@@ -136,13 +137,14 @@ export function ChatPageMenuItems(props: {
       <ListItemDecorator><CompressIcon color='success' /></ListItemDecorator>
       Compress ...
     </MenuItem>
+      */ }
 
     <ListDivider />
 
     <MenuItem disabled={props.disableItems} onClick={handleConversationClear}>
       <ListItemDecorator><ClearIcon /></ListItemDecorator>
       <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between', gap: 1 }}>
-        Reset Chat
+        重置对话
         {!props.disableItems && <KeyStroke combo='Ctrl + Alt + X' />}
       </Box>
     </MenuItem>

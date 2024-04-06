@@ -174,7 +174,7 @@ function ChatDrawerItem(props: {
 
   const titleRowComponent = React.useMemo(() => <>
 
-    {/* Symbol, if globally enabled */}
+    {/* Symbol, if globally enabled 
     {props.showSymbols && <ListItemDecorator>
       {assistantTyping
         ? (
@@ -189,11 +189,11 @@ function ChatDrawerItem(props: {
           />
         ) : (
           <Typography sx={isNew ? { opacity: 0.4, filter: 'grayscale(0.75)' } : undefined}>
-            {/*{isNew ? '' : textSymbol}*/}
             {textSymbol}
           </Typography>
         )}
     </ListItemDecorator>}
+        */ }
 
     {/* Title */}
     {!isEditingTitle ? (
@@ -303,26 +303,26 @@ function ChatDrawerItem(props: {
                 {/*<Divider orientation='vertical' sx={{ my: 1, opacity: 0.5 }} />*/}
               </>}
 
-              <Tooltip disableInteractive title='Rename'>
+              <Tooltip disableInteractive title='重命名'>
                 <FadeInButton size='sm' disabled={isEditingTitle || isAutoEditingTitle} onClick={handleTitleEditBegin}>
                   <EditRoundedIcon />
                 </FadeInButton>
               </Tooltip>
 
               {!isNew && <>
-                <Tooltip disableInteractive title='Auto-Title'>
+                <Tooltip disableInteractive title='自动命名'>
                   <FadeInButton size='sm' disabled={isEditingTitle || isAutoEditingTitle} onClick={handleTitleEditAuto}>
                     <AutoFixHighIcon />
                   </FadeInButton>
                 </Tooltip>
 
-                <Tooltip disableInteractive title='Branch'>
+                <Tooltip disableInteractive title='建立分支'>
                   <FadeInButton size='sm' onClick={handleConversationBranch}>
                     <ForkRightIcon />
                   </FadeInButton>
                 </Tooltip>
 
-                <Tooltip disableInteractive title='Export Chat'>
+                <Tooltip disableInteractive title='导出'>
                   <FadeInButton size='sm' onClick={handleConversationExport}>
                     <FileDownloadOutlinedIcon />
                   </FadeInButton>
@@ -337,14 +337,14 @@ function ChatDrawerItem(props: {
             {/* Delete [armed, arming] buttons */}
             {/*{!searchFrequency && <>*/}
             {deleteArmed && (
-              <Tooltip disableInteractive title='Confirm Deletion'>
+              <Tooltip disableInteractive title='确认删除'>
                 <FadeInButton key='btn-del' variant='solid' color='success' size='sm' onClick={handleConversationDelete} sx={{ opacity: 1, mr: 0.5 }}>
                   <DeleteForeverIcon sx={{ color: 'danger.solidBg' }} />
                 </FadeInButton>
               </Tooltip>
             )}
 
-            <Tooltip disableInteractive title={deleteArmed ? 'Cancel Delete' : 'Delete'}>
+            <Tooltip disableInteractive title={deleteArmed ? '取消删除' : '删除'}>
               <FadeInButton key='btn-arm' size='sm' onClick={deleteArmed ? handleDeleteButtonHide : handleDeleteButtonShow} sx={deleteArmed ? { opacity: 1 } : {}}>
                 {deleteArmed ? <CloseRoundedIcon /> : <DeleteOutlineIcon />}
               </FadeInButton>
@@ -356,7 +356,7 @@ function ChatDrawerItem(props: {
         {/* View places row */}
         {isAlsoOpen && (
           <Typography level='body-xs' sx={{ mx: 'auto' }}>
-            <em>In view {isAlsoOpen}</em>
+            <em>屏幕 {isAlsoOpen}</em>
           </Typography>
         )}
 

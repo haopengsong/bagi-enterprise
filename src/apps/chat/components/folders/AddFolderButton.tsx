@@ -60,7 +60,7 @@ export function AddFolderButton() {
         <ListItemDecorator>
           <AddIcon sx={{ '--Icon-fontSize': 'var(--joy-fontSize-xl)', pl: '0.125rem' }} />
         </ListItemDecorator>
-        New folder
+        新建文件夹
       </ListItemButton>
     </ListItem>
   );

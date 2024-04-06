@@ -14,7 +14,7 @@ export function ChatBarDropdowns(props: {
   // state
   const { chatLLMDropdown } = useChatLLMDropdown();
   const { personaDropdown } = usePersonaIdDropdown(props.conversationId);
-  const { folderDropdown } = useFolderDropdown(props.conversationId);
+  // const { folderDropdown } = useFolderDropdown(props.conversationId);
 
   return <>
 
@@ -25,7 +25,7 @@ export function ChatBarDropdowns(props: {
     {chatLLMDropdown}
 
     {/* Folder selector */}
-    {folderDropdown}
+    { /* folderDropdown */ }
 
   </>;
 }

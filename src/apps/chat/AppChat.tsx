@@ -681,9 +681,11 @@ export function AppChat() {
     {/* [confirmation] Reset Conversation */}
     {!!clearConversationId && (
       <ConfirmationModal
-        open onClose={() => setClearConversationId(null)} onPositive={handleConfirmedClearConversation}
-        confirmationText='Are you sure you want to discard all messages?'
-        positiveActionText='Clear conversation'
+        open
+        onClose={() => setClearConversationId(null)}
+        onPositive={handleConfirmedClearConversation}
+        confirmationText='确定删除所有对话?'
+        positiveActionText='清空'
       />
     )}
 
@@ -691,8 +693,8 @@ export function AppChat() {
     {!!deleteConversationIds?.length && (
       <ConfirmationModal
         open onClose={() => setDeleteConversationIds(null)} onPositive={handleConfirmedDeleteConversations}
-        confirmationText={`Are you absolutely sure you want to delete ${deleteConversationIds.length === 1 ? 'this conversation' : 'these conversations'}? This action cannot be undone.`}
-        positiveActionText={deleteConversationIds.length === 1 ? 'Delete conversation' : `Yes, delete all ${deleteConversationIds.length} conversations`}
+        confirmationText={`确定要删除 ${deleteConversationIds.length === 1 ? '这条对话' : '这些对话'}? 删除后不可恢复.`}
+        positiveActionText={deleteConversationIds.length === 1 ? '删除对话' : `删除全部 ${deleteConversationIds.length} 条对话`}
       />
     )}
 

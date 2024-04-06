@@ -161,7 +161,9 @@ function ChatDrawer(props: {
         // Search/Filter default menu: Grouping, Filtering, ...
         <Menu placement='bottom-start' sx={{ minWidth: 180, zIndex: themeZIndexOverMobileDrawer /* need to be on top of the Modal on Mobile */ }}>
           <ListItem>
-            <Typography level='body-sm'>Group By</Typography>
+            <Typography level='body-sm'>分组</Typography>
+            <Typography level='body-sm'>date: 日期</Typography>
+            <Typography level='body-sm'>persona: 角色</Typography>
           </ListItem>
           {(['date', 'persona'] as const).map(_gName => (
             <MenuItem
@@ -177,39 +179,39 @@ function ChatDrawer(props: {
 
           <ListDivider />
           <ListItem>
-            <Typography level='body-sm'>Filter</Typography>
+            <Typography level='body-sm'>过滤</Typography>
           </ListItem>
           <MenuItem onClick={toggleFilterHasStars}>
             <ListItemDecorator>{filterHasStars && <CheckRoundedIcon />}</ListItemDecorator>
-            Starred <StarOutlineRoundedIcon />
+            星标 <StarOutlineRoundedIcon />
           </MenuItem>
 
           <ListDivider />
           <ListItem>
-            <Typography level='body-sm'>Show</Typography>
+            <Typography level='body-sm'>显示</Typography>
           </ListItem>
           <MenuItem onClick={toggleShowPersonaIcons}>
             <ListItemDecorator>{showPersonaIcons && <CheckRoundedIcon />}</ListItemDecorator>
-            Icons
+            图标 
           </MenuItem>
           <MenuItem onClick={toggleShowRelativeSize}>
             <ListItemDecorator>{showRelativeSize && <CheckRoundedIcon />}</ListItemDecorator>
-            Relative Size
+           相对大小 
           </MenuItem>
         </Menu>
       ) : (
         // While searching, show the sorting options
         <Menu placement='bottom-start' sx={{ minWidth: 180, zIndex: themeZIndexOverMobileDrawer /* need to be on top of the Modal on Mobile */ }}>
           <ListItem>
-            <Typography level='body-sm'>Sort By</Typography>
+            <Typography level='body-sm'>排序方式</Typography>
           </ListItem>
           <MenuItem selected={searchSorting === 'frequency'} onClick={() => setSearchSorting('frequency')}>
             <ListItemDecorator>{searchSorting === 'frequency' && <CheckRoundedIcon />}</ListItemDecorator>
-            Matches
+            匹配
           </MenuItem>
           <MenuItem selected={searchSorting === 'date'} onClick={() => setSearchSorting('date')}>
             <ListItemDecorator>{searchSorting === 'date' && <CheckRoundedIcon />}</ListItemDecorator>
-            Date
+            日期 
           </MenuItem>
         </Menu>
       )}
@@ -220,8 +222,8 @@ function ChatDrawer(props: {
   return <>
 
     {/* Drawer Header */}
-    <PageDrawerHeader title='Chats' onClose={closeDrawer}>
-      <Tooltip title={enableFolders ? 'Hide Folders' : 'Use Folders'}>
+    <PageDrawerHeader title='对话' onClose={closeDrawer}>
+      <Tooltip title={enableFolders ? '隐藏文件夹' : '显示文件夹'}>
         <IconButton size='sm' onClick={toggleEnableFolders}>
           {enableFolders ? <FoldersToggleOn /> : <FoldersToggleOff />}
         </IconButton>
@@ -268,7 +270,7 @@ function ChatDrawer(props: {
           minChars={2}
           onDebounce={setDebouncedSearchQuery}
           debounceTimeout={300}
-          placeholder='Search...'
+          placeholder='搜索对话...'
           aria-label='Search'
           endDecorator={groupingComponent}
         />
@@ -300,7 +302,7 @@ function ChatDrawer(props: {
           }}
         >
           <ListItemDecorator><AddIcon sx={{ fontSize: '' }} /></ListItemDecorator>
-          New chat
+         新建对话 
         </Button>
 
       </Box>
@@ -337,7 +339,7 @@ function ChatDrawer(props: {
               {item.message}
               {filterHasStars && <>
                 <Button variant='soft' size='sm' onClick={toggleFilterHasStars} sx={{ display: 'block', mt: 2, mx: 'auto' }}>
-                  remove filters
+                  删除过滤
                 </Button>
               </>}
             </Typography>
@@ -353,7 +355,7 @@ function ChatDrawer(props: {
           <ListItemDecorator>
             <FileUploadOutlinedIcon />
           </ListItemDecorator>
-          Import
+          导入
           {/*<OpenAIIcon sx={{  ml: 'auto' }} />*/}
         </ListItemButton>
 
@@ -361,7 +363,7 @@ function ChatDrawer(props: {
           <ListItemDecorator>
             <FileDownloadOutlinedIcon />
           </ListItemDecorator>
-          Export
+         导出 
         </ListItemButton>
       </Box>
 
@@ -369,7 +371,7 @@ function ChatDrawer(props: {
         <ListItemDecorator>
           <DeleteOutlineIcon />
         </ListItemDecorator>
-        Delete {filteredChatsCount >= 2 ? `all ${filteredChatsCount} chats` : 'chat'}
+        删除 {filteredChatsCount >= 2 ? `所有 ${filteredChatsCount} 条对话` : '对话'}
       </ListItemButton>
 
     </PageDrawerList>
