@@ -17,7 +17,10 @@ import { DesktopNavGroupBox, DesktopNavIcon, navItemClasses } from './components
 import { InvertedBar, InvertedBarCornerItem } from './components/InvertedBar';
 import { useOptimaDrawers } from './useOptimaDrawers';
 import { useOptimaLayout } from './useOptimaLayout';
-
+import { ListDivider, Typography, useColorScheme } from '@mui/joy';
+import { Box, IconButton, styled } from '@mui/joy';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
 
 const desktopNavBarSx: SxProps = {
   zIndex: themeZIndexDesktopNav,
@@ -45,6 +48,14 @@ export function DesktopNav(props: { component: React.ElementType, currentApp?: N
       toggleDrawer();
   }, [logoButtonTogglesPane, toggleDrawer]);
 
+const { mode: colorMode, setMode: setColorMode } = useColorScheme();
+
+const handleToggleDarkMode = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    setColorMode(colorMode === 'dark' ? 'light' : 'dark');
+  };
+
+
 
   // App items
   const navAppItems = React.useMemo(() => {
@@ -54,7 +65,8 @@ export function DesktopNav(props: { component: React.ElementType, currentApp?: N
     const visibleApps: NavItemApp[] = [];
     const overflowApps: NavItemApp[] = [];
 
-    navItems.apps.forEach((app, index) => {
+    navItems.apps
+    .forEach((app, index) => {
       if (checkVisibileIcon(app, false, props.currentApp)) {
         if (!crossedDivider || app === props.currentApp)
           visibleApps.push(app);
@@ -177,15 +189,26 @@ export function DesktopNav(props: { component: React.ElementType, currentApp?: N
         </Tooltip>
       </InvertedBarCornerItem>
 
+    {/* 
       <DesktopNavGroupBox>
         {navAppItems}
       </DesktopNavGroupBox>
+  */}
 
       <DesktopNavGroupBox sx={{ mb: 'calc(2 * var(--GroupMarginY))' }}>
         {navExtLinkItems}
         {navModalItems}
       </DesktopNavGroupBox>
+          <DesktopNavGroupBox>
 
+      <IconButton
+        variant='outlined'
+        onClick={handleToggleDarkMode}
+        sx={{ ml: 'auto' }}
+      >
+        {colorMode !== 'dark' ? <DarkModeIcon /> : <LightModeIcon />}
+      </IconButton>
+      </DesktopNavGroupBox>
     </InvertedBar>
   );
 }

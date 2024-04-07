@@ -5,9 +5,9 @@ import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
 
 
 const attachFileLegend =
-  <Box sx={{ px: 1, py: 0.75, lineHeight: '1.5rem' }}>
-    <b>Attach files</b><br />
-    Drag & drop in chat for faster loads ⚡
+    <Box sx={{ px: 1, py: 0.75, lineHeight: '1.5rem' }}>
+    <b>添加附件</b><br />
+    可将文件拖拽至聊天框中 ⚡
   </Box>;
 
 
@@ -22,7 +22,7 @@ function ButtonAttachFile(props: { isMobile?: boolean, onAttachFilePicker: () =>
     <Tooltip disableInteractive variant='solid' placement='top-start' title={attachFileLegend}>
       <Button fullWidth variant='plain' color='neutral' onClick={props.onAttachFilePicker} startDecorator={<AttachFileOutlinedIcon />}
               sx={{ justifyContent: 'flex-start' }}>
-        File
+        添加附件
       </Button>
     </Tooltip>
   );

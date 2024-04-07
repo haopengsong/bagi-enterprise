@@ -21,12 +21,12 @@ interface ChatModeDescription {
 
 const ChatModeItems: { [key in ChatModeId]: ChatModeDescription } = {
   'generate-text': {
-    label: 'Chat',
-    description: 'Persona replies',
+    label: '对话',
+    description: '按角色回复',
   },
   'generate-text-beam': {
-    label: 'Beam', // Best of, Auto-Prime, Top Pick, Select Best
-    description: 'Combine multiple models', // Smarter: combine...
+    label: '多模对话', // Best of, Auto-Prime, Top Pick, Select Best
+    description: '同时调用多个模型对话', // Smarter: combine...
     shortcut: 'Ctrl + Enter',
     hideOnDesktop: true,
   },

@@ -120,7 +120,7 @@ function LLMDropdown(props: {
     <ListItemButton key='menu-llms' onClick={openModelsSetup}>
       <ListItemDecorator><BuildCircleIcon color='success' /></ListItemDecorator>
       <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between', gap: 1 }}>
-        Models
+        配置模型 
         <KeyStroke combo='Ctrl + Shift + M' sx={{ ml: 2 }} />
       </Box>
     </ListItemButton>
@@ -133,7 +133,7 @@ function LLMDropdown(props: {
       items={llmDropdownItems}
       value={chatLlmId}
       onChange={handleChatLLMChange}
-      placeholder={props.placeholder || 'Models …'}
+      placeholder={props.placeholder || '开始'}
       appendOption={llmDropdownAppendOptions}
       activeEndDecorator={llmDropdownButton}
     />

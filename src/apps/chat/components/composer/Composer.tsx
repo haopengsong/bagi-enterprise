@@ -515,9 +515,9 @@ export function Composer(props: {
   const buttonText =
     isAppend ? 'Write'
       : isReAct ? 'ReAct'
-        : isTextBeam ? 'Beam'
-          : isDraw ? 'Draw'
-            : 'Chat';
+        : isTextBeam ? '多模问答'
+          : isDraw ? '绘制'
+            : '发送';
 
   const buttonIcon =
     micContinuation ? <AutoModeIcon />
@@ -528,19 +528,21 @@ export function Composer(props: {
               : <TelegramIcon />;
 
   let textPlaceholder: string =
-    isDraw ? 'Describe an idea or a drawing...'
+    isDraw ? '描述一个想法或一副图画...'
       : isReAct ? 'Multi-step reasoning question...'
-        : isTextBeam ? 'Beam: combine the smarts of models...'
+        : isTextBeam ? 'Beam: 多模对话...'
           : props.isDeveloperMode ? 'Chat with me' + (isDesktop ? ' · drop source' : '') + ' · attach code...'
-            : props.capabilityHasT2I ? 'Chat · /beam · /draw · drop files...'
-              : 'Chat · /react · drop files...';
+            : props.capabilityHasT2I ? '可输入：1）问题; 2）/draw 绘图; 3）/beam 多模对话; 4)文件...'
+              : '可输入：1）问题; 2）/draw 绘图; 3）/beam 多模对话; 4)文件...';
   if (isDesktop && timeToShowTips) {
     if (explainShiftEnter)
-      textPlaceholder += !enterIsNewline ? '\n\n💡 Shift + Enter to add a new line' : '\n\n💡 Shift + Enter to send';
+      textPlaceholder += !enterIsNewline ? '\n\n💡 Shift + Enter 另起一行' : '\n\n💡 Shift + Enter 发送';
+  /*
     else if (explainAltEnter)
       textPlaceholder += platformAwareKeystrokes('\n\n💡 Tip: Alt + Enter to just append the message');
     else if (labsBeam && explainCtrlEnter)
       textPlaceholder += platformAwareKeystrokes('\n\n💡 Tip: Ctrl + Enter to beam');
+  */
   }
 
   return (
@@ -576,9 +578,9 @@ export function Composer(props: {
                   </MenuItem>
 
                   {/* Responsive Paste button */}
-                  {supportsClipboardRead && <MenuItem>
+                  { /* supportsClipboardRead && <MenuItem>
                     <ButtonAttachClipboardMemo onClick={attachAppendClipboardItems} />
-                  </MenuItem>}
+            </MenuItem> */}
                 </Menu>
               </Dropdown>
 
@@ -595,7 +597,7 @@ export function Composer(props: {
               <ButtonAttachFileMemo onAttachFilePicker={handleAttachFilePicker} />
 
               {/* Responsive Paste button */}
-              {supportsClipboardRead && <ButtonAttachClipboardMemo onClick={attachAppendClipboardItems} />}
+              { /* supportsClipboardRead && <ButtonAttachClipboardMemo onClick={attachAppendClipboardItems} /> */ }
 
               {/* Responsive Screen Capture button */}
               {labsAttachScreenCapture && supportsScreenCapture && <ButtonAttachScreenCaptureMemo onAttachScreenCapture={handleAttachScreenCapture} />}
@@ -670,7 +672,7 @@ export function Composer(props: {
                   mr: isDesktop ? 1 : 0.25,
                   display: 'flex', flexDirection: 'column', gap: isDesktop ? 1 : 0.25,
                 }}>
-                  {isDesktop && <ButtonMicMemo variant={micVariant} color={micColor} onClick={handleToggleMic} noBackground={!isRecordingSpeech} />}
+                  { /* isDesktop && <ButtonMicMemo variant={micVariant} color={micColor} onClick={handleToggleMic} noBackground={!isRecordingSpeech} /> */ }
 
                   {micIsRunning && (
                     <ButtonMicContinuationMemo
@@ -713,7 +715,7 @@ export function Composer(props: {
                 >
                   {isDragging && <AttachFileIcon sx={{ width: 40, height: 40, pointerEvents: 'none' }} />}
                   {isDragging && <Typography level='title-sm' sx={{ pointerEvents: 'none' }}>
-                    I will hold on to this for you
+                   暂存 
                   </Typography>}
                 </Card>
               )}
@@ -741,12 +743,12 @@ export function Composer(props: {
             <Box sx={isMobile ? { display: 'flex' } : { display: 'grid', gap: 1 }}>
 
               {/* [mobile] bottom-corner secondary button */}
-              {isMobile && (showChatExtras
+              {/* isMobile && (showChatExtras
                   ? <ButtonCallMemo isMobile disabled={!props.conversationId || !chatLLMId} onClick={handleCallClicked} />
                   : isDraw
                     ? <ButtonOptionsDraw isMobile onClick={handleDrawOptionsClicked} sx={{ mr: { xs: 1, md: 2 } }} />
                     : <IconButton disabled sx={{ mr: { xs: 1, md: 2 } }} />
-              )}
+              ) */ }
 
               {/* Responsive Send/Stop buttons */}
               <ButtonGroup
@@ -776,7 +778,7 @@ export function Composer(props: {
                     endDecorator={<StopOutlinedIcon sx={{ fontSize: 18 }} />}
                     sx={{ animation: `${animationEnterBelow} 0.1s ease-out` }}
                   >
-                    Stop
+                    停止
                   </Button>
                 )}
 
@@ -821,7 +823,7 @@ export function Composer(props: {
             {isDesktop && <Box sx={{ mt: 'auto', display: 'grid', gap: 1 }}>
 
               {/* [desktop] Call secondary button */}
-              {showChatExtras && <ButtonCallMemo disabled={!props.conversationId || !chatLLMId} onClick={handleCallClicked} />}
+              { /* showChatExtras && <ButtonCallMemo disabled={!props.conversationId || !chatLLMId} onClick={handleCallClicked} /> */ }
 
               {/* [desktop] Draw Options secondary button */}
               {isDraw && <ButtonOptionsDraw onClick={handleDrawOptionsClicked} />}

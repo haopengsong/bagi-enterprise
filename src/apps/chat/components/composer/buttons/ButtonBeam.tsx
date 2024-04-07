@@ -10,7 +10,7 @@ import { animationEnterBelow } from '~/common/util/animUtils';
 
 const desktopLegend =
   <Box sx={{ px: 1, py: 0.75, lineHeight: '1.5rem' }}>
-    Combine the answers from multiple models<br />
+    同时调用多个模型进行问答<br />
     {/*{platformAwareKeystrokes('Ctrl + Enter')}*/}
     <KeyStroke combo='Ctrl + Enter' sx={{ mt: 0.5, mb: 0.25 }} />
   </Box>;
@@ -39,7 +39,7 @@ function ButtonBeam(props: { isMobile?: boolean, disabled?: boolean, onClick: ()
   ) : (
     <Tooltip disableInteractive variant='solid' arrow placement='right' title={desktopLegend}>
       <Button variant='soft' color='primary' disabled={props.disabled} onClick={props.onClick} endDecorator={<ChatBeamIcon />} sx={desktopSx}>
-        Beam
+        多模对话【测试中】
       </Button>
     </Tooltip>
   );

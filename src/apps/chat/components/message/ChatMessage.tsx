@@ -41,6 +41,9 @@ import { useUXLabsStore } from '~/common/state/store-ux-labs';
 
 import { useChatShowTextDiff } from '../../store-app-chat';
 
+import QuickreplyOutlinedIcon from '@mui/icons-material/QuickreplyOutlined';
+import SpatialAudioOffOutlinedIcon from '@mui/icons-material/SpatialAudioOffOutlined';
+
 
 // Enable the menu on text selection
 const ENABLE_SELECTION_RIGHT_CLICK_MENU: boolean = true;
@@ -90,10 +93,10 @@ export function makeAvatar(messageAvatar: string | null, messageRole: DMessage['
   const mascotSx = size === 'sm' ? avatarIconSx : { width: 64, height: 64 };
   switch (messageRole) {
     case 'system':
-      return <SettingsSuggestIcon sx={avatarIconSx} />;  // https://em-content.zobj.net/thumbs/120/apple/325/robot_1f916.png
+      return <QuickreplyOutlinedIcon sx={avatarIconSx} />
 
     case 'user':
-      return <Face6Icon sx={avatarIconSx} />;            // https://www.svgrepo.com/show/306500/openai.svg
+      return <SpatialAudioOffOutlinedIcon sx={avatarIconSx} />
 
     case 'assistant':
       // typing gif (people seem to love this, so keeping it after april fools')
@@ -102,6 +105,7 @@ export function makeAvatar(messageAvatar: string | null, messageRole: DMessage['
       const isReact = messageOriginLLM?.startsWith('react-');
 
       // animation: message typing
+      /* 
       if (messageTyping)
         return <Avatar
           alt={messageSender} variant='plain'
@@ -133,7 +137,8 @@ export function makeAvatar(messageAvatar: string | null, messageRole: DMessage['
         </Box>;
 
       // default assistant avatar
-      return <SmartToyOutlinedIcon sx={avatarIconSx} />; // https://mui.com/static/images/avatar/2.jpg
+      */
+     return <QuickreplyOutlinedIcon sx={avatarIconSx} />
   }
   return <Avatar alt={messageSender} />;
 }
@@ -589,22 +594,14 @@ export function ChatMessage(props: {
 
           {/* Edit / Copy */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {/* Edit */}
-            {!!props.onMessageEdit && (
-              <MenuItem variant='plain' disabled={messageTyping} onClick={handleOpsEdit} sx={{ flex: 1 }}>
-                <ListItemDecorator><EditRoundedIcon /></ListItemDecorator>
-                {isEditing ? 'Discard' : 'Edit'}
-                {/*{!isEditing && <span style={{ opacity: 0.5, marginLeft: '8px' }}>{doubleClickToEdit ? '(double-click)' : ''}</span>}*/}
-              </MenuItem>
-            )}
             {/* Copy */}
             <MenuItem onClick={handleOpsCopy} sx={{ flex: 1 }}>
               <ListItemDecorator><ContentCopyIcon /></ListItemDecorator>
-              Copy
+              复制
             </MenuItem>
             {/* Starred */}
             {!!onMessageToggleUserFlag && (
-              <MenuItem onClick={handleOpsToggleStarred} sx={{ flexGrow: 0, px: 1 }}>
+              <MenuItem title='星标' onClick={handleOpsToggleStarred} sx={{ flexGrow: 0, px: 1 }}>
                 {isUserStarred
                   ? <StarRoundedIcon color='primary' sx={{ fontSize: 'xl2' }} />
                   : <StarOutlineRoundedIcon sx={{ fontSize: 'xl2' }} />
@@ -613,83 +610,6 @@ export function ChatMessage(props: {
             )}
           </Box>
           {/* Delete / Branch / Truncate */}
-          {!!props.onMessageBranch && <ListDivider />}
-          {!!props.onMessageBranch && (
-            <MenuItem onClick={handleOpsBranch} disabled={fromSystem}>
-              <ListItemDecorator>
-                <ForkRightIcon />
-              </ListItemDecorator>
-              Branch
-              {!props.isBottom && <span style={{ opacity: 0.5 }}>from here</span>}
-            </MenuItem>
-          )}
-          {!!props.onMessageDelete && (
-            <MenuItem onClick={handleOpsDelete} disabled={false /*fromSystem*/}>
-              <ListItemDecorator><ClearIcon /></ListItemDecorator>
-              Delete
-              <span style={{ opacity: 0.5 }}>message</span>
-            </MenuItem>
-          )}
-          {!!props.onMessageTruncate && (
-            <MenuItem onClick={handleOpsTruncate} disabled={props.isBottom}>
-              <ListItemDecorator><VerticalAlignBottomIcon /></ListItemDecorator>
-              Truncate
-              <span style={{ opacity: 0.5 }}>after this</span>
-            </MenuItem>
-          )}
-          {/* Diff Viewer */}
-          {!!props.diffPreviousText && <ListDivider />}
-          {!!props.diffPreviousText && (
-            <MenuItem onClick={handleOpsToggleShowDiff}>
-              <ListItemDecorator><DifferenceIcon /></ListItemDecorator>
-              Show difference
-              <Switch checked={showDiff} onChange={handleOpsToggleShowDiff} sx={{ ml: 'auto' }} />
-            </MenuItem>
-          )}
-          {/* Diagram / Draw / Speak */}
-          {!!props.onTextDiagram && <ListDivider />}
-          {!!props.onTextDiagram && (
-            <MenuItem onClick={handleOpsDiagram} disabled={!couldDiagram}>
-              <ListItemDecorator><AccountTreeTwoToneIcon /></ListItemDecorator>
-              Auto-Diagram ...
-            </MenuItem>
-          )}
-          {!!props.onTextImagine && (
-            <MenuItem onClick={handleOpsImagine} disabled={!couldImagine || props.isImagining}>
-              <ListItemDecorator>{props.isImagining ? <CircularProgress size='sm' /> : <FormatPaintTwoToneIcon />}</ListItemDecorator>
-              Auto-Draw
-            </MenuItem>
-          )}
-          {!!props.onTextSpeak && (
-            <MenuItem onClick={handleOpsSpeak} disabled={!couldSpeak || props.isSpeaking}>
-              <ListItemDecorator>{props.isSpeaking ? <CircularProgress size='sm' /> : <RecordVoiceOverTwoToneIcon />}</ListItemDecorator>
-              Speak
-            </MenuItem>
-          )}
-          {/* Beam/Restart */}
-          {(!!props.onMessageAssistantFrom || !!props.onMessageBeam) && <ListDivider />}
-          {!!props.onMessageAssistantFrom && (
-            <MenuItem disabled={fromSystem} onClick={handleOpsAssistantFrom}>
-              <ListItemDecorator>{fromAssistant ? <ReplayIcon color='primary' /> : <TelegramIcon color='primary' />}</ListItemDecorator>
-              {!fromAssistant
-                ? <>Restart <span style={{ opacity: 0.5 }}>from here</span></>
-                : !props.isBottom
-                  ? <>Retry <span style={{ opacity: 0.5 }}>from here</span></>
-                  : <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between', gap: 1 }}>Retry<KeyStroke combo='Ctrl + Shift + R' /></Box>}
-            </MenuItem>
-          )}
-          {!!props.onMessageBeam && labsBeam && (
-            <MenuItem disabled={fromSystem} onClick={handleOpsBeamFrom}>
-              <ListItemDecorator>
-                <ChatBeamIcon color={fromSystem ? undefined : 'primary'} />
-              </ListItemDecorator>
-              {!fromAssistant
-                ? <>Beam <span style={{ opacity: 0.5 }}>from here</span></>
-                : !props.isBottom
-                  ? <>Beam <span style={{ opacity: 0.5 }}>this message</span></>
-                  : <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between', gap: 1 }}>Beam<KeyStroke combo='Ctrl + Shift + B' /></Box>}
-            </MenuItem>
-          )}
         </CloseableMenu>
       )}
 

@@ -76,7 +76,7 @@ export function ExportChats(props: { config: ExportConfig, onClose: () => void }
 
           {exportAll && (
             <Typography level='body-sm'>
-              Download or share <strong>this chat</strong>:
+              下载对话
             </Typography>
           )}
 
@@ -87,7 +87,7 @@ export function ExportChats(props: { config: ExportConfig, onClose: () => void }
             sx={{ minWidth: 240, justifyContent: 'space-between' }}
             onClick={handleDownloadConversationJSON}
           >
-            Download · JSON
+            下载成文本格式(记事本打开)
           </Button>
 
           <Button
@@ -97,21 +97,23 @@ export function ExportChats(props: { config: ExportConfig, onClose: () => void }
             sx={{ minWidth: 240, justifyContent: 'space-between' }}
             onClick={handleDownloadConversationMarkdown}
           >
-            Export · Markdown
+            导出Markdown格式
           </Button>
 
-          {enableSharing && (
+          { /*  enableSharing && (
             <ChatLinkExport
               conversationId={props.config.conversationId}
               enableSharing={enableSharing}
               onClose={props.onClose}
             />
-          )}
+          ) */ }
 
+          {/* 
           <PublishExport
             conversationId={props.config.conversationId}
             onClose={props.onClose}
           />
+        */}
 
           {/*<Button*/}
           {/*  variant='soft'*/}
@@ -130,7 +132,7 @@ export function ExportChats(props: { config: ExportConfig, onClose: () => void }
           <Box sx={{ display: 'grid', gap: 1, mx: 'auto' }}>
 
             <Typography level='body-sm'>
-              Backup or transfer <strong>all chats</strong>:
+              保存所有对话
             </Typography>
 
             <Button
@@ -140,7 +142,7 @@ export function ExportChats(props: { config: ExportConfig, onClose: () => void }
               sx={{ minWidth: 240, justifyContent: 'space-between' }}
               onClick={handleDownloadAllConversationsJSON}
             >
-              Download All · JSON
+              下载全部对话成文本格式
             </Button>
 
           </Box>
