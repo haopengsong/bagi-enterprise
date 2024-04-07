@@ -36,8 +36,8 @@ const ChatModeItems: { [key in ChatModeId]: ChatModeDescription } = {
     shortcut: 'Alt + Enter',
   },
   'generate-image': {
-    label: 'Draw',
-    description: 'AI Image Generation',
+    label: '绘图',
+    description: 'AI绘图',
     requiresTTI: true,
   },
   'generate-react': {

@@ -48,8 +48,8 @@ function modelDescriptionToDLLMOpenAIOptions<TSourceSetup, TLLMOptions>(model: M
 
   // null means unknown contenxt/output tokens
   const contextTokens = model.contextWindow || null;
-  const maxOutputTokens = model.maxCompletionTokens || (contextTokens ? Math.round(contextTokens / 2) : null);
-  const llmResponseTokensRatio = model.maxCompletionTokens ? 1 / 2 : 1 / 4;
+  const maxOutputTokens = model.maxCompletionTokens || (contextTokens ? Math.round(contextTokens / 1) : null);
+  const llmResponseTokensRatio = model.maxCompletionTokens ? 1 : 1 ;
   const llmResponseTokens = maxOutputTokens ? Math.round(maxOutputTokens * llmResponseTokensRatio) : null;
 
   return {

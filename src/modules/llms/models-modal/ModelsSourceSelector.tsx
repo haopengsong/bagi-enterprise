@@ -147,7 +147,7 @@ export function ModelsSourceSelector(props: {
 
       {/* Models: [Select] Add Delete */}
       {!isMobile && <Typography sx={{ mr: 1 }}>
-        Service:
+        模型:
       </Typography>}
 
       <Select
@@ -164,7 +164,7 @@ export function ModelsSourceSelector(props: {
         {sourceItems.map(item => item.component)}
       </Select>
 
-      {isMobile ? (
+      { /* isMobile ? (
         <IconButton variant={noSources ? 'solid' : 'plain'} color='primary' onClick={handleShowVendors} disabled={!!vendorsMenuAnchor}>
           <AddIcon />
         </IconButton>
@@ -172,7 +172,7 @@ export function ModelsSourceSelector(props: {
         <Button variant={noSources ? 'solid' : 'plain'} onClick={handleShowVendors} disabled={!!vendorsMenuAnchor} startDecorator={<AddIcon />}>
           Add
         </Button>
-      )}
+      ) 
 
       <IconButton
         variant='plain' color='neutral' disabled={!enableDeleteButton} sx={{ ml: 'auto' }}
@@ -180,6 +180,7 @@ export function ModelsSourceSelector(props: {
       >
         <DeleteOutlineIcon />
       </IconButton>
+    */}
 
 
       {/* vendors popup, for adding */}

@@ -23,6 +23,7 @@ import WorkspacesOutlinedIcon from '@mui/icons-material/WorkspacesOutlined';
 // Link icons
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { DiscordIcon } from '~/common/components/icons/3rdparty/DiscordIcon';
+import TravelExploreSharpIcon from '@mui/icons-material/TravelExploreSharp';
 // Modal icons
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -96,6 +97,7 @@ export const navItems: {
       type: 'app',
       route: '/',
     },
+    /*
     {
       name: 'Call',
       barTitle: 'Voice Calls',
@@ -154,6 +156,7 @@ export const navItems: {
       route: SPECIAL_DIVIDER,
       icon: () => null,
     },
+    */
     {
       name: 'Personas',
       icon: Diversity2Icon, // was: Outlined.. but they look the same
@@ -191,6 +194,7 @@ export const navItems: {
       hideIcon: hasNoChatLinkItems,
       hideNav: hasNoChatLinkItems,
     },
+    /*
     {
       name: 'News',
       icon: EventNoteOutlinedIcon,
@@ -200,22 +204,25 @@ export const navItems: {
       hideBar: true,
       hideDrawer: true,
     },
+    */
   ],
 
   // Modals
   modals: [
     {
-      name: 'Manage Models',
+      name: '模型配置',
       icon: BuildCircleIcon,
       type: 'modal',
       overlayId: 'models',
     },
+    /*
     {
       name: 'Preferences',
       icon: SettingsIcon,
       type: 'modal',
       overlayId: 'settings',
     },
+    */
   ],
 
   // External links
@@ -226,17 +233,19 @@ export const navItems: {
     //   icon: TwitterIcon,
     //   href: 'https://twitter.com',
     // },
+    /*
     {
       type: 'extLink',
       name: 'Discord',
       icon: DiscordIcon,
       href: Brand.URIs.SupportInvite,
     },
+    */
     {
       type: 'extLink',
-      name: 'GitHub',
-      icon: GitHubIcon,
-      href: Brand.URIs.OpenRepo,
+      name: '搜索',
+      icon: TravelExploreSharpIcon,
+      href: 'https://www.baidu.com',
     },
   ],
 

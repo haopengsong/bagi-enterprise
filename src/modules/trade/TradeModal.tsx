@@ -14,7 +14,7 @@ export function TradeModal(props: { config: TradeConfig, onConversationActivate:
       open onClose={props.onClose}
       dividers
       title={<>
-        <b>{props.config.dir === 'import' ? 'Import ' : props.config.dir === 'export' ? 'Export ' : ''}</b> {(props.config.dir === 'export' && !props.config.exportAll) ? 'conversation' : 'conversations'}
+        <b>{props.config.dir === 'import' ? '导入 ' : props.config.dir === 'export' ? '导出 ' : ''}</b> {(props.config.dir === 'export' && !props.config.exportAll) ? '对话' : '对话'}
       </>}
     >
 

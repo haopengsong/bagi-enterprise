@@ -82,7 +82,7 @@ function ModelItem(props: {
           </Typography>
         </GoodTooltip>
 
-        {/* Chips */}
+        {/* Chips 
         {props.chipChat && <Chip size='sm' variant='plain' sx={{ boxShadow: 'sm' }}>chat</Chip>}
         {props.chipFast && <Chip size='sm' variant='plain' sx={{ boxShadow: 'sm' }}>fast</Chip>}
         {props.chipFunc && <Chip size='sm' variant='plain' sx={{ boxShadow: 'sm' }}>𝑓n</Chip>}
@@ -98,6 +98,7 @@ function ModelItem(props: {
             <SettingsOutlinedIcon />
           </IconButton>
         </GoodTooltip>
+       */}
 
       </ListItemButton>
     </ListItem>
@@ -135,7 +136,7 @@ export function ModelsList(props: {
   // generate the list items, prepending headers when necessary
   const items: React.JSX.Element[] = [];
   for (const llm of llms) {
-
+    if ( llm.hidden ) continue;
     // prepend label if changing source
     const groupLabel = llm._source.label;
     if ((multiSources || showAllSources) && groupLabel !== lastGroupLabel) {
@@ -158,7 +159,7 @@ export function ModelsList(props: {
         chipChat={llm.id === chatLLMId}
         chipFast={llm.id === fastLLMId}
         chipFunc={llm.id === funcLLMId}
-        onModelClicked={handleModelClicked}
+        onModelClicked={ () => void 0 }
         onModelSetHidden={handleModelSetHidden}
       />,
     );

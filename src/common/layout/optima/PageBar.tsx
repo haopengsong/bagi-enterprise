@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import type { SxProps } from '@mui/joy/styles/types';
-import { Box, IconButton, ListDivider, ListItemDecorator, MenuItem, Typography, useColorScheme } from '@mui/joy';
+import { Box, colors, IconButton, ListDivider, ListItemDecorator, MenuItem, Typography, useColorScheme } from '@mui/joy';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
@@ -65,6 +65,8 @@ function CommonPageMenuItems(props: { onClose: () => void }) {
 
     {/* Preferences |...| Dark Mode Toggle */}
     {/*<Tooltip title={<KeyStroke combo='Ctrl + Shift + P' />}>*/}
+
+    {/* 
     <MenuItem onClick={handleShowSettings}>
       <ListItemDecorator><SettingsIcon /></ListItemDecorator>
       Preferences
@@ -72,11 +74,12 @@ function CommonPageMenuItems(props: { onClose: () => void }) {
         size='sm'
         variant='soft'
         onClick={handleToggleDarkMode}
-        sx={{ ml: 'auto', /*mr: '2px',*/ my: '-0.25rem' /* absorb the menuItem padding */ }}
       >
         {colorMode !== 'dark' ? <DarkModeIcon /> : <LightModeIcon />}
       </IconButton>
     </MenuItem>
+    */}
+
     {/*</Tooltip>*/}
 
   </>;
@@ -128,7 +131,14 @@ export function PageBar(props: { component: React.ElementType, currentApp?: NavI
       direction='horizontal'
       sx={props.sx}
     >
-
+           <Box sx={{
+        flexGrow: 1,
+        minHeight: 'var(--Bar)',
+        display: 'flex', flexFlow: 'row wrap', justifyContent: 'center', alignItems: 'center',
+        my: 'auto',
+      }}>
+        <div>生成内容需确认 <b style={{color: 'red'}}>请勿直接采用</b></div>
+      </Box>
       {/* [Mobile] Drawer button */}
       {(!!props.isMobile || !checkVisibleNav(props.currentApp)) && (
         <InvertedBarCornerItem>
@@ -148,7 +158,7 @@ export function PageBar(props: { component: React.ElementType, currentApp?: NavI
 
       {/* Center Items */}
       <Box sx={{
-        flexGrow: 1,
+        flexGrow: 3,
         minHeight: 'var(--Bar)',
         display: 'flex', flexFlow: 'row wrap', justifyContent: 'center', alignItems: 'center',
         my: 'auto',

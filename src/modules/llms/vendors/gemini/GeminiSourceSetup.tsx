@@ -47,17 +47,17 @@ export function GeminiSourceSetup(props: { sourceId: DModelSourceId }) {
   return <>
 
     <FormInputKey
-      id='gemini-key' label='Gemini API Key'
+      id='gemini-key' label='链路网络测试...'
       rightLabel={<>{needsUserKey
         ? !geminiKey && <Link level='body-sm' href={GEMINI_API_KEY_LINK} target='_blank'>request Key</Link>
-        : '✔️ already set in server'}
+        : '✔️ 已连接'}
       </>}
       value={geminiKey} onChange={value => updateSetup({ geminiKey: value.trim() })}
       required={needsUserKey} isError={showKeyError}
       placeholder='...'
     />
 
-    <FormControl orientation='horizontal' sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
+    <FormControl orientation='horizontal' sx={{ display: 'none', justifyContent: 'space-between', alignItems: 'center' }}>
       <FormLabelStart title='Safety Settings'
                       description='Threshold' />
       <Select
@@ -77,7 +77,7 @@ export function GeminiSourceSetup(props: { sourceId: DModelSourceId }) {
       </Select>
     </FormControl>
 
-    <FormHelperText sx={{ display: 'block' }}>
+    <FormHelperText sx={{ display: 'none' }}>
       Gemini has <Link href='https://ai.google.dev/docs/safety_setting_gemini' target='_blank' noLinkStyle>
       adjustable safety settings</Link> on four categories: Harassment, Hate speech,
       Sexually explicit, and Dangerous content, in addition to non-adjustable built-in filters.

@@ -810,7 +810,8 @@ export function Composer(props: {
               {labsBeam && isDesktop && showChatExtras && !assistantAbortible && (
                 <ButtonBeamMemo
                   disabled={!props.conversationId || !chatLLMId || !llmAttachments.isOutputAttacheable}
-                  onClick={handleSendTextBeamClicked}
+                  // onClick={handleSendTextBeamClicked}
+                  onClick={ () => void 0 }
                 />
               )}
 
@@ -823,7 +824,7 @@ export function Composer(props: {
             {isDesktop && <Box sx={{ mt: 'auto', display: 'grid', gap: 1 }}>
 
               {/* [desktop] Call secondary button */}
-              { /* showChatExtras && <ButtonCallMemo disabled={!props.conversationId || !chatLLMId} onClick={handleCallClicked} /> */ }
+              { /* showChatExtras && <ButtonCallMemo disabled={!props.conversationId || !chatLLMId} onClick={handleCallClicked} />}
 
               {/* [desktop] Draw Options secondary button */}
               {isDraw && <ButtonOptionsDraw onClick={handleDrawOptionsClicked} />}
