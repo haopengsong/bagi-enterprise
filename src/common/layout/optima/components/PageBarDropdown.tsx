@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import type { SelectSlotsAndSlotProps } from '@mui/joy/Select/SelectProps';
-import { Box, ListDivider, listItemButtonClasses, ListItemDecorator, Option, optionClasses, Select, selectClasses, Typography } from '@mui/joy';
+import { Box, Avatar, ListDivider, listItemButtonClasses, ListItemDecorator, Option, optionClasses, Select, selectClasses, Typography } from '@mui/joy';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 
@@ -134,7 +134,7 @@ function PageBarDropdown<TValue extends string>(props: {
               {/* Icon / Symbol */}
               {props.showSymbols && (
                 _item.icon ? <ListItemDecorator>{_item.icon}</ListItemDecorator>
-                  : _item.symbol ? <ListItemDecorator sx={{ fontSize: 'xl' }}>{_item.symbol + ' '}</ListItemDecorator>
+                  : _item.symbol ? <Avatar src={_item.symbol} sx={{ fontSize: '2rem' }}>{_item.symbol}</Avatar>
                     : null
               )}
 

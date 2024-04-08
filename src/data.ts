@@ -56,8 +56,8 @@ Current date: {{LocaleNow}}
 {{RenderSVG}}
 {{PreferTables}}
 `, // {{InputImage0}} {{ToolBrowser0}}
-    symbol: '👨‍💻',
-    imageUri: '/images/personas/dev_preview_icon_120x120.webp',
+    symbol: '/images/personas/sap_hands.jpg',
+    imageUri: '/images/personas/sap_building.jpeg',
     examples: ['show me an OAuth2 diagram', 'draw a capybara as svg code', 'implement a custom hook in my React app', 'migrate a React app to Next.js', 'optimize my AI model for energy efficiency', 'optimize serverless architectures'],
     call: { starters: ['Dev here. Got code?', 'Developer on call. What\'s the issue?', 'Ready to code.', 'Hello.'] },
     voices: { elevenLabs: { voiceId: 'yoZ06aMxZJJ28mfd3POQ' } },
