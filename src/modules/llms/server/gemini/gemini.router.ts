@@ -141,15 +141,20 @@ export const llmGeminiRouter = createTRPCRouter({
       // get the models
       const wireModels = await geminiGET(input.access, null, geminiModelsListPath);
       const detailedModels = geminiModelsListOutputSchema.parse(wireModels).models;
+      // console.log( detailedModels );
+
 
       // NOTE: no need to retrieve info for each of the models (e.g. /v1beta/model/gemini-pro).,
       //       as the List API already all the info on all the models
 
       // map to our output schema
       return {
-        models: detailedModels.map((geminiModel) => {
+        models: detailedModels
+        .filter(model => model.displayName.toLocaleLowerCase().includes('latest')) 
+        .map((geminiModel) => {
           const { description, displayName, inputTokenLimit, name, outputTokenLimit, supportedGenerationMethods } = geminiModel;
 
+          // const isSymlink = ['models/gemini-pro', 'models/gemini-pro-vision'].includes(name);
           const isSymlink = ['models/gemini-pro', 'models/gemini-pro-vision'].includes(name);
           const symlinked = isSymlink ? detailedModels.find(m => m.displayName === displayName && m.name !== name) : null;
 

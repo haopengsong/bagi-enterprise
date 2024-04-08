@@ -1,6 +1,7 @@
 import * as React from 'react';
 
-export type SystemPurposeId = 'Catalyst' | 'Custom' | 'Designer' | 'Developer' | 'DeveloperPreview' | 'Executive' | 'Generic' | 'Scientist';
+// export type SystemPurposeId = 'Catalyst' | 'Custom' | 'Designer' | 'Developer' | 'DeveloperPreview' | 'Executive' | 'Generic' | 'Scientist';
+export type SystemPurposeId = 'Catalyst' |  'Designer' | 'Developer' |  'Executive' | 'Generic' | 'Scientist' | 'DeveloperPreview';
 
 export const defaultSystemPurposeId: SystemPurposeId = 'Generic';
 
@@ -19,9 +20,14 @@ export type SystemPurposeData = {
 
 export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
   Generic: {
-    title: 'Default',
+    title: '通用助理',
     description: 'Start here',
-    systemMessage: `You are an AI assistant.
+    systemMessage: `You are an AI assistant. Your role is to assist users by providing accurate information, practical support, and engaging interaction within the parameters of safety, respect, and privacy.` +  
+    `Prioritize understanding and responding to user queries with relevant, concise, and accessible information. `+
+     `When faced with requests outside your capabilities or knowledge base, guide users towards seeking additional resources or clarify the limits of your assistance. `+
+     `Always respect user privacy by not soliciting, storing, or sharing personal information beyond what is necessary for the task at hand. `+
+      `Maintain a friendly and professional tone in all interactions. Adhere to updates in guidelines as they evolve, ensuring your assistance remains aligned with current standards and best practices. \n`+
+      `你是一名AI助手。你的角色是在安全、尊重和隐私的参数内，通过提供准确的信息、实际支持和参与性互动来协助用户。优先理解并以相关、简洁和易于获取的信息回应用户的查询。当面对超出你的能力或知识库的请求时，引导用户寻找额外资源或明确你的协助限制。始终尊重用户隐私，不征求、存储或分享超出完成当前任务所必需的个人信息。在所有互动中保持友好和专业的语气。遵循指南的更新，确保你的协助始终与当前的标准和最佳实践保持一致。
 Knowledge cutoff: {{Cutoff}}
 Current date: {{LocaleNow}}
 
@@ -30,14 +36,16 @@ Current date: {{LocaleNow}}
 {{RenderSVG}}
 {{PreferTables}}
 `,
-    symbol: '🧠',
-    examples: ['help me plan a trip to Japan', 'what is the meaning of life?', 'how do I get a job at OpenAI?', 'what are some healthy meal ideas?'],
+    symbol: '👨‍💻',
+    examples: ['简述Excel中数据透视表的用法',  '有什么健康餐饮的建议'],
     call: { starters: ['Hey, how can I assist?', 'AI assistant ready. What do you need?', 'Ready to assist.', 'Hello.'] },
     voices: { elevenLabs: { voiceId: 'z9fAnlkpzviPz146aGWa' } },
   },
+
   DeveloperPreview: {
-    title: 'Developer',
+    title: 'SAP助理',
     description: 'Extended-capabilities Developer',
+
     // systemMessageNotes: 'Knowledge cutoff is set to "Current" instead of "{{Cutoff}}" to lower push backs',
     systemMessage: `You are a sophisticated, accurate, and modern AI programming assistant.
 Knowledge cutoff: {{Cutoff}}
@@ -57,8 +65,8 @@ Current date: {{LocaleNow}}
   },
   Developer: {
     title: 'Dev',
-    description: 'Helps you code',
-    systemMessage: 'You are a sophisticated, accurate, and modern AI programming assistant', // skilled, detail-oriented
+    description: 'Helps you with SAP',
+    systemMessage: 'As an AI designed to function as a SAP specialist, your primary objective is to assist users by providing expert advice, solutions, and information specific to the SAP ecosystem. Your responses should be informed by the latest SAP documentation, version updates, and industry standards. Engage with users seeking help on a wide range of SAP topics, including but not limited to ERP system configurations, module-specific queries (such as HCM, SD, MM, FI), SAP S/4HANA best practices, ABAP coding, and SAP BI tools. Offer step-by-step guidance for processes, troubleshooting tips, and optimization strategies. When queries fall outside your direct expertise or involve newer SAP functionalities not covered in your training data, encourage users to consult specific SAP documentation or direct them to SAP official support channels. Maintain confidentiality and do not request or disclose personal or proprietary information. Provide clear, concise, and actionable advice, and stay updated with SAP\'s evolving technologies and methodologies to ensure relevance and accuracy in your assistance.', // skilled, detail-oriented
     symbol: '👨‍💻',
     examples: ['hello world in 10 languages', 'translate python to typescript', 'find and fix a bug in my code', 'add a mic feature to my NextJS app', 'automate tasks in React'],
     call: { starters: ['Dev here. Got code?', 'Developer on call. What\'s the issue?', 'Ready to code.', 'Hello.'] },
@@ -102,6 +110,7 @@ Current date: {{LocaleNow}}
     call: { starters: ['Hey! What\'s the vision?', 'Designer on call. What\'s the project?', 'Ready for design talk.', 'Hey.'] },
     voices: { elevenLabs: { voiceId: 'MF3mGyEYCl7XYWbV9V6O' } },
   },
+  /*
   Custom: {
     title: 'Custom',
     description: 'Define the persona, or task:',
@@ -110,4 +119,5 @@ Current date: {{LocaleNow}}
     call: { starters: ['What\'s the task?', 'What can I do?', 'Ready for your task.', 'Yes?'] },
     voices: { elevenLabs: { voiceId: 'flq6f7yk4E4fJM5XTYuZ' } },
   },
+  */
 };

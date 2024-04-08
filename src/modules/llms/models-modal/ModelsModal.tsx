@@ -27,7 +27,7 @@ export function ModelsModal(props: { suspendAutoModelsSetup?: boolean }) {
 
   // local state
   const [_selectedSourceId, setSelectedSourceId] = React.useState<DModelSourceId | null>(null);
-  const [showAllSources, setShowAllSources] = React.useState<boolean>(false);
+  const [showAllSources, setShowAllSources] = React.useState<boolean>(true);
 
   // external state
   const {

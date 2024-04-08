@@ -87,10 +87,11 @@ function LLMDropdown(props: {
         <KeyStroke combo='Ctrl + Shift + O' sx={{ my: 0.5 }} />
       </Box>
     }>
-      <IconButton
+      <IconButton 
         variant='outlined' color='neutral'
         onClick={handleOpenLLMOptions}
         sx={{
+          display: 'none',
           ml: 'auto',
           // mr: -0.5,
           my: '-0.25rem' /* absorb the menuItem padding */,

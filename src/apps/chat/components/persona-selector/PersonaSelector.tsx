@@ -119,8 +119,8 @@ export function PersonaSelector(props: { conversationId: DConversationId, runExa
 
   // external state
   const showFinder = useUIPreferencesStore(state => state.showPersonaFinder);
-  const [showExamples, showExamplescomponent] = useChipBoolean('Examples', false);
-  const [showPrompt, showPromptComponent] = useChipBoolean('Prompt', false);
+  const [showExamples, showExamplescomponent] = useChipBoolean('问题样例', false);
+  const [showPrompt, showPromptComponent] = useChipBoolean('角色信息', false);
   const { systemPurposeId, setSystemPurposeId } = useChatStore(state => {
     const conversation = state.conversations.find(conversation => conversation.id === props.conversationId);
     return {
@@ -134,7 +134,7 @@ export function PersonaSelector(props: { conversationId: DConversationId, runExa
 
   // derived state
 
-  const isCustomPurpose = systemPurposeId === 'Custom';
+  const isCustomPurpose = false;
 
   const { selectedPurpose, fourExamples } = React.useMemo(() => {
     const selectedPurpose: SystemPurposeData | null = systemPurposeId ? (SystemPurposes[systemPurposeId] ?? null) : null;
@@ -158,6 +158,7 @@ export function PersonaSelector(props: { conversationId: DConversationId, runExa
       setSystemPurposeId(props.conversationId, purposeId);
   }, [props.conversationId, setSystemPurposeId]);
 
+  /*
   const handleCustomSystemMessageChange = React.useCallback((v: React.ChangeEvent<HTMLTextAreaElement>): void => {
     // TODO: persist this change? Right now it's reset every time.
     //       maybe we shall have a "save" button just save on a state to persist between sessions
@@ -171,6 +172,7 @@ export function PersonaSelector(props: { conversationId: DConversationId, runExa
     }
   }, [props.conversationId, setSystemPurposeId]);
 
+  */
   const toggleEditMode = React.useCallback(() => setEditMode(on => !on), []);
 
 
@@ -260,7 +262,7 @@ export function PersonaSelector(props: { conversationId: DConversationId, runExa
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         }}>
           <Typography level='title-sm'>
-            AI Persona
+            AI角色
           </Typography>
           <Tooltip disableInteractive title={editMode ? 'Done Editing' : 'Edit Tiles'}>
             <IconButton size='sm' onClick={toggleEditMode} sx={{ my: '-0.25rem' /* absorb the button padding */ }}>
@@ -324,7 +326,7 @@ export function PersonaSelector(props: { conversationId: DConversationId, runExa
         </Box>
 
         {/* [row -3] Example incipits */}
-        {systemPurposeId !== 'Custom' && (
+        {(
           <ExpanderControlledBox expanded={showExamples || (!isCustomPurpose && showPrompt)} sx={{ gridColumn: '1 / -1', pt: 1 }}>
             {showExamples && (
               <List
@@ -366,14 +368,7 @@ export function PersonaSelector(props: { conversationId: DConversationId, runExa
                     <Typography level='title-sm'>
                       System Prompt
                     </Typography>
-                    <Button
-                      variant='plain' color='neutral' size='sm'
-                      endDecorator={<EditNoteIcon />}
-                      onClick={() => handleSwitchToCustom(bareBonesPromptMixer(selectedPurpose?.systemMessage || 'No system message available', chatLLM?.id))}
-                      sx={{ ml: 'auto', my: '-0.25rem' /* absorb the button padding */ }}
-                    >
-                      Custom
-                    </Button>
+
                   </Box>
                   <Typography level='body-sm' sx={{ whiteSpace: 'break-spaces' }}>
                     {bareBonesPromptMixer(selectedPurpose?.systemMessage || 'No system message available', chatLLM?.id)}
@@ -392,7 +387,7 @@ export function PersonaSelector(props: { conversationId: DConversationId, runExa
         )}
 
         {/* [row -1] Custom Prompt box */}
-        {systemPurposeId === 'Custom' && (
+        {/* systemPurposeId === 'Custom' && (
           <Textarea
             autoFocus
             variant='outlined'
@@ -416,7 +411,7 @@ export function PersonaSelector(props: { conversationId: DConversationId, runExa
               lineHeight: lineHeightTextareaMd,
             }}
           />
-        )}
+        ) */}
 
       </Box>
 

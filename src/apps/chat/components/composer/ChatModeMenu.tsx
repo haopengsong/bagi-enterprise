@@ -82,6 +82,8 @@ export function ChatModeMenu(props: {
       {/* ChatMode items */}
       {Object.entries(ChatModeItems)
         .filter(([key, _data]) => key !== 'generate-text-beam' || labsBeam)
+        .filter(([key, _data]) => key != 'append-user')
+        .filter(([key, _data]) => key != 'generate-react')
         .filter(([_key, data]) => !data.hideOnDesktop || props.isMobile)
         .map(([key, data]) =>
           <MenuItem key={'chat-mode-' + key} onClick={() => props.onSetChatModeId(key as ChatModeId)}>

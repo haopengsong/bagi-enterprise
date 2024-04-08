@@ -174,6 +174,7 @@ export const navItems: {
       hideIcon: true,
       isDev: true,
     },
+    /*
     {
       name: 'Media Library',
       icon: ImageOutlinedIcon,
@@ -194,7 +195,6 @@ export const navItems: {
       hideIcon: hasNoChatLinkItems,
       hideNav: hasNoChatLinkItems,
     },
-    /*
     {
       name: 'News',
       icon: EventNoteOutlinedIcon,
@@ -240,13 +240,13 @@ export const navItems: {
       icon: DiscordIcon,
       href: Brand.URIs.SupportInvite,
     },
-    */
     {
       type: 'extLink',
       name: '搜索',
       icon: TravelExploreSharpIcon,
       href: 'https://www.baidu.com',
     },
+    */
   ],
 
 };
