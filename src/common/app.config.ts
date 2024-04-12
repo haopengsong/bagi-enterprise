@@ -17,8 +17,8 @@
  */
 export const Brand = {
   Title: {
-    Base: 'xChat',
-    Common: (process.env.NODE_ENV === 'development' ? '[DEV] ' : '') + 'xChat',
+    Base: 'xChat V2.0.0',
+    Common: (process.env.NODE_ENV === 'development' ? '[DEV] ' : '') + 'xChat V2.0.0',
   },
   Meta: {
     Description: 'Launch xGLM to unlock the full potential of AI',
