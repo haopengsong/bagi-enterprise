@@ -41,9 +41,11 @@ export class ConversationHandler {
       systemMessage.text = bareBonesPromptMixer(SystemPurposes[purposeId].systemMessage, assistantLlmId);
 
       // HACK: this is a special case for the 'Custom' persona, to set the message in stone (so it doesn't get updated when switching to another persona)
+      /*
       if (purposeId === 'Custom')
         systemMessage.updated = Date.now();
 
+      */
       // HACK: refresh the object to trigger a re-render of this message
       systemMessage = { ...systemMessage };
     }
