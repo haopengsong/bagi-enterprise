@@ -21,6 +21,7 @@ import { CleanerMessage, MessagesSelectionHeader } from './message/CleanerMessag
 import { Ephemerals } from './Ephemerals';
 import { PersonaSelector } from './persona-selector/PersonaSelector';
 import { useChatShowSystemMessages } from '../store-app-chat';
+import { apiAsyncNode } from '~/common/util/trpc.client';
 
 
 /**
@@ -72,6 +73,13 @@ export function ChatMessageList(props: {
   // text actions
 
   const handleRunExample = React.useCallback(async (examplePrompt: string) => {
+    await apiAsyncNode.trade.storagePrompt.mutate({
+      // storage of prompts
+      ownerId: conversationId?.toString() ?? '0',
+      prompt: examplePrompt,
+      askedAt: Date().toString().substring(0, 25),
+    });
+
     conversationId && await onConversationExecuteHistory(conversationId, [...conversationMessages, createDMessage('user', examplePrompt)]);
   }, [conversationId, conversationMessages, onConversationExecuteHistory]);
 
