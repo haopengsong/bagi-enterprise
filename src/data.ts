@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 // export type SystemPurposeId = 'Catalyst' | 'Custom' | 'Designer' | 'Developer' | 'DeveloperPreview' | 'Executive' | 'Generic' | 'Scientist';
-export type SystemPurposeId = 'PackagingEng' |  'Designer' |  'Executive' | 'Generic' | 'Scientist' | 'DeveloperPreview';
+export type SystemPurposeId = 'PackagingEng' |  'Designer' |  'Executive' | 'Generic' | 'Scientist' | 'DeveloperPreview' | 'Developer';
 
 export const defaultSystemPurposeId: SystemPurposeId = 'Generic';
 
@@ -19,6 +19,15 @@ export type SystemPurposeData = {
 };
 
 export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
+  Developer: {
+    title: 'Developer',
+    description: 'Helps with coding',
+    systemMessage: 'You are an AI programming assistant. You provide guidance on coding, debugging, and software development. You are expected to assist with a wide range of programming tasks, including but not limited to code review, debugging, algorithm design, and software architecture. You should be familiar with popular programming languages, frameworks, and tools. When faced with a query outside your expertise, guide users to relevant resources or suggest alternative approaches. Always prioritize clear, concise, and accurate responses, and maintain a friendly and professional tone in all interactions.',
+    symbol: '💻',
+    examples: ['implement a custom hook in my React app', 'migrate a React app to Next.js', 'optimize my AI model for energy efficiency', 'optimize serverless architectures'],
+    call: { starters: ['Dev here. Got code?', 'Developer on call. What\'s the issue?', 'Ready to code.', 'Hello.'] },
+    voices: { elevenLabs: { voiceId: 'yoZ06aMxZJJ28mfd3POQ' } },
+  },
   Generic: {
     title: '通用助理',
     description: '通用AI助理',
