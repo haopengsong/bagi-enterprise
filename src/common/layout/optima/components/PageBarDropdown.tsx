@@ -3,6 +3,7 @@ import * as React from 'react';
 import type { SelectSlotsAndSlotProps } from '@mui/joy/Select/SelectProps';
 import { Box, Avatar, ListDivider, listItemButtonClasses, ListItemDecorator, Option, optionClasses, Select, selectClasses, Typography } from '@mui/joy';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { navItems } from '~/common/app.nav';
 
 
 // set to true to enable the dense mode, which is default in the rest of the app
@@ -97,11 +98,13 @@ function PageBarDropdown<TValue extends string>(props: {
 }) {
 
   const { onChange } = props;
+  console.log( props );
+
 
   const handleOnChange = React.useCallback((_event: any, value: TValue | null) => {
     onChange(value);
   }, [onChange]);
-
+  
   return (
     <Select
       variant='plain'
@@ -119,9 +122,10 @@ function PageBarDropdown<TValue extends string>(props: {
           paddingBlock: 'var(--ListDivider-gap)',
         }}
       >
-        {Object.keys(props.items).map((_itemKey: string, idx: number) => {
+        {Object.keys(props.items)
+          .map((_itemKey: string, idx: number) => {
           const _item = props.items[_itemKey];
-          const isActive = _itemKey === props.value;
+          const isActive = _itemKey.toLowerCase().includes('gpt');
           return _item.type === 'separator' ? (
             <ListDivider key={'key-sep-' + idx}>
               {/*<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, '--Icon-fontSize': 'var(--joy-fontSize-lg)' }}>*/}

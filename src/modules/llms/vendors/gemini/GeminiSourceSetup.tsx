@@ -47,7 +47,7 @@ export function GeminiSourceSetup(props: { sourceId: DModelSourceId }) {
   return <>
 
     <FormInputKey
-      autoCompleteId='gemini-key' label='Gemini API Key'
+      autoCompleteId='gemini-key' label='链路测试...'
       rightLabel={<>{needsUserKey
         ? !geminiKey && <Link level='body-sm' href={GEMINI_API_KEY_LINK} target='_blank'>request Key</Link>
         : '✔️ 已连接'}

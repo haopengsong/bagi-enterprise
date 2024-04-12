@@ -203,7 +203,7 @@ export const llmOpenAIRouter = createTRPCRouter({
             .filter(openAIModelFilter)
 
             // Only take gpt4
-            .filter(model => model.id.includes('4') && model.id.includes('0125'))
+            .filter(model => model.id.includes('4') && model.id.includes('09'))
 
             // to model description
             .map((model): ModelDescriptionSchema => openAIModelToModelDescription(model.id, model.created))
@@ -217,7 +217,8 @@ export const llmOpenAIRouter = createTRPCRouter({
                   .replace('0314', '2023-03-14')
                   .replace('0613', '2023-06-13')
                   .replace('1106', '2023-11-06')
-                  .replace('0125', '2024-01-25');
+                  .replace('0125', '2024-01-25')
+                  .replace('2024-04-09','2024-04-09');
               }
 
               // stuff with '[legacy]' at the bottom

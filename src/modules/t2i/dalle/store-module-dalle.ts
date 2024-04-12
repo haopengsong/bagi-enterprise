@@ -13,14 +13,14 @@ interface ModuleDalleStore {
   dalleModelId: 'dall-e-3' | 'dall-e-2',
   setDalleModelId: (modelId: 'dall-e-3' | 'dall-e-2') => void;
 
-  dalleQuality: 'standard' | 'hd',
-  setDalleQuality: (quality: 'standard' | 'hd') => void;
+  dalleQuality: 'hd' | 'hd',
+  setDalleQuality: (quality: 'hd' | 'hd') => void;
 
   dalleSize: DalleImageSize,
   setDalleSize: (size: DalleImageSize) => void;
 
-  dalleStyle: 'vivid' | 'natural';
-  setDalleStyle: (style: 'vivid' | 'natural') => void;
+  dalleStyle: 'natural' | 'natural';
+  setDalleStyle: (style: 'natural' | 'natural') => void;
 
   dalleNoRewrite: boolean;
   setDalleNoRewrite: (noRewrite: boolean) => void;
@@ -36,14 +36,14 @@ export const useDalleStore = create<ModuleDalleStore>()(
       dalleModelId: 'dall-e-3',
       setDalleModelId: (dalleModelId: 'dall-e-3' | 'dall-e-2') => set({ dalleModelId }),
 
-      dalleQuality: 'standard',
-      setDalleQuality: (dalleQuality: 'standard' | 'hd') => set({ dalleQuality }),
+      dalleQuality: 'hd',
+      setDalleQuality: (dalleQuality: 'hd' | 'hd') => set({ dalleQuality }),
 
       dalleSize: DALLE_DEFAULT_IMAGE_SIZE,
       setDalleSize: (dalleSize: DalleImageSize) => set({ dalleSize }),
 
-      dalleStyle: 'vivid',
-      setDalleStyle: (dalleStyle: 'vivid' | 'natural') => set({ dalleStyle }),
+      dalleStyle: 'natural',
+      setDalleStyle: (dalleStyle: 'natural' | 'natural') => set({ dalleStyle }),
 
       dalleNoRewrite: false,
       setDalleNoRewrite: (dalleNoRewrite: boolean) => set({ dalleNoRewrite }),

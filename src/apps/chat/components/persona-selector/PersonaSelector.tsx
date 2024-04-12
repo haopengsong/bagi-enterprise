@@ -119,7 +119,7 @@ export function PersonaSelector(props: { conversationId: DConversationId, runExa
 
   // external state
   const showFinder = useUIPreferencesStore(state => state.showPersonaFinder);
-  const [showExamples, showExamplescomponent] = useChipBoolean('问题样例', false);
+  const [showExamples, showExamplescomponent] = useChipBoolean('问题样例', true);
   const [showPrompt, showPromptComponent] = useChipBoolean('角色信息', false);
   const { systemPurposeId, setSystemPurposeId } = useChatStore(state => {
     const conversation = state.conversations.find(conversation => conversation.id === props.conversationId);
@@ -141,7 +141,7 @@ export function PersonaSelector(props: { conversationId: DConversationId, runExa
     // const selectedExample = selectedPurpose?.examples?.length
     //   ? selectedPurpose.examples[Math.floor(Math.random() * selectedPurpose.examples.length)]
     //   : null;
-    const fourExamples = selectedPurpose?.examples?.slice(0, 4) ?? null;
+    const fourExamples = selectedPurpose?.examples?.slice(0, 10) ?? null;
     return { selectedPurpose, fourExamples };
   }, [systemPurposeId]);
 
@@ -265,7 +265,7 @@ export function PersonaSelector(props: { conversationId: DConversationId, runExa
             AI角色
           </Typography>
           <Tooltip disableInteractive title={editMode ? 'Done Editing' : 'Edit Tiles'}>
-            <IconButton size='sm' onClick={toggleEditMode} sx={{ my: '-0.25rem' /* absorb the button padding */ }}>
+            <IconButton size='sm' onClick={toggleEditMode} sx={{ display: 'none', my: '-0.25rem' /* absorb the button padding */ }}>
               {editMode ? <DoneIcon /> : <EditRoundedIcon />}
             </IconButton>
           </Tooltip>
@@ -291,7 +291,7 @@ export function PersonaSelector(props: { conversationId: DConversationId, runExa
         })}
 
         {/* Persona Creator Tile */}
-        {(editMode || !hidePersonaCreator) && (
+        {(editMode || hidePersonaCreator) && (
           <Tile
             text='Persona Creator'
             symbol='🎭'
@@ -366,7 +366,7 @@ export function PersonaSelector(props: { conversationId: DConversationId, runExa
                 <CardContent>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                     <Typography level='title-sm'>
-                      System Prompt
+                      角色信息
                     </Typography>
 
                   </Box>

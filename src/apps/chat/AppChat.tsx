@@ -190,7 +190,10 @@ export function AppChat() {
   const _handleExecute = React.useCallback(async (chatModeId: ChatModeId, conversationId: DConversationId, history: DMessage[]): Promise<void> => {
     const chatLLMId = getChatLLMId();
     if (!chatModeId || !conversationId || !chatLLMId) return;
-
+    if ( history.length >= 10 ) {
+      alert("对话条数过长，请新建对话再提问");
+      return;
+    }
     // Update the system message from the active persona to the history
     // NOTE: this does NOT call setMessages anymore (optimization). make sure to:
     //       1. all the callers need to pass a new array

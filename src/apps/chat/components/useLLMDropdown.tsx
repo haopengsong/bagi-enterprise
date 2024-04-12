@@ -12,6 +12,7 @@ import { DropdownItems, PageBarDropdownMemo } from '~/common/layout/optima/compo
 import { GoodTooltip } from '~/common/components/GoodTooltip';
 import { KeyStroke } from '~/common/components/KeyStroke';
 import { useOptimaLayout } from '~/common/layout/optima/useOptimaLayout';
+import { reverse } from 'dns';
 
 
 function LLMDropdown(props: {
@@ -75,6 +76,7 @@ function LLMDropdown(props: {
         }
       }
     }
+
     return llmItems;
   }, [chatLlmId, llms]);
 

@@ -148,6 +148,7 @@ export const llmGeminiRouter = createTRPCRouter({
 
       // map to our output schema
       const models = detailedModels
+        .filter(model => model.displayName.toLocaleLowerCase().includes('1.5'))
         .filter(geminiFilterModels)
         .map(geminiModel => geminiModelToModelDescription(geminiModel, detailedModels))
         .sort(geminiSortModels);

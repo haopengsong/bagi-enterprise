@@ -78,7 +78,7 @@ const useAppChatStore = create<AppChatStore>()(persist(
     showTextDiff: false,
     setShowTextDiff: (showTextDiff: boolean) => _set({ showTextDiff }),
 
-    showSystemMessages: true,
+    showSystemMessages: false,
     setShowSystemMessages: (showSystemMessages: boolean) => _set({ showSystemMessages }),
 
   }), {

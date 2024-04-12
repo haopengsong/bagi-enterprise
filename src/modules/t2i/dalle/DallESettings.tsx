@@ -27,7 +27,7 @@ export function DallESettings() {
     dalleNoRewrite: state.dalleNoRewrite, setDalleNoRewrite: state.setDalleNoRewrite,
   }), shallow);
 
-  const handleDalleQualityChange = (event: React.ChangeEvent<HTMLInputElement>) => setDalleQuality(event.target.checked ? 'hd' : 'standard');
+  const handleDalleQualityChange = (event: React.ChangeEvent<HTMLInputElement>) => setDalleQuality(event.target.checked ? 'hd' : 'hd');
 
   const handleDalleNoRewriteChange = (event: React.ChangeEvent<HTMLInputElement>) => setDalleNoRewrite(!event.target.checked);
 
@@ -57,11 +57,11 @@ export function DallESettings() {
 
     {isDallE3 && <FormRadioControl
       title='Style'
-      description={(isDallE3 && dalleStyle === 'vivid') ? 'Hyper-Real' : 'Relistic'}
+      description={(isDallE3 && dalleStyle === 'natural') ? 'Hyper-Real' : 'Relistic'}
       disabled={!isDallE3}
       options={[
         { value: 'natural', label: 'Natural' },
-        { value: 'vivid', label: 'Vivid' },
+        //{ value: 'vivid', label: 'Vivid' },
       ]}
       value={isDallE3 ? dalleStyle : 'natural'} onChange={setDalleStyle}
     />}
