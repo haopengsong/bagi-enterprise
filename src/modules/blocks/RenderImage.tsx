@@ -7,6 +7,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import ReplayIcon from '@mui/icons-material/Replay';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
+import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 
 import { GoodTooltip } from '~/common/components/GoodTooltip';
 import { Link } from '~/common/components/Link';
@@ -125,7 +126,7 @@ export const RenderImage = (props: {
         )}
 
         {/* (overlay) Image Buttons */}
-        <Box className='overlay-buttons' sx={{ ...overlayButtonsSx, pt: 0.5, px: 0.5, gap: 0.5 }}>
+        <Box  sx={{pt: 0.5, px: 0.5, gap: 0.5 }}>
           {!!props.onRunAgain && (
             <GoodTooltip title='Draw again'>
               <IconButton variant='outlined' onClick={props.onRunAgain}>
@@ -135,16 +136,16 @@ export const RenderImage = (props: {
           )}
 
           {!!alt && (
-            <GoodTooltip title={infoOpen ? 'Hide Prompt' : 'Show Prompt'}>
+            <GoodTooltip title={infoOpen ? '隐藏提示词' : '显示提示词'}>
               <IconButton variant={infoOpen ? 'solid' : 'soft'} onClick={() => setInfoOpen(open => !open)}>
                 <InfoOutlinedIcon />
               </IconButton>
             </GoodTooltip>
           )}
 
-          <GoodTooltip title='Open in new tab'>
+          <GoodTooltip title='在新页面中保存完整原图'>
             <IconButton variant='soft' component={Link} href={url} download={alt || 'image'} target='_blank'>
-              <OpenInNewIcon />
+              <CloudDownloadIcon />
             </IconButton>
           </GoodTooltip>
         </Box>
@@ -166,7 +167,7 @@ export const RenderImage = (props: {
           }}
         >
           <div>
-            <strong>Please Save Locally</strong> · OpenAI will delete this image link from their servers one hour after creation.
+            <strong>请立即保存图片</strong> · 为保证数据安全，所有生成图片将于一小时后自动清除.
           </div>
         </Alert>
       )}
