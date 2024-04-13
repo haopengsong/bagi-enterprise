@@ -839,7 +839,7 @@ export function Composer(props: {
               { /* showChatExtras && <ButtonCallMemo disabled={!props.conversationId || !chatLLMId} onClick={handleCallClicked} />}
 
               {/* [desktop] Draw Options secondary button */}
-              {isDraw && <ButtonOptionsDraw onClick={handleDrawOptionsClicked} />}
+              { /* isDraw && <ButtonOptionsDraw onClick={handleDrawOptionsClicked} /> */}
 
             </Box>}
 
