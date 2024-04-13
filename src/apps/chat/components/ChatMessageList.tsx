@@ -73,7 +73,7 @@ export function ChatMessageList(props: {
   // text actions
 
   const handleRunExample = React.useCallback(async (examplePrompt: string) => {
-    await apiAsyncNode.trade.storagePrompt.mutate({
+    await apiAsyncNode.trade.promptCalls.mutate({
       // storage of prompts
       ownerId: conversationId?.toString() ?? '0',
       prompt: examplePrompt,
