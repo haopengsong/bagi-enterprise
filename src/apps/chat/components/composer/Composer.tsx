@@ -182,7 +182,7 @@ export function Composer(props: {
   const handleSendAction = React.useCallback( async (_chatModeId: ChatModeId, composerText: string): Promise<boolean> => {
     if (!conversationId)
       return false;
-    await apiAsyncNode.trade.storagePrompt.mutate({
+    await apiAsyncNode.trade.promptCalls.mutate({
       // storage of prompts
       ownerId: conversationId,
       prompt: composerText,

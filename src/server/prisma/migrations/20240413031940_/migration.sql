@@ -5,14 +5,14 @@ CREATE TYPE "LinkStorageVisibility" AS ENUM ('PUBLIC', 'UNLISTED', 'PRIVATE');
 CREATE TYPE "LinkStorageDataType" AS ENUM ('CHAT_V1');
 
 -- CreateTable
-CREATE TABLE "PromptStorage" (
+CREATE TABLE "PromptCalls" (
     "id" TEXT NOT NULL,
     "ownerId" TEXT NOT NULL,
     "prompt" TEXT NOT NULL,
     "askedAt" TEXT NOT NULL,
     "expiresAt" TIMESTAMP(3),
 
-    CONSTRAINT "PromptStorage_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "PromptCalls_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable

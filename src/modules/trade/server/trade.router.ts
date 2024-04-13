@@ -7,7 +7,7 @@ import { fetchTextOrTRPCError } from '~/server/api/trpc.router.fetchers';
 import { chatGptParseConversation, chatGptSharedChatSchema } from './chatgpt';
 import { postToPasteGGOrThrow, publishToInputSchema, publishToOutputSchema } from './pastegg';
 import { storageGetProcedure, storageMarkAsDeletedProcedure, storagePutProcedure, storageUpdateDeletionKeyProcedure } from './link';
-import { storagePromptProcedure } from './prompts';
+import { promptCallsProcedure } from './prompts';
 
 
 export const importChatGptShareInputSchema = z.union([
@@ -54,7 +54,7 @@ export const tradeRouter = createTRPCRouter({
   /**
    * Write prompts to storage
    */
-  storagePrompt: storagePromptProcedure,
+  promptCalls: promptCallsProcedure,
 
   /**
    * Write an object to storage, and return the ID, owner, and deletion key

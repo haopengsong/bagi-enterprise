@@ -17,12 +17,12 @@ const promptInputSchema = z.object({
 
 
 // tRPC procedures
-export const storagePromptProcedure =
+export const promptCallsProcedure =
     publicProcedure
         .input(promptInputSchema)
         .mutation(async ({ input }) => {
             const { ownerId, prompt, askedAt, expiresSeconds } = input;
-            await prismaDb.promptStorage.create({
+            await prismaDb.promptCalls.create({
                 select: {
                     ownerId: true,
                     prompt: true,

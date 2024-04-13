@@ -20,11 +20,11 @@ datasource db {
 }
 
 // Storage of prompt data
-model PromptStorage {
+model PromptCalls {
   id        String    @id @default(uuid())
   ownerId   String
   prompt    String
-  askedAt String
+  askedAt   String
   expiresAt DateTime?
 }
 
