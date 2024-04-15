@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { shallow } from 'zustand/shallow';
+import { useShallow } from 'zustand/react/shallow';
 import { fileOpen, FileWithHandle } from 'browser-fs-access';
 
 import { Box, Button, ButtonGroup, Card, Dropdown, Grid, IconButton, Menu, MenuButton, MenuItem, Textarea, Tooltip, Typography } from '@mui/joy';
@@ -23,6 +24,7 @@ import type { LLMOptionsOpenAI } from '~/modules/llms/vendors/openai/openai.vend
 import { useBrowseCapability } from '~/modules/browse/store-module-browsing';
 
 import { ChatBeamIcon } from '~/common/components/icons/ChatBeamIcon';
+import { ConversationsManager } from '~/common/chats/ConversationsManager';
 import { PreferencesTab, useOptimaLayout } from '~/common/layout/optima/useOptimaLayout';
 import { SpeechResult, useSpeechRecognition } from '~/common/components/useSpeechRecognition';
 import { animationEnterBelow } from '~/common/util/animUtils';
@@ -36,6 +38,7 @@ import { playSoundUrl } from '~/common/util/audioUtils';
 import { supportsClipboardRead } from '~/common/util/clipboardUtils';
 import { supportsScreenCapture } from '~/common/util/screenCaptureUtils';
 import { useAppStateStore } from '~/common/state/store-appstate';
+import { useChatOverlayStore } from '~/common/chats/store-chat-overlay-vanilla';
 import { useDebouncer } from '~/common/components/useDebouncer';
 import { useGlobalShortcut } from '~/common/components/useGlobalShortcut';
 import { useUICounter, useUIPreferencesStore } from '~/common/state/store-ui';
@@ -52,6 +55,7 @@ import { getTextBlockText, useLLMAttachments } from './attachments/useLLMAttachm
 import { useAttachments } from './attachments/useAttachments';
 
 import type { ComposerOutputMultiPart } from './composer.types';
+import { BubbleReplyTo } from './BubbleReplyTo';
 import { ButtonAttachCameraMemo, useCameraCaptureModal } from './buttons/ButtonAttachCamera';
 import { ButtonAttachClipboardMemo } from './buttons/ButtonAttachClipboard';
 import { ButtonAttachFileMemo } from './buttons/ButtonAttachFile';
@@ -139,6 +143,13 @@ export function Composer(props: {
   const { inComposer: browsingInComposer } = useBrowseCapability();
   const { attachAppendClipboardItems, attachAppendDataTransfer, attachAppendEgoMessage, attachAppendFile, attachments: _attachments, clearAttachments, removeAttachment } =
     useAttachments(browsingInComposer && !composeText.startsWith('/'));
+
+  // external overlay state (extra conversationId-dependent state)
+  const conversationHandler = props.conversationId ? ConversationsManager.getHandler(props.conversationId) : null;
+  const conversationOverlayStore = conversationHandler?.getOverlayStore() ?? null;
+  const { replyToText } = useChatOverlayStore(conversationOverlayStore, useShallow(store => ({
+    replyToText: chatModeId === 'generate-text' ? store.replyToText : null,
+  })));
 
 
   // derived state
@@ -232,6 +243,18 @@ export function Composer(props: {
     props.onTextImagine(props.conversationId, composeText);
     setComposeText('');
   }, [composeText, props, setComposeText]);
+
+
+  // Overlay actions
+
+  const handleReplyToCleared = React.useCallback(() => {
+    conversationOverlayStore?.getState().setReplyToText(null);
+  }, [conversationOverlayStore]);
+
+  React.useEffect(() => {
+    if (replyToText)
+      setTimeout(() => props.composerTextAreaRef.current?.focus(), 1 /* prevent focus theft */);
+  }, [replyToText, props.composerTextAreaRef]);
 
 
   // Mode menu
@@ -531,9 +554,10 @@ export function Composer(props: {
     isDraw ? '描述一个想法或一副图画...'
       : isReAct ? 'Multi-step reasoning question...'
         : isTextBeam ? 'Beam: 多模对话...'
-          : props.isDeveloperMode ? 'Chat with me' + (isDesktop ? ' · drop source' : '') + ' · attach code...'
-            : props.capabilityHasT2I ? '可输入：1）问题; 2）/draw 绘图; 3）/beam 多模对话; 4)文件...'
-              : '可输入：1）问题; 2）/draw 绘图; 3）/beam 多模对话; 4)文件...';
+          : replyToText ? 'Chat about this...'
+            : props.isDeveloperMode ? 'Chat with me' + (isDesktop ? ' · drop source' : '') + ' · attach code...'
+              : props.capabilityHasT2I ? '可输入：1）问题; 2）/draw 绘图; 3）/beam 多模对话; 4)文件...'
+                 : '可输入：1）问题; 2）/draw 绘图; 3）/beam 多模对话; 4)文件...';
   if (isDesktop && timeToShowTips) {
     if (explainShiftEnter)
       textPlaceholder += !enterIsNewline ? '\n\n💡 Shift + Enter 另起一行' : '\n\n💡 Shift + Enter 发送';
@@ -615,6 +639,9 @@ export function Composer(props: {
             display: 'flex', flexDirection: 'column', gap: 1,
             minWidth: 200, // flex: enable X-scrolling (resetting any possible minWidth due to the attachments)
           }}>
+
+            {/* Reply-to */}
+            {!!replyToText && <BubbleReplyTo replyToText={replyToText} onClick={handleReplyToCleared} />}
 
             {/* Textarea + Mic buttons + Mic/Drag overlay */}
             <Box sx={{ position: 'relative' }}>
@@ -822,7 +849,8 @@ export function Composer(props: {
               {labsBeam && isDesktop && showChatExtras && !assistantAbortible && (
                 <ButtonBeamMemo
                   disabled={!props.conversationId || !chatLLMId || !llmAttachments.isOutputAttacheable}
-                  // onClick={handleSendTextBeamClicked}
+                  hasContent={!!composeText}
+                  //onClick={handleSendTextBeamClicked} 
                   onClick={ () => void 0 }
                 />
               )}
