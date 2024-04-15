@@ -49,7 +49,7 @@ export function extractChatCommand(input: string): TextCommandPiece[] {
   // Check if the potential command is an actual command
 // suspend beam for now
   for (const provider of Object.values(ChatCommandsProviders)) {
-    console.log( provider );
+    //console.log( provider );
     if ( provider.id.includes("beam")) continue;
     for (const cmd of provider.getCommands()) {
       if (cmd.primary === potentialCommand || cmd.alternatives?.includes(potentialCommand)) {
