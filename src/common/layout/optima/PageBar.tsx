@@ -137,7 +137,7 @@ export function PageBar(props: { component: React.ElementType, currentApp?: NavI
         display: 'flex', flexFlow: 'row wrap', justifyContent: 'center', alignItems: 'center',
         my: 'auto',
       }}>
-        <div>生成内容需确认 <b style={{color: 'red'}}>请勿直接采用</b> <b style={{color: 'yellow'}}> 平均作答准确率仅为：54.3%</b></div>
+        <div>生成内容需确认 <b style={{color: 'red'}}>请勿直接采用</b> <b style={{color: 'yellow'}}> 平均作答准确率仅为：56.3%</b></div>
       </Box>
       {/* [Mobile] Drawer button */}
       {(!!props.isMobile || !checkVisibleNav(props.currentApp)) && (

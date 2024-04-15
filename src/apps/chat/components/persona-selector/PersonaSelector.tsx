@@ -29,8 +29,8 @@ const PURPOSE_ID_PERSONA_CREATOR = '__persona-creator__';
 const TILE_ACTIVE_COLOR = 'primary' as const;
 
 // defined looks
-const tileSize = 7; // rem
-const tileGap = 0.5; // rem
+const tileSize = 10; // rem
+const tileGap = 0.6; // rem
 
 
 function Tile(props: {
@@ -91,8 +91,8 @@ function Tile(props: {
         variant='plain'
         src={props.imageUrl}
         sx={{
-          '--Avatar-size': '3rem',
-          fontSize: '2rem',
+          '--Avatar-size': '6rem',
+          fontSize: '3rem',
           borderRadius: props.imageUrl ? 'sm' : 0,
           boxShadow: (props.imageUrl && !props.isActive) ? 'sm' : undefined,
         }}
