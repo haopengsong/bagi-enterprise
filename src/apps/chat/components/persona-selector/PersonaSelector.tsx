@@ -313,7 +313,7 @@ export function PersonaSelector(props: { conversationId: DConversationId, runExa
 
 
           {/* Description*/}
-          <Typography level='body-sm' sx={{ color: 'text.primary' }}>
+          <Typography level='body-sm' sx={{ fontSize: '0.9em', color: 'text.primary' }}>
             {!selectedPurpose
               ? 'Cannot find the former persona' + (systemPurposeId ? ` "${systemPurposeId}"` : '')
               : selectedPurpose?.description || 'No description available'}
