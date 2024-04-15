@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 // export type SystemPurposeId = 'Catalyst' | 'Custom' | 'Designer' | 'Developer' | 'DeveloperPreview' | 'Executive' | 'Generic' | 'Scientist';
-export type SystemPurposeId = 'CTO'| 'PackagingEng' |  'Designer' |  'Executive' | 'Generic' | 'Scientist' | 'DeveloperPreview' | 'Developer';
+export type SystemPurposeId = 'YouTubeTranscriber' | 'CTO' | 'PackagingEng' |  'Designer' |  'Executive' | 'Generic' | 'Scientist' | 'DeveloperPreview' | 'Developer';
 
 export const defaultSystemPurposeId: SystemPurposeId = 'Generic';
 
@@ -19,6 +19,12 @@ export type SystemPurposeData = {
 };
 
 export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
+  YouTubeTranscriber: {
+    title: '',
+    description: '',
+    systemMessage: '',
+    symbol: ''
+  },
   Developer: {
     title: 'Developer',
     description: 'Helps with coding',

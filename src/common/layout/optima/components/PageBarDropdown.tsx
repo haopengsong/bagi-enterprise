@@ -98,7 +98,6 @@ function PageBarDropdown<TValue extends string>(props: {
 }) {
 
   const { onChange } = props;
-  console.log( props );
 
 
   const handleOnChange = React.useCallback((_event: any, value: TValue | null) => {
@@ -125,7 +124,7 @@ function PageBarDropdown<TValue extends string>(props: {
         {Object.keys(props.items)
           .map((_itemKey: string, idx: number) => {
           const _item = props.items[_itemKey];
-          const isActive = _itemKey.toLowerCase().includes('gpt');
+          const isActive = _itemKey === props.value;
           return _item.type === 'separator' ? (
             <ListDivider key={'key-sep-' + idx}>
               {/*<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, '--Icon-fontSize': 'var(--joy-fontSize-lg)' }}>*/}

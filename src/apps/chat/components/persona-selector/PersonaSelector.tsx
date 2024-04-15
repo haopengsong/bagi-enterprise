@@ -173,41 +173,7 @@ export function PersonaSelector(props: { conversationId: DConversationId, runExa
     }
   }, [props.conversationId, setSystemPurposeId]);
 
-<<<<<<< HEAD
   /*
-=======
-  React.useEffect(() => {
-    const isTranscriberActive = systemPurposeId === 'YouTubeTranscriber';
-    setIsYouTubeTranscriberActive(isTranscriberActive);
-  }, [systemPurposeId]);
-
-
-// Implement handleAddMessage function
-  const handleAddMessage = (messageText: string) => {
-    // Retrieve the appendMessage action from the useChatStore
-    const { appendMessage } = useChatStore.getState();
-
-    const conversationId = props.conversationId;
-
-    // Create a new message object
-    const newMessage: DMessage = {
-      id: uuidv4(),
-      text: messageText,
-      sender: 'Bot',
-      avatar: null,
-      typing: false,
-      role: 'assistant' as 'assistant',
-      tokenCount: 0,
-      created: Date.now(),
-      updated: null,
-    };
-
-    // Append the new message to the conversation
-    appendMessage(conversationId, newMessage);
-  };
-
-
->>>>>>> upstream/main
   const handleCustomSystemMessageChange = React.useCallback((v: React.ChangeEvent<HTMLTextAreaElement>): void => {
     // TODO: persist this change? Right now it's reset every time.
     //       maybe we shall have a "save" button just save on a state to persist between sessions

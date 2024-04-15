@@ -82,6 +82,7 @@ function LLMDropdown(props: {
 
 
   // "Model Options" button (only on the active item)
+  // with display none, not shown
   const llmDropdownButton = React.useMemo(() => (
     <GoodTooltip title={
       <Box sx={{ px: 1, py: 0.75, lineHeight: '1.5rem' }}>

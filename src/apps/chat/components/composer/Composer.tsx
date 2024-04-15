@@ -556,8 +556,8 @@ export function Composer(props: {
         : isTextBeam ? 'Beam: 多模对话...'
           : replyToText ? 'Chat about this...'
             : props.isDeveloperMode ? 'Chat with me' + (isDesktop ? ' · drop source' : '') + ' · attach code...'
-              : props.capabilityHasT2I ? '可输入：1）问题; 2）/draw 绘图; 3）/beam 多模对话; 4)文件...'
-                 : '可输入：1）问题; 2）/draw 绘图; 3）/beam 多模对话; 4)文件...';
+              : props.capabilityHasT2I ? '可输入：1）问题; 2）/draw 绘图; 3)文件...'
+                 : '可输入：1）问题; 2）/draw 绘图; 3)文件...';
   if (isDesktop && timeToShowTips) {
     if (explainShiftEnter)
       textPlaceholder += !enterIsNewline ? '\n\n💡 Shift + Enter 另起一行' : '\n\n💡 Shift + Enter 发送';
