@@ -8,8 +8,7 @@ import { CommandsHelp } from './CommandsHelp';
 import { CommandsReact } from './CommandsReact';
 
 
-//export type CommandsProviderId = 'ass-browse' | 'ass-t2i' | 'ass-react' | 'chat-alter' | 'cmd-help' | 'mode-beam';
-export type CommandsProviderId = 'ass-browse' | 'ass-t2i' | 'ass-react' | 'chat-alter' | 'cmd-help'  ;
+export type CommandsProviderId = 'ass-browse' | 'ass-t2i' | 'ass-react' | 'chat-alter' | 'cmd-help' | 'mode-beam';
 
 type TextCommandPiece =
   | { type: 'text'; value: string; }
@@ -17,14 +16,13 @@ type TextCommandPiece =
 
 
 
-// suspend beam for now
 const ChatCommandsProviders: Record<CommandsProviderId, ICommandsProvider> = {
   'ass-browse': CommandsBrowse,
   'ass-react': CommandsReact,
   'ass-t2i': CommandsDraw,
   'chat-alter': CommandsAlter,
   'cmd-help': CommandsHelp,
-  //'mode-beam': CommandsBeam,
+  'mode-beam': CommandsBeam,
 };
 
 export function findAllChatCommands(): ChatCommand[] {
@@ -49,7 +47,10 @@ export function extractChatCommand(input: string): TextCommandPiece[] {
   const textAfterCommand = firstSpaceIndex >= 0 ? inputTrimmed.substring(firstSpaceIndex + 1) : '';
 
   // Check if the potential command is an actual command
+// suspend beam for now
   for (const provider of Object.values(ChatCommandsProviders)) {
+    console.log( provider );
+    if ( provider.id.includes("beam")) continue;
     for (const cmd of provider.getCommands()) {
       if (cmd.primary === potentialCommand || cmd.alternatives?.includes(potentialCommand)) {
 
