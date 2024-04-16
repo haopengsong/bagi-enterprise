@@ -50,7 +50,7 @@ export function extractChatCommand(input: string): TextCommandPiece[] {
 // suspend beam for now
   for (const provider of Object.values(ChatCommandsProviders)) {
     //console.log( provider );
-    if ( provider.id.includes("beam")) continue;
+    if ( provider.id.includes("beam") ) continue;
     for (const cmd of provider.getCommands()) {
       if (cmd.primary === potentialCommand || cmd.alternatives?.includes(potentialCommand)) {
 
