@@ -88,7 +88,7 @@ export class ConversationHandler {
 
     // if zeroing the messages, also terminate an active beam
     if (!messages.length)
-      this.beamStore.getState().terminate();
+      this.beamStore.getState().terminateKeepingSettings();
   }
 
 
@@ -104,7 +104,7 @@ export class ConversationHandler {
    * @param destReplaceMessageId If set, the output will replace the message with this id, otherwise it will append to the history
    */
   beamInvoke(viewHistory: Readonly<DMessage[]>, importMessages: DMessage[], destReplaceMessageId: DMessage['id'] | null): void {
-    const { open: beamOpen, importRays: beamImportRays, terminate: beamTerminate } = this.beamStore.getState();
+    const { open: beamOpen, importRays: beamImportRays, terminateKeepingSettings } = this.beamStore.getState();
 
     const onBeamSuccess = (messageText: string, llmId: DLLMId) => {
       // set output when going back to the chat
@@ -120,11 +120,11 @@ export class ConversationHandler {
       }
 
       // close beam
-      this.beamStore.getState().terminate();
+      terminateKeepingSettings();
     };
 
     beamOpen(viewHistory, useModelsStore.getState().chatLLMId, onBeamSuccess);
-    importMessages.length && beamImportRays(importMessages);
+    importMessages.length && beamImportRays(importMessages, useModelsStore.getState().chatLLMId);
   }
 
 

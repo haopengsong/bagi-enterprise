@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { shallow } from 'zustand/shallow';
+import { useShallow } from 'zustand/react/shallow';
 
 import type { SxProps } from '@mui/joy/styles/types';
 import { Avatar, Box, ButtonGroup, CircularProgress, IconButton, ListDivider, ListItem, ListItemDecorator, MenuItem, Switch, Tooltip, Typography } from '@mui/joy';
@@ -39,7 +39,6 @@ import { animationColorRainbow } from '~/common/util/animUtils';
 import { copyToClipboard } from '~/common/util/clipboardUtils';
 import { prettyBaseModel } from '~/common/util/modelUtils';
 import { useUIPreferencesStore } from '~/common/state/store-ui';
-import { useUXLabsStore } from '~/common/state/store-ux-labs';
 
 import { useChatShowTextDiff } from '../../store-app-chat';
 
@@ -254,13 +253,12 @@ export function ChatMessage(props: {
   const [isEditing, setIsEditing] = React.useState(false);
 
   // external state
-  const labsBeam = useUXLabsStore(state => state.labsBeam);
-  const { showAvatar, contentScaling, doubleClickToEdit, renderMarkdown } = useUIPreferencesStore(state => ({
+  const { showAvatar, contentScaling, doubleClickToEdit, renderMarkdown } = useUIPreferencesStore(useShallow(state => ({
     showAvatar: props.showAvatar !== undefined ? props.showAvatar : state.zenMode !== 'cleaner',
     contentScaling: adjustContentScaling(state.contentScaling, props.adjustContentScaling),
     doubleClickToEdit: state.doubleClickToEdit,
     renderMarkdown: state.renderMarkdown,
-  }), shallow);
+  })));
   const [showDiff, setShowDiff] = useChatShowTextDiff();
   const textDiffs = useSanityTextDiffs(props.message.text, props.diffPreviousText, showDiff);
 
@@ -302,12 +300,17 @@ export function ChatMessage(props: {
 
   const { onMessageToggleUserFlag } = props;
 
-  const closeOpsMenu = () => setOpsMenuAnchor(null);
+  const handleOpsMenuToggle = React.useCallback((event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault(); // added for the Right mouse click (to prevent the menu)
+    setOpsMenuAnchor(anchor => anchor ? null : event.currentTarget);
+  }, []);
+
+  const handleCloseOpsMenu = React.useCallback(() => setOpsMenuAnchor(null), []);
 
   const handleOpsCopy = (e: React.MouseEvent) => {
     copyToClipboard(textSel, 'Text');
     e.preventDefault();
-    closeOpsMenu();
+    handleCloseOpsMenu();
     closeSelectionMenu();
     closeToolbar();
   };
@@ -316,8 +319,8 @@ export function ChatMessage(props: {
     if (messageTyping && !isEditing) return; // don't allow editing while typing
     setIsEditing(!isEditing);
     e.preventDefault();
-    closeOpsMenu();
-  }, [isEditing, messageTyping]);
+    handleCloseOpsMenu();
+  }, [handleCloseOpsMenu, isEditing, messageTyping]);
 
   const handleOpsToggleStarred = React.useCallback(() => {
     onMessageToggleUserFlag?.(messageId, 'starred');
@@ -325,21 +328,21 @@ export function ChatMessage(props: {
 
   const handleOpsAssistantFrom = async (e: React.MouseEvent) => {
     e.preventDefault();
-    closeOpsMenu();
+    handleCloseOpsMenu();
     await props.onMessageAssistantFrom?.(messageId, fromAssistant ? -1 : 0);
   };
 
   const handleOpsBeamFrom = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    closeOpsMenu();
-    labsBeam && await props.onMessageBeam?.(messageId);
+    handleCloseOpsMenu();
+    await props.onMessageBeam?.(messageId);
   };
 
   const handleOpsBranch = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation(); // to try to not steal the focus from the banched conversation
     props.onMessageBranch?.(messageId);
-    closeOpsMenu();
+    handleCloseOpsMenu();
   };
 
   const handleOpsToggleShowDiff = () => setShowDiff(!showDiff);
@@ -348,7 +351,7 @@ export function ChatMessage(props: {
     e.preventDefault();
     if (props.onTextDiagram) {
       await props.onTextDiagram(messageId, textSel);
-      closeOpsMenu();
+      handleCloseOpsMenu();
       closeSelectionMenu();
       closeToolbar();
     }
@@ -358,7 +361,7 @@ export function ChatMessage(props: {
     e.preventDefault();
     if (props.onTextImagine) {
       await props.onTextImagine(textSel);
-      closeOpsMenu();
+      handleCloseOpsMenu();
       closeSelectionMenu();
       closeToolbar();
     }
@@ -368,7 +371,7 @@ export function ChatMessage(props: {
     e.preventDefault();
     if (props.onReplyTo && textSel.trim().length >= SELECTION_TOOLBAR_MIN_LENGTH) {
       props.onReplyTo(messageId, textSel.trim());
-      closeOpsMenu();
+      handleCloseOpsMenu();
       closeSelectionMenu();
       closeToolbar();
     }
@@ -378,7 +381,7 @@ export function ChatMessage(props: {
     e.preventDefault();
     if (props.onTextSpeak) {
       await props.onTextSpeak(textSel);
-      closeOpsMenu();
+      handleCloseOpsMenu();
       closeSelectionMenu();
       closeToolbar();
     }
@@ -386,7 +389,7 @@ export function ChatMessage(props: {
 
   const handleOpsTruncate = (_e: React.MouseEvent) => {
     props.onMessageTruncate?.(messageId);
-    closeOpsMenu();
+    handleCloseOpsMenu();
   };
 
   const handleOpsDelete = (_e: React.MouseEvent) => {
@@ -581,7 +584,8 @@ export function ChatMessage(props: {
 
           {/* Persona Avatar or Menu Button */}
           <Box
-            onClick={event => setOpsMenuAnchor(event.currentTarget)}
+            onClick={handleOpsMenuToggle}
+            onContextMenu={handleOpsMenuToggle}
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
             sx={{ display: 'flex' }}
@@ -661,7 +665,7 @@ export function ChatMessage(props: {
       {!!opsMenuAnchor && (
         <CloseableMenu
           dense placement='bottom-end'
-          open anchorEl={opsMenuAnchor} onClose={closeOpsMenu}
+          open anchorEl={opsMenuAnchor} onClose={handleCloseOpsMenu}
           sx={{ minWidth: 280 }}
         >
 
