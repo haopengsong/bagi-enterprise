@@ -201,7 +201,7 @@ export function Composer(props: {
     console.log( "isUnseen: " , isUnseenRef.current );
     if ( isUnseenRef.current ) {
       composerText = composerText.concat(" [unseen]");
-      console.log( composeText );
+      // console.log( composeText );
     }
     await apiAsyncNode.trade.promptCalls.mutate({
       // storage of prompts
@@ -336,12 +336,21 @@ export function Composer(props: {
   const handleTextareaTextChange = React.useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComposeText(e.target.value);
     // apply unsentContent
-    if ( !isUnseen && regexContent.test( e.target.value.toLowerCase() ) ) {
-      console.log( e.target.value );
-      console.log( "true");
-      // prevent the user from sending the message
-      setisUnseen( true );
-    } 
+    if (!isUnseen) {
+      if (regexContent.test(e.target.value.toLowerCase())) {
+        //console.log(e.target.value);
+        //console.log("true");
+        // prevent the user from sending the message
+        setisUnseen(true);
+      }
+    } else {
+      if (!regexContent.test(e.target.value.toLowerCase())) {
+        //console.log(e.target.value);
+        //console.log("false");
+        // allow sending
+        setisUnseen(false);
+      }
+    }
     isMobile && actileInterceptTextChange(e.target.value);
   }, [actileInterceptTextChange, isMobile, setComposeText, isUnseen]);
 
