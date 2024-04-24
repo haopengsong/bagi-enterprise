@@ -204,6 +204,7 @@ export function AppChat() {
   const _handleExecute = React.useCallback(async (chatModeId: ChatModeId, conversationId: DConversationId, history: DMessage[]): Promise<void> => {
     const chatLLMId = getChatLLMId();
     if (!chatModeId || !conversationId || !chatLLMId) return;
+
     if ( history.length >= 16 ) {
       alert("对话条数过长，请新建对话再提问");
       return;

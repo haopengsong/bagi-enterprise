@@ -70,7 +70,7 @@ import { TokenBadgeMemo } from './TokenBadge';
 import { TokenProgressbarMemo } from './TokenProgressbar';
 import { useComposerStartupText } from './store-composer';
 import { apiAsyncNode } from '~/common/util/trpc.client';
-
+import { regexContent } from 'src/data';
 
 const zIndexComposerOverlayDrop = 10;
 const zIndexComposerOverlayMic = 20;
@@ -115,6 +115,12 @@ export function Composer(props: {
   const [speechInterimResult, setSpeechInterimResult] = React.useState<SpeechResult | null>(null);
   const [isDragging, setIsDragging] = React.useState(false);
   const [chatModeMenuAnchor, setChatModeMenuAnchor] = React.useState<HTMLAnchorElement | null>(null);
+
+  const [isUnseen, setisUnseen] = React.useState(false);
+  const isUnseenRef = React.useRef(isUnseen);
+  React.useEffect(() => {
+    isUnseenRef.current = isUnseen;
+  }, [isUnseen]);
 
   // external state
   const { openPreferencesTab /*, setIsFocusedMode*/ } = useOptimaLayout();
@@ -191,12 +197,23 @@ export function Composer(props: {
   const handleSendAction = React.useCallback( async (_chatModeId: ChatModeId, composerText: string): Promise<boolean> => {
     if (!conversationId)
       return false;
+
+    console.log( "isUnseen: " , isUnseenRef.current );
+    if ( isUnseenRef.current ) {
+      composerText = composerText.concat(" [unseen]");
+      console.log( composeText );
+    }
     await apiAsyncNode.trade.promptCalls.mutate({
       // storage of prompts
       ownerId: conversationId,
       prompt: composerText,
       askedAt: Date().toString().substring(0, 25),
     });
+
+    if ( isUnseenRef.current ) {
+      return false;
+    }
+
     // get attachments
     const multiPartMessage = llmAttachments.getAttachmentsOutputs(composerText || null);
     if (!multiPartMessage.length)
@@ -318,8 +335,15 @@ export function Composer(props: {
 
   const handleTextareaTextChange = React.useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComposeText(e.target.value);
+    // apply unsentContent
+    if ( !isUnseen && regexContent.test( e.target.value.toLowerCase() ) ) {
+      console.log( e.target.value );
+      console.log( "true");
+      // prevent the user from sending the message
+      setisUnseen( true );
+    } 
     isMobile && actileInterceptTextChange(e.target.value);
-  }, [actileInterceptTextChange, isMobile, setComposeText]);
+  }, [actileInterceptTextChange, isMobile, setComposeText, isUnseen]);
 
   const handleTextareaKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     // disable keyboard handling if the actile is visible

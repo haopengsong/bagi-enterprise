@@ -18,6 +18,7 @@ export type SystemPurposeData = {
   voices?: { elevenLabs?: { voiceId: string } };
 };
 
+
 export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
   YouTubeTranscriber: {
     title: '',
@@ -247,3 +248,9 @@ When asked to design or draw something, please work step by step detailing the c
 
   */
 };
+
+// unseen
+const unsentContent = ['test'];
+const escapedContent = unsentContent.map((content) => content.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+export const regexContent = new RegExp(escapedContent.join('|'));
+
