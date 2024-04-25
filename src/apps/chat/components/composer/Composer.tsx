@@ -198,7 +198,7 @@ export function Composer(props: {
     if (!conversationId)
       return false;
 
-    console.log( "isUnseen: " , isUnseenRef.current );
+    // console.log( "isUnseen: " , isUnseenRef.current );
     if ( isUnseenRef.current ) {
       composerText = composerText.concat(" [unseen]");
       // console.log( composeText );
@@ -216,6 +216,15 @@ export function Composer(props: {
 
     // get attachments
     const multiPartMessage = llmAttachments.getAttachmentsOutputs(composerText || null);
+    //console.log( "file: ", multiPartMessage );
+    for ( let i = 0; i < multiPartMessage.length; i++ ) {
+      if ( multiPartMessage[i].type == "text-block" ) {
+        if ( regexContent.test( multiPartMessage[i].text )) {
+          return false;
+        }
+      }
+
+    }
     if (!multiPartMessage.length)
       return false;
 
@@ -475,6 +484,7 @@ export function Composer(props: {
   const handleAttachFilePicker = React.useCallback(async () => {
     try {
       const selectedFiles: FileWithHandle[] = await fileOpen({ multiple: true });
+      // selectedFiles.forEach(file => console.log(file.text().finally()));
       selectedFiles.forEach(file =>
         void attachAppendFile('file-open', file),
       );

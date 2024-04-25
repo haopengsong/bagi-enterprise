@@ -31,6 +31,7 @@ export const useAttachments = (enableLoadURLs: boolean) => {
   const attachAppendFile = React.useCallback((origin: AttachmentSourceOriginFile, fileWithHandle: FileWithHandle, overrideFileName?: string) => {
     if (ATTACHMENTS_DEBUG_INTAKE)
       console.log('attachAppendFile', origin, fileWithHandle, overrideFileName);
+    
 
     return createAttachment({
       media: 'file', origin, fileWithHandle, refPath: overrideFileName || fileWithHandle.name,
