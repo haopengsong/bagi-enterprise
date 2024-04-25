@@ -85,7 +85,8 @@ export function AttachmentMenu(props: {
         if (output.type === 'text-block')
           return output.text;
         else if (output.type === 'image-part')
-          return output.base64Url;
+          //return output.base64Url;
+          return null;
         else
           return null;
       }).join('\n\n---\n\n');
