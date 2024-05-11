@@ -195,7 +195,7 @@ export function DiagramsModal(props: { config: DiagramConfig, onClose: () => voi
               <FormLabel>自定义指示</FormLabel>
               <Input
                 title='Custom Instruction'
-                placeholder='e.g. 按不同状态展示'
+                placeholder='例：使用中文'
                 value={customInstruction}
                 onKeyDown={handleCustomInstructionKeyDown}
                 onChange={handleCustomInstructionChange}
