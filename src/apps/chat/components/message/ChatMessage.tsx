@@ -699,84 +699,16 @@ export function ChatMessage(props: {
               </MenuItem>
             )}
           </Box>
-          {/* Delete / Branch / Truncate */}
-          {!!props.onMessageBranch && <ListDivider />}
-          {!!props.onMessageBranch && (
-            <MenuItem onClick={handleOpsBranch} disabled={fromSystem}>
-              <ListItemDecorator>
-                <ForkRightIcon />
-              </ListItemDecorator>
-              Branch
-              {!props.isBottom && <span style={{ opacity: 0.5 }}>from here</span>}
-            </MenuItem>
-          )}
-          {!!props.onMessageDelete && (
-            <MenuItem onClick={handleOpsDelete} disabled={false /*fromSystem*/}>
-              <ListItemDecorator><ClearIcon /></ListItemDecorator>
-              Delete
-              <span style={{ opacity: 0.5 }}>message</span>
-            </MenuItem>
-          )}
-          {!!props.onMessageTruncate && (
-            <MenuItem onClick={handleOpsTruncate} disabled={props.isBottom}>
-              <ListItemDecorator><VerticalAlignBottomIcon /></ListItemDecorator>
-              Truncate
-              <span style={{ opacity: 0.5 }}>after this</span>
-            </MenuItem>
-          )}
+          
           {/* Diagram / Draw / Speak */}
           {!!props.onTextDiagram && <ListDivider />}
           {!!props.onTextDiagram && (
             <MenuItem onClick={handleOpsDiagram} disabled={!couldDiagram}>
               <ListItemDecorator><AccountTreeOutlinedIcon /></ListItemDecorator>
-              Auto-Diagram ...
+              自动制图 ...
             </MenuItem>
           )}
-          {!!props.onTextImagine && (
-            <MenuItem onClick={handleOpsImagine} disabled={!couldImagine || props.isImagining}>
-              <ListItemDecorator>{props.isImagining ? <CircularProgress size='sm' /> : <FormatPaintOutlinedIcon />}</ListItemDecorator>
-              Auto-Draw
-            </MenuItem>
-          )}
-          {!!props.onTextSpeak && (
-            <MenuItem onClick={handleOpsSpeak} disabled={!couldSpeak || props.isSpeaking}>
-              <ListItemDecorator>{props.isSpeaking ? <CircularProgress size='sm' /> : <RecordVoiceOverOutlinedIcon />}</ListItemDecorator>
-              Speak
-            </MenuItem>
-          )}
-          {/* Diff Viewer */}
-          {!!props.diffPreviousText && <ListDivider />}
-          {!!props.diffPreviousText && (
-            <MenuItem onClick={handleOpsToggleShowDiff}>
-              <ListItemDecorator><DifferenceIcon /></ListItemDecorator>
-              Show difference
-              <Switch checked={showDiff} onChange={handleOpsToggleShowDiff} sx={{ ml: 'auto' }} />
-            </MenuItem>
-          )}
-          {/* Beam/Restart */}
-          {(!!props.onMessageAssistantFrom || !!props.onMessageBeam) && <ListDivider />}
-          {!!props.onMessageAssistantFrom && (
-            <MenuItem disabled={fromSystem} onClick={handleOpsAssistantFrom}>
-              <ListItemDecorator>{fromAssistant ? <ReplayIcon color='primary' /> : <TelegramIcon color='primary' />}</ListItemDecorator>
-              {!fromAssistant
-                ? <>Restart <span style={{ opacity: 0.5 }}>from here</span></>
-                : !props.isBottom
-                  ? <>Retry <span style={{ opacity: 0.5 }}>from here</span></>
-                  : <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between', gap: 1 }}>Retry<KeyStroke combo='Ctrl + Shift + R' /></Box>}
-            </MenuItem>
-          )}
-          {!!props.onMessageBeam && (
-            <MenuItem disabled={fromSystem} onClick={handleOpsBeamFrom}>
-              <ListItemDecorator>
-                <ChatBeamIcon color={fromSystem ? undefined : 'primary'} />
-              </ListItemDecorator>
-              {!fromAssistant
-                ? <>Beam <span style={{ opacity: 0.5 }}>from here</span></>
-                : !props.isBottom
-                  ? <>Beam <span style={{ opacity: 0.5 }}>this message</span></>
-                  : <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between', gap: 1 }}>Beam<KeyStroke combo='Ctrl + Shift + B' /></Box>}
-            </MenuItem>
-          )}
+          
         </CloseableMenu>
       )}
 

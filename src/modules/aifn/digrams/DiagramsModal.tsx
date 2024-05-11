@@ -56,8 +56,8 @@ export function DiagramsModal(props: { config: DiagramConfig, onClose: () => voi
   // state
   const [showOptions, setShowOptions] = React.useState(true);
   const [diagramCode, setDiagramCode] = React.useState<string | null>(null);
-  const [diagramType, diagramComponent] = useFormRadio<DiagramType>('mind', diagramTypes, 'Diagram');
-  const [diagramLanguage, languageComponent, setDiagramLanguage] = useFormRadio<DiagramLanguage>('mermaid', diagramLanguages, 'Syntax');
+  const [diagramType, diagramComponent] = useFormRadio<DiagramType>('mind', diagramTypes, '图形');
+  const [diagramLanguage, languageComponent, setDiagramLanguage] = useFormRadio<DiagramLanguage>('mermaid', diagramLanguages, '构图模式');
   const [customInstruction, setCustomInstruction] = React.useState<string>('');
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
   const [abortController, setAbortController] = React.useState<AbortController | null>(null);
@@ -65,7 +65,7 @@ export function DiagramsModal(props: { config: DiagramConfig, onClose: () => voi
   // external state
   const isMobile = useIsMobile();
   const contentScaling = useUIPreferencesStore(state => state.contentScaling);
-  const [diagramLlm, llmComponent] = useFormRadioLlmType('Generator', 'chat');
+  const [diagramLlm, llmComponent] = useFormRadioLlmType('制图模型', 'chat');
 
   // derived state
   const { conversationId, text: subject } = props.config;
@@ -162,7 +162,7 @@ export function DiagramsModal(props: { config: DiagramConfig, onClose: () => voi
     <GoodModal
       titleStartDecorator={<AutoFixHighIcon sx={{ fontSize: 'md', mr: 1 }} />}
       title={<>
-        Auto-Diagram
+        自动制图
         <IconButton
           aria-label={showOptions ? 'Hide Options' : 'Show Options'}
           size='sm'
@@ -192,10 +192,10 @@ export function DiagramsModal(props: { config: DiagramConfig, onClose: () => voi
           </Grid>
           <Grid xs={12} md={6}>
             <FormControl>
-              <FormLabel>Customize</FormLabel>
+              <FormLabel>自定义指示</FormLabel>
               <Input
                 title='Custom Instruction'
-                placeholder='e.g. visualize as state'
+                placeholder='e.g. 按不同状态展示'
                 value={customInstruction}
                 onKeyDown={handleCustomInstructionKeyDown}
                 onChange={handleCustomInstructionChange}
@@ -239,7 +239,7 @@ export function DiagramsModal(props: { config: DiagramConfig, onClose: () => voi
 
         {/* Add Message to Chat (once complete) */}
         <Button variant='soft' color='success' disabled={!diagramCode || !!abortController} endDecorator={<TelegramIcon />} onClick={handleAppendMessageAndClose}>
-          Add To Chat
+          加入对话
         </Button>
 
         {/* Button Group to toggle controls visibility - NOT enabled at the moment */}
@@ -257,7 +257,7 @@ export function DiagramsModal(props: { config: DiagramConfig, onClose: () => voi
             endDecorator={abortController ? <StopOutlinedIcon /> : diagramCode ? <ReplayIcon /> : <AccountTreeTwoToneIcon />}
             sx={{ minWidth: isMobile ? 160 : 220 }}
           >
-            {abortController ? 'Stop' : diagramCode ? 'Regenerate' : 'Generate'}
+            {abortController ? '停止' : diagramCode ? '重试' : '制图'}
           </Button>
         </ButtonGroup>
 

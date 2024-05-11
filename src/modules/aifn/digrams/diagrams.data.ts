@@ -7,13 +7,13 @@ export type DiagramLanguage = 'mermaid' | 'plantuml';
 
 // NOTE: keep these global, or it will trigger re-renders
 export const diagramTypes: FormRadioOption<DiagramType>[] = [
-  { label: 'Automatic', value: 'auto' },
-  { label: 'Mindmap', value: 'mind' },
+  { label: '自动选择', value: 'auto' },
+  { label: '思维导图', value: 'mind' },
 ];
 
 export const diagramLanguages: FormRadioOption<DiagramLanguage>[] = [
-  { label: 'PlantUML', value: 'plantuml' },
-  { label: 'Mermaid (mindmaps)', value: 'mermaid' },
+  { label: 'UML图', value: 'plantuml' },
+  { label: 'Mermaid (思维导图)', value: 'mermaid' },
 ];
 
 const mermaidMindmapExample = `For example:
