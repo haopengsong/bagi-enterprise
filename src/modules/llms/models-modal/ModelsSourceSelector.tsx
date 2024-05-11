@@ -75,12 +75,12 @@ export function ModelsSourceSelector(props: {
     }
   }, [confirmDeletionSourceId, modelSources, props, removeModelSource]);
 
-  props.setSelectedSourceId("openai");
+  // props.setSelectedSourceId("openai");
 
   // vendor list items
   const vendorItems = React.useMemo(() => findAllVendors()
     .filter(v => !!v.instanceLimit)
-    .sort((a, b) => b.name.localeCompare(a.name))
+    .sort((a, b) => a.name.localeCompare(b.name))
     .map(vendor => {
         const sourceInstanceCount = modelSources.filter(source => source.vId === vendor.id).length;
         const enabled = vendor.instanceLimit > sourceInstanceCount;
@@ -123,7 +123,6 @@ export function ModelsSourceSelector(props: {
 
   // source items
   const sourceItems = React.useMemo(() => modelSources
-      .sort((a, b) => b.label.localeCompare(a.label))
       .map(source => {
         const icon = vendorIcon(findVendorById(source.vId), false);
         return {
@@ -139,7 +138,6 @@ export function ModelsSourceSelector(props: {
       })
       .sort((a, b) => a.source.label.localeCompare(b.source.label))
     , [modelSources]);
-  //console.log( sourceItems )
   const selectedSourceItem = sourceItems.find(item => item.source.id === props.selectedSourceId);
   const noSources = !sourceItems.length;
 
@@ -162,7 +160,7 @@ export function ModelsSourceSelector(props: {
           indicator: { sx: { opacity: 0.5 } },
         }}
       >
-        {sourceItems.sort((a, b) => b.source.label.localeCompare(a.source.label)).map(item => item.component)}
+        {sourceItems.map(item => item.component)}
       </Select>
 
       { /* isMobile ? (
