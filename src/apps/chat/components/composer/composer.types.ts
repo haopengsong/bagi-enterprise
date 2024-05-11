@@ -5,8 +5,7 @@ export type ComposerOutputPart = {
   text: string,
   title: string | null,
   collapsible: boolean,
-}; 
-  /*
+} 
 | {
   // TODO: not implemented yet
   type: 'image-part',
@@ -20,6 +19,5 @@ export type ComposerOutputPart = {
   },
   collapsible: false,
 };
-  */
 
 export type ComposerOutputMultiPart = ComposerOutputPart[];

@@ -233,8 +233,11 @@ export function Composer(props: {
     const multiPartMessage = llmAttachments.collapseWithAttachments(composerText || null);
     //console.log( "file: ", multiPartMessage );
     for ( let i = 0; i < multiPartMessage.length; i++ ) {
-      if ( multiPartMessage[i].type == "text-block" ) {
-        if ( regexContent.test( multiPartMessage[i].text )) {
+      if ( multiPartMessage[i].type == "text-block" || multiPartMessage[i].type == "image-part") {
+        // use type assertion to avoid type error
+        let textBlock = multiPartMessage[i] as { type: 'text-block', text: string, title: string | null, collapsible: boolean };
+        //console.log( textBlock.text );
+        if ( regexContent.test( textBlock.text )) {
           return false;
         }
       }
