@@ -40,6 +40,7 @@ import { copyToClipboard } from '~/common/util/clipboardUtils';
 import { prettyBaseModel } from '~/common/util/modelUtils';
 import { useUIPreferencesStore } from '~/common/state/store-ui';
 
+import { ReplyToBubble } from './ReplyToBubble';
 import { useChatShowTextDiff } from '../../store-app-chat';
 
 import QuickreplyOutlinedIcon from '@mui/icons-material/QuickreplyOutlined';
@@ -272,6 +273,7 @@ export function ChatMessage(props: {
     role: messageRole,
     purposeId: messagePurposeId,
     originLLM: messageOriginLLM,
+    metadata: messageMetadata,
     created: messageCreated,
     updated: messageUpdated,
   } = props.message;
@@ -556,94 +558,97 @@ export function ChatMessage(props: {
         }),
 
         // style: make room for a top decorator if set
-        ...(!!props.topDecorator && {
-          pt: '2.5rem',
-        }),
         '&:hover > button': { opacity: 1 },
 
         // layout
-        display: 'flex',
-        flexDirection: !fromAssistant ? 'row-reverse' : 'row',
-        alignItems: 'flex-start',
-        gap: { xs: 0, md: 1 },
+        display: 'block', // this is Needed, otherwise there will be a horizontal overflow
 
         ...props.sx,
       }}
     >
 
       {/* (Optional) underlayed top decorator */}
-      {props.topDecorator && (
-        <Box sx={{ position: 'absolute', left: 0, right: 0, top: 0, textAlign: 'center' }}>
-          {props.topDecorator}
-        </Box>
-      )}
+      {props.topDecorator}
 
-      {/* Avatar (Persona) */}
-      {showAvatar && (
-        <Box sx={personaSx}>
+      {/* Message Row: Avatar, Blocks (1 text -> blocksRenderer) */}
+      <Box sx={{
+        display: 'flex',
+        flexDirection: !fromAssistant ? 'row-reverse' : 'row',
+        alignItems: 'flex-start',
+        gap: { xs: 0, md: 1 },
+      }}>
 
-          {/* Persona Avatar or Menu Button */}
-          <Box
-            onClick={handleOpsMenuToggle}
-            onContextMenu={handleOpsMenuToggle}
-            onMouseEnter={() => setIsHovering(true)}
-            onMouseLeave={() => setIsHovering(false)}
-            sx={{ display: 'flex' }}
-          >
-            {(isHovering || opsMenuAnchor) ? (
-              <IconButton variant={opsMenuAnchor ? 'solid' : 'soft'} color={(fromAssistant || fromSystem) ? 'neutral' : 'primary'} sx={avatarIconSx}>
-                <MoreVertIcon />
-              </IconButton>
-            ) : (
-              avatarEl
+        {/* Avatar (Persona) */}
+        {showAvatar && (
+          <Box sx={personaSx}>
+
+            {/* Persona Avatar or Menu Button */}
+            <Box
+              onClick={handleOpsMenuToggle}
+              onContextMenu={handleOpsMenuToggle}
+              onMouseEnter={() => setIsHovering(true)}
+              onMouseLeave={() => setIsHovering(false)}
+              sx={{ display: 'flex' }}
+            >
+              {(isHovering || opsMenuAnchor) ? (
+                <IconButton variant={opsMenuAnchor ? 'solid' : 'soft'} color={(fromAssistant || fromSystem) ? 'neutral' : 'primary'} sx={avatarIconSx}>
+                  <MoreVertIcon />
+                </IconButton>
+              ) : (
+                avatarEl
+              )}
+            </Box>
+
+            {/* Assistant model name */}
+            {fromAssistant && (
+              <Tooltip arrow title={messageTyping ? null : (messageOriginLLM || 'unk-model')} variant='solid'>
+                <Typography level='body-xs' sx={{
+                  overflowWrap: 'anywhere',
+                  ...(messageTyping ? { animation: `${animationColorRainbow} 5s linear infinite` } : {}),
+                }}>
+                  {prettyBaseModel(messageOriginLLM)}
+                </Typography>
+              </Tooltip>
             )}
+
           </Box>
-
-          {/* Assistant model name */}
-          {fromAssistant && (
-            <Tooltip arrow title={messageTyping ? null : (messageOriginLLM || 'unk-model')} variant='solid'>
-              <Typography level='body-xs' sx={{
-                overflowWrap: 'anywhere',
-                ...(messageTyping ? { animation: `${animationColorRainbow} 5s linear infinite` } : {}),
-              }}>
-                {prettyBaseModel(messageOriginLLM)}
-              </Typography>
-            </Tooltip>
-          )}
-
-        </Box>
-      )}
+        )}
 
 
-      {/* Edit / Blocks */}
-      {isEditing ? (
+        {/* Edit / Blocks */}
+        {isEditing ? (
 
-        <InlineTextarea
-          initialText={messageText} onEdit={handleTextEdited}
-          sx={editBlocksSx}
-        />
+          <InlineTextarea
+            initialText={messageText} onEdit={handleTextEdited}
+            sx={editBlocksSx}
+          />
 
-      ) : (
+        ) : (
 
-        <BlocksRenderer
-          ref={blocksRendererRef}
-          text={messageText}
-          fromRole={messageRole}
-          contentScaling={contentScaling}
-          errorMessage={errorMessage}
-          fitScreen={props.fitScreen}
-          isBottom={props.isBottom}
-          renderTextAsMarkdown={renderMarkdown}
-          renderTextDiff={textDiffs || undefined}
-          showDate={props.showBlocksDate === true ? messageUpdated || messageCreated || undefined : undefined}
-          showUnsafeHtml={props.showUnsafeHtml}
-          wasUserEdited={wasEdited}
-          onContextMenu={(props.onMessageEdit && ENABLE_SELECTION_RIGHT_CLICK_MENU) ? handleBlocksContextMenu : undefined}
-          onDoubleClick={(props.onMessageEdit && doubleClickToEdit) ? handleBlocksDoubleClick : undefined}
-          optiAllowMemo={messageTyping}
-        />
+          <BlocksRenderer
+            ref={blocksRendererRef}
+            text={messageText}
+            fromRole={messageRole}
+            contentScaling={contentScaling}
+            errorMessage={errorMessage}
+            fitScreen={props.fitScreen}
+            isBottom={props.isBottom}
+            renderTextAsMarkdown={renderMarkdown}
+            renderTextDiff={textDiffs || undefined}
+            showDate={props.showBlocksDate === true ? messageUpdated || messageCreated || undefined : undefined}
+            showUnsafeHtml={props.showUnsafeHtml}
+            wasUserEdited={wasEdited}
+            onContextMenu={(props.onMessageEdit && ENABLE_SELECTION_RIGHT_CLICK_MENU) ? handleBlocksContextMenu : undefined}
+            onDoubleClick={(props.onMessageEdit && doubleClickToEdit) ? handleBlocksDoubleClick : undefined}
+            optiAllowMemo={messageTyping}
+          />
 
-      )}
+        )}
+
+      </Box>
+
+      {/* Reply-To Bubble */}
+      {!!messageMetadata?.inReplyToText && <ReplyToBubble inlineMessage replyToText={messageMetadata.inReplyToText} className='reply-to-bubble' />}
 
 
       {/* Overlay copy icon */}
@@ -695,6 +700,83 @@ export function ChatMessage(props: {
             )}
           </Box>
           {/* Delete / Branch / Truncate */}
+          {!!props.onMessageBranch && <ListDivider />}
+          {!!props.onMessageBranch && (
+            <MenuItem onClick={handleOpsBranch} disabled={fromSystem}>
+              <ListItemDecorator>
+                <ForkRightIcon />
+              </ListItemDecorator>
+              Branch
+              {!props.isBottom && <span style={{ opacity: 0.5 }}>from here</span>}
+            </MenuItem>
+          )}
+          {!!props.onMessageDelete && (
+            <MenuItem onClick={handleOpsDelete} disabled={false /*fromSystem*/}>
+              <ListItemDecorator><ClearIcon /></ListItemDecorator>
+              Delete
+              <span style={{ opacity: 0.5 }}>message</span>
+            </MenuItem>
+          )}
+          {!!props.onMessageTruncate && (
+            <MenuItem onClick={handleOpsTruncate} disabled={props.isBottom}>
+              <ListItemDecorator><VerticalAlignBottomIcon /></ListItemDecorator>
+              Truncate
+              <span style={{ opacity: 0.5 }}>after this</span>
+            </MenuItem>
+          )}
+          {/* Diagram / Draw / Speak */}
+          {!!props.onTextDiagram && <ListDivider />}
+          {!!props.onTextDiagram && (
+            <MenuItem onClick={handleOpsDiagram} disabled={!couldDiagram}>
+              <ListItemDecorator><AccountTreeOutlinedIcon /></ListItemDecorator>
+              Auto-Diagram ...
+            </MenuItem>
+          )}
+          {!!props.onTextImagine && (
+            <MenuItem onClick={handleOpsImagine} disabled={!couldImagine || props.isImagining}>
+              <ListItemDecorator>{props.isImagining ? <CircularProgress size='sm' /> : <FormatPaintOutlinedIcon />}</ListItemDecorator>
+              Auto-Draw
+            </MenuItem>
+          )}
+          {!!props.onTextSpeak && (
+            <MenuItem onClick={handleOpsSpeak} disabled={!couldSpeak || props.isSpeaking}>
+              <ListItemDecorator>{props.isSpeaking ? <CircularProgress size='sm' /> : <RecordVoiceOverOutlinedIcon />}</ListItemDecorator>
+              Speak
+            </MenuItem>
+          )}
+          {/* Diff Viewer */}
+          {!!props.diffPreviousText && <ListDivider />}
+          {!!props.diffPreviousText && (
+            <MenuItem onClick={handleOpsToggleShowDiff}>
+              <ListItemDecorator><DifferenceIcon /></ListItemDecorator>
+              Show difference
+              <Switch checked={showDiff} onChange={handleOpsToggleShowDiff} sx={{ ml: 'auto' }} />
+            </MenuItem>
+          )}
+          {/* Beam/Restart */}
+          {(!!props.onMessageAssistantFrom || !!props.onMessageBeam) && <ListDivider />}
+          {!!props.onMessageAssistantFrom && (
+            <MenuItem disabled={fromSystem} onClick={handleOpsAssistantFrom}>
+              <ListItemDecorator>{fromAssistant ? <ReplayIcon color='primary' /> : <TelegramIcon color='primary' />}</ListItemDecorator>
+              {!fromAssistant
+                ? <>Restart <span style={{ opacity: 0.5 }}>from here</span></>
+                : !props.isBottom
+                  ? <>Retry <span style={{ opacity: 0.5 }}>from here</span></>
+                  : <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between', gap: 1 }}>Retry<KeyStroke combo='Ctrl + Shift + R' /></Box>}
+            </MenuItem>
+          )}
+          {!!props.onMessageBeam && (
+            <MenuItem disabled={fromSystem} onClick={handleOpsBeamFrom}>
+              <ListItemDecorator>
+                <ChatBeamIcon color={fromSystem ? undefined : 'primary'} />
+              </ListItemDecorator>
+              {!fromAssistant
+                ? <>Beam <span style={{ opacity: 0.5 }}>from here</span></>
+                : !props.isBottom
+                  ? <>Beam <span style={{ opacity: 0.5 }}>this message</span></>
+                  : <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between', gap: 1 }}>Beam<KeyStroke combo='Ctrl + Shift + B' /></Box>}
+            </MenuItem>
+          )}
         </CloseableMenu>
       )}
 
@@ -720,7 +802,8 @@ export function ChatMessage(props: {
                 alignItems: 'center',
                 '& > button': {
                   '--Icon-fontSize': '1rem',
-                  minWidth: '2.5rem',
+                  minHeight: '2.5rem',
+                  minWidth: '2.75rem',
                 },
               }}
             >
@@ -740,10 +823,10 @@ export function ChatMessage(props: {
                   <ContentCopyIcon />
                 </IconButton>
               </Tooltip>
-              {((!!props.onTextDiagram && couldDiagram) || !!props.onTextSpeak) && <MoreVertIcon sx={{ color: 'neutral.outlinedBorder', fontSize: 'md' }} />}
-              {!!props.onTextDiagram && couldDiagram && <Tooltip disableInteractive arrow placement='top' title='Auto-Diagram ...'>
-                <IconButton onClick={handleOpsDiagram} disabled={!couldDiagram}>
-                  <AccountTreeOutlinedIcon />
+              {(!!props.onTextDiagram || !!props.onTextSpeak) && <MoreVertIcon sx={{ color: 'neutral.outlinedBorder', fontSize: 'md' }} />}
+              {!!props.onTextDiagram && <Tooltip disableInteractive arrow placement='top' title={couldDiagram ? 'Auto-Diagram...' : 'Too short to Auto-Diagram'}>
+                <IconButton onClick={couldDiagram ? handleOpsDiagram : undefined}>
+                  <AccountTreeOutlinedIcon sx={{ color: couldDiagram ? 'primary' : 'neutral.plainDisabledColor' }} />
                 </IconButton>
               </Tooltip>}
               {/*{!!props.onTextImagine && <Tooltip disableInteractive arrow placement='top' title='Auto-Draw'>*/}

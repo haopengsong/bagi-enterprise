@@ -27,7 +27,7 @@ import { ConversationsManager } from '~/common/chats/ConversationsManager';
 import { PreferencesTab, useOptimaLayout } from '~/common/layout/optima/useOptimaLayout';
 import { SpeechResult, useSpeechRecognition } from '~/common/components/useSpeechRecognition';
 import { animationEnterBelow } from '~/common/util/animUtils';
-import { conversationTitle, DConversationId, getConversation, useChatStore } from '~/common/state/store-chats';
+import { conversationTitle, DConversationId, DMessageMetadata, getConversation, useChatStore } from '~/common/state/store-chats';
 import { countModelTokens } from '~/common/util/token-counter';
 import { isMacUser } from '~/common/util/pwaUtils';
 import { launchAppCall } from '~/common/app.routes';
@@ -50,11 +50,10 @@ import { useActileManager } from './actile/useActileManager';
 
 import type { AttachmentId } from './attachments/store-attachments';
 import { Attachments } from './attachments/Attachments';
-import { getTextBlockText, useLLMAttachments } from './attachments/useLLMAttachments';
+import { getSingleTextBlockText, useLLMAttachments } from './attachments/useLLMAttachments';
 import { useAttachments } from './attachments/useAttachments';
 
 import type { ComposerOutputMultiPart } from './composer.types';
-import { BubbleReplyTo } from './BubbleReplyTo';
 import { ButtonAttachCameraMemo, useCameraCaptureModal } from './buttons/ButtonAttachCamera';
 import { ButtonAttachClipboardMemo } from './buttons/ButtonAttachClipboard';
 import { ButtonAttachFileMemo } from './buttons/ButtonAttachFile';
@@ -66,6 +65,7 @@ import { ButtonMicMemo } from './buttons/ButtonMic';
 import { ButtonMultiChatMemo } from './buttons/ButtonMultiChat';
 import { ButtonOptionsDraw } from './buttons/ButtonOptionsDraw';
 import { ChatModeMenu } from './ChatModeMenu';
+import { ReplyToBubble } from '../message/ReplyToBubble';
 import { TokenBadgeMemo } from './TokenBadge';
 import { TokenProgressbarMemo } from './TokenProgressbar';
 import { useComposerStartupText } from './store-composer';
@@ -102,7 +102,7 @@ export function Composer(props: {
   capabilityHasT2I: boolean;
   isMulticast: boolean | null;
   isDeveloperMode: boolean;
-  onAction: (chatModeId: ChatModeId, conversationId: DConversationId, multiPartMessage: ComposerOutputMultiPart) => boolean;
+  onAction: (conversationId: DConversationId, chatModeId: ChatModeId, multiPartMessage: ComposerOutputMultiPart, metadata?: DMessageMetadata) => boolean;
   onTextImagine: (conversationId: DConversationId, text: string) => void;
   setIsMulticast: (on: boolean) => void;
   sx?: SxProps;
@@ -124,9 +124,10 @@ export function Composer(props: {
 
   // external state
   const { openPreferencesTab /*, setIsFocusedMode*/ } = useOptimaLayout();
-  const { labsAttachScreenCapture, labsCameraDesktop } = useUXLabsStore(useShallow(state => ({
+  const { labsAttachScreenCapture, labsCameraDesktop, labsShowCost } = useUXLabsStore(useShallow(state => ({
     labsAttachScreenCapture: state.labsAttachScreenCapture,
     labsCameraDesktop: state.labsCameraDesktop,
+    labsShowCost: state.labsShowCost,
   })));
   const timeToShowTips = useAppStateStore(state => state.usageCount > 2);
   const { novel: explainShiftEnter, touch: touchShiftEnter } = useUICounter('composer-shift-enter');
@@ -151,8 +152,8 @@ export function Composer(props: {
   // external overlay state (extra conversationId-dependent state)
   const conversationHandler = props.conversationId ? ConversationsManager.getHandler(props.conversationId) : null;
   const conversationOverlayStore = conversationHandler?.getOverlayStore() ?? null;
-  const { replyToText } = useChatOverlayStore(conversationOverlayStore, useShallow(store => ({
-    replyToText: chatModeId === 'generate-text' ? store.replyToText : null,
+  const { replyToGenerateText } = useChatOverlayStore(conversationOverlayStore, useShallow(store => ({
+    replyToGenerateText: chatModeId === 'generate-text' ? store.replyToText?.trim() || null : null,
   })));
 
 
@@ -179,6 +180,8 @@ export function Composer(props: {
   const tokensHistory = _historyTokenCount;
   const tokensReponseMax = (props.chatLLM?.options as LLMOptionsOpenAI /* FIXME: BIG ASSUMPTION */)?.llmResponseTokens || 0;
   const tokenLimit = props.chatLLM?.contextTokens || 0;
+  const tokenPriceIn = props.chatLLM?.pricing?.chatIn;
+  const tokenPriceOut = props.chatLLM?.pricing?.chatOut;
 
 
   // Effect: load initial text if queued up (e.g. by /link/share_targe)
@@ -188,6 +191,18 @@ export function Composer(props: {
       setComposeText(startupText);
     }
   }, [setComposeText, setStartupText, startupText]);
+
+
+  // Overlay actions
+
+  const handleReplyToCleared = React.useCallback(() => {
+    conversationOverlayStore?.getState().setReplyToText(null);
+  }, [conversationOverlayStore]);
+
+  React.useEffect(() => {
+    if (replyToGenerateText)
+      setTimeout(() => props.composerTextAreaRef.current?.focus(), 1 /* prevent focus theft */);
+  }, [replyToGenerateText, props.composerTextAreaRef]);
 
 
   // Primary button
@@ -214,8 +229,8 @@ export function Composer(props: {
       return false;
     }
 
-    // get attachments
-    const multiPartMessage = llmAttachments.getAttachmentsOutputs(composerText || null);
+    // get the multipart output including all attachments
+    const multiPartMessage = llmAttachments.collapseWithAttachments(composerText || null);
     //console.log( "file: ", multiPartMessage );
     for ( let i = 0; i < multiPartMessage.length; i++ ) {
       if ( multiPartMessage[i].type == "text-block" ) {
@@ -228,15 +243,19 @@ export function Composer(props: {
     if (!multiPartMessage.length)
       return false;
 
+    // metadata
+    const metadata = replyToGenerateText ? { inReplyToText: replyToGenerateText } : undefined;
+
     // send the message
-    const enqueued = onAction(_chatModeId, conversationId, multiPartMessage);
+    const enqueued = onAction(conversationId, _chatModeId, multiPartMessage, metadata);
     if (enqueued) {
       clearAttachments();
+      handleReplyToCleared();
       setComposeText('');
     }
 
     return enqueued;
-  }, [clearAttachments, conversationId, llmAttachments, onAction, setComposeText]);
+  }, [clearAttachments, conversationId, handleReplyToCleared, llmAttachments, onAction, replyToGenerateText, setComposeText]);
 
   const handleSendClicked = React.useCallback(() => {
     handleSendAction(chatModeId, composeText);
@@ -267,18 +286,6 @@ export function Composer(props: {
     props.onTextImagine(props.conversationId, composeText);
     setComposeText('');
   }, [composeText, props, setComposeText]);
-
-
-  // Overlay actions
-
-  const handleReplyToCleared = React.useCallback(() => {
-    conversationOverlayStore?.getState().setReplyToText(null);
-  }, [conversationOverlayStore]);
-
-  React.useEffect(() => {
-    if (replyToText)
-      setTimeout(() => props.composerTextAreaRef.current?.focus(), 1 /* prevent focus theft */);
-  }, [replyToText, props.composerTextAreaRef]);
 
 
   // Mode menu
@@ -363,7 +370,7 @@ export function Composer(props: {
     isMobile && actileInterceptTextChange(e.target.value);
   }, [actileInterceptTextChange, isMobile, setComposeText, isUnseen]);
 
-  const handleTextareaKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleTextareaKeyDown = React.useCallback(async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     // disable keyboard handling if the actile is visible
     if (actileInterceptKeydown(e))
       return;
@@ -373,15 +380,15 @@ export function Composer(props: {
 
       // Alt (Windows) or Option (Mac) + Enter: append the message instead of sending it
       if (e.altKey) {
-        touchAltEnter();
-        handleSendAction('append-user', composeText);
+        if (await handleSendAction('append-user', composeText))
+          touchAltEnter();
         return e.preventDefault();
       }
 
       // Ctrl (Windows) or Command (Mac) + Enter: send for beaming
       if ((isMacUser && e.metaKey && !e.ctrlKey) || (!isMacUser && e.ctrlKey && !e.metaKey)) {
-        touchCtrlEnter();
-        handleSendAction('generate-text-beam', composeText);
+        if (await handleSendAction('generate-text-beam', composeText))
+          touchCtrlEnter();
         return e.preventDefault();
       }
 
@@ -497,8 +504,8 @@ export function Composer(props: {
 
   const handleAttachmentInlineText = React.useCallback((attachmentId: AttachmentId) => {
     setComposeText(currentText => {
-      const attachmentOutputs = llmAttachments.getAttachmentOutputs(currentText, attachmentId);
-      const inlinedText = getTextBlockText(attachmentOutputs) || '';
+      const inlinedMultiPart = llmAttachments.collapseWithAttachment(currentText, attachmentId);
+      const inlinedText = getSingleTextBlockText(inlinedMultiPart) || '';
       removeAttachment(attachmentId);
       return inlinedText;
     });
@@ -506,8 +513,8 @@ export function Composer(props: {
 
   const handleAttachmentsInlineText = React.useCallback(() => {
     setComposeText(currentText => {
-      const attachmentsOutputs = llmAttachments.getAttachmentsOutputs(currentText);
-      const inlinedText = getTextBlockText(attachmentsOutputs) || '';
+      const inlinedMultiPart = llmAttachments.collapseWithAttachments(currentText);
+      const inlinedText = getSingleTextBlockText(inlinedMultiPart) || '';
       clearAttachments();
       return inlinedText;
     });
@@ -565,7 +572,8 @@ export function Composer(props: {
   const isReAct = chatModeId === 'generate-react';
   const isDraw = chatModeId === 'generate-image';
 
-  const showChatExtras = isText;
+  const showChatReplyTo = !!replyToGenerateText;
+  const showChatExtras = isText && !showChatReplyTo;
 
   const buttonVariant: VariantProp = (isAppend || (isMobile && isTextBeam)) ? 'outlined' : 'solid';
 
@@ -595,7 +603,7 @@ export function Composer(props: {
     isDraw ? '描述一个想法或一副图画...'
       : isReAct ? 'Multi-step reasoning question...'
         : isTextBeam ? 'Beam: 多模对话...'
-          : replyToText ? 'Chat about this...'
+          : showChatReplyTo ? 'Chat about this'
             : props.isDeveloperMode ? 'Chat with me' + (isDesktop ? ' · drop source' : '') + ' · attach code...'
               : props.capabilityHasT2I ? '可输入：1）问题; 2）/draw 绘图; 3)文件...'
                  : '可输入：1）问题; 2）/draw 绘图; 3)文件...';
@@ -681,9 +689,6 @@ export function Composer(props: {
             minWidth: 200, // flex: enable X-scrolling (resetting any possible minWidth due to the attachments)
           }}>
 
-            {/* Reply-to */}
-            {!!replyToText && <BubbleReplyTo replyToText={replyToText} onClick={handleReplyToCleared} />}
-
             {/* Textarea + Mic buttons + Mic/Drag overlay */}
             <Box sx={{ position: 'relative' }}>
 
@@ -694,7 +699,7 @@ export function Composer(props: {
                   variant='outlined'
                   color={isDraw ? 'warning' : isReAct ? 'success' : undefined}
                   autoFocus
-                  minRows={isMobile ? 4 : 5}
+                  minRows={isMobile ? 4 : showChatReplyTo ? 4 : 5}
                   maxRows={isMobile ? 8 : 10}
                   placeholder={textPlaceholder}
                   value={composeText}
@@ -705,6 +710,7 @@ export function Composer(props: {
                   onPasteCapture={handleAttachCtrlV}
                   // onFocusCapture={handleFocusModeOn}
                   // onBlurCapture={handleFocusModeOff}
+                  endDecorator={showChatReplyTo && <ReplyToBubble replyToText={replyToGenerateText} onClear={handleReplyToCleared} className='reply-to-bubble' />}
                   slotProps={{
                     textarea: {
                       enterKeyHint: enterIsNewline ? 'enter' : 'send',
@@ -717,16 +723,16 @@ export function Composer(props: {
                   }}
                   sx={{
                     backgroundColor: 'background.level1',
-                    '&:focus-within': { backgroundColor: 'background.popup' },
+                    '&:focus-within': { backgroundColor: 'background.popup', '.reply-to-bubble': { backgroundColor: 'background.popup' } },
                     lineHeight: lineHeightTextareaMd,
                   }} />
 
-                {tokenLimit > 0 && (tokensComposer > 0 || (tokensHistory + tokensReponseMax) > 0) && (
-                  <TokenProgressbarMemo direct={tokensComposer} history={tokensHistory} responseMax={tokensReponseMax} limit={tokenLimit} />
+                {!showChatReplyTo && tokenLimit > 0 && (tokensComposer > 0 || (tokensHistory + tokensReponseMax) > 0) && (
+                  <TokenProgressbarMemo direct={tokensComposer} history={tokensHistory} responseMax={tokensReponseMax} limit={tokenLimit} tokenPriceIn={tokenPriceIn} tokenPriceOut={tokenPriceOut} />
                 )}
 
-                {!!tokenLimit && (
-                  <TokenBadgeMemo direct={tokensComposer} history={tokensHistory} responseMax={tokensReponseMax} limit={tokenLimit} showExcess absoluteBottomRight />
+                {!showChatReplyTo && tokenLimit > 0 && (
+                  <TokenBadgeMemo direct={tokensComposer} history={tokensHistory} responseMax={tokensReponseMax} limit={tokenLimit} tokenPriceIn={tokenPriceIn} tokenPriceOut={tokenPriceOut} showCost={labsShowCost} showExcess absoluteBottomRight />
                 )}
 
               </Box>

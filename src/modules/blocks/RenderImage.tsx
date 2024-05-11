@@ -13,7 +13,7 @@ import { GoodTooltip } from '~/common/components/GoodTooltip';
 import { Link } from '~/common/components/Link';
 
 import type { ImageBlock } from './blocks';
-import { overlayButtonsSx } from './code/RenderCode';
+import { OverlayButton, overlayButtonsSx } from './code/RenderCode';
 
 
 const mdImageReferenceRegex = /^!\[([^\]]*)]\(([^)]+)\)$/;
@@ -129,24 +129,24 @@ export const RenderImage = (props: {
         <Box  sx={{pt: 0.5, px: 0.5, gap: 0.5 }}>
           {!!props.onRunAgain && (
             <GoodTooltip title='Draw again'>
-              <IconButton variant='outlined' onClick={props.onRunAgain}>
+              <OverlayButton variant='outlined' onClick={props.onRunAgain}>
                 <ReplayIcon />
-              </IconButton>
+              </OverlayButton>
             </GoodTooltip>
           )}
 
           {!!alt && (
             <GoodTooltip title={infoOpen ? '隐藏提示词' : '显示提示词'}>
-              <IconButton variant={infoOpen ? 'solid' : 'soft'} onClick={() => setInfoOpen(open => !open)}>
+              <OverlayButton variant={infoOpen ? 'solid' : 'outlined'} onClick={() => setInfoOpen(open => !open)}>
                 <InfoOutlinedIcon />
-              </IconButton>
+              </OverlayButton>
             </GoodTooltip>
           )}
 
           <GoodTooltip title='在新页面中保存完整原图'>
-            <IconButton variant='soft' component={Link} href={url} download={alt || 'image'} target='_blank'>
+            <OverlayButton variant='outlined' component={Link} href={url} download={alt || 'image'} target='_blank'>
               <CloudDownloadIcon />
-            </IconButton>
+            </OverlayButton>
           </GoodTooltip>
         </Box>
       </Sheet>
