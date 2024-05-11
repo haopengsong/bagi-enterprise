@@ -66,8 +66,7 @@ function CommonPageMenuItems(props: { onClose: () => void }) {
     {/* Preferences |...| Dark Mode Toggle */}
     {/*<Tooltip title={<KeyStroke combo='Ctrl + Shift + P' />}>*/}
 
-    // 设置
-    {/* 
+    {/*  设置
     <MenuItem onClick={handleShowSettings}>
       <ListItemDecorator><SettingsIcon /></ListItemDecorator>
       Preferences
