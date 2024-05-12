@@ -232,6 +232,7 @@ export function Composer(props: {
     // get the multipart output including all attachments
     const multiPartMessage = llmAttachments.collapseWithAttachments(composerText || null);
     //console.log( "file: ", multiPartMessage );
+    /*
     for ( let i = 0; i < multiPartMessage.length; i++ ) {
       if ( multiPartMessage[i].type == "text-block" || multiPartMessage[i].type == "image-part") {
         // use type assertion to avoid type error
@@ -243,6 +244,7 @@ export function Composer(props: {
       }
 
     }
+    */
     if (!multiPartMessage.length)
       return false;
 
