@@ -41,11 +41,11 @@ export function tokensPrettyMath(tokenLimit: number | 0, directTokens: number, h
   // has full information (d + i < l)
   else if (historyTokens || responseMaxTokens) {
     message +=
-      `▶ ${Math.abs(remainingTokens).toLocaleString()} ${remainingTokens >= 0 ? 'available' : 'excess'} message tokens\n\n` +
-      ` = Model max tokens: ${alignRight(tokenLimit)}\n` +
-      `     - This message: ${alignRight(directTokens)}\n` +
-      `          - History: ${alignRight(historyTokens || 0)}\n` +
-      `     - Max response: ${alignRight(responseMaxTokens || 0)}`;
+      `▶ ${Math.abs(remainingTokens).toLocaleString()} ${remainingTokens >= 0 ? '可用' : '超出限制'} 字符数\n\n` +
+      ` = 最大字符数: ${alignRight(tokenLimit)}\n` +
+      `     - 当前消息长度: ${alignRight(directTokens)}\n` +
+      `          - 历史对话总长: ${alignRight(historyTokens || 0)}\n` +
+      `     - 最长回复字符数: ${alignRight(responseMaxTokens || 0)}`;
 
     // add the price, if available
     /*
