@@ -48,6 +48,7 @@ export function tokensPrettyMath(tokenLimit: number | 0, directTokens: number, h
       `     - Max response: ${alignRight(responseMaxTokens || 0)}`;
 
     // add the price, if available
+    /*
     if (tokenPriceIn || tokenPriceOut) {
       costMin = tokenPriceIn ? usedInputTokens * tokenPriceIn / 1E6 : undefined;
       const costOutMax = (tokenPriceOut && responseMaxTokens) ? responseMaxTokens * tokenPriceOut / 1E6 : undefined;
@@ -71,6 +72,7 @@ export function tokensPrettyMath(tokenLimit: number | 0, directTokens: number, h
           `    < Max turn cost: ${formatCost(costMax).padStart(8)}`;
       }
     }
+    */
   }
   // Cleaner mode: d + ? < R (total is the remaining in this case)
   else {
@@ -134,6 +136,7 @@ function TokenBadge(props: {
   let badgeValue: string;
 
   const showAltCosts = !!props.showCost && !!costMax && costMin !== undefined;
+  /*
   if (showAltCosts) {
     badgeValue = '< ' + formatCost(costMax);
   } else {
@@ -145,6 +148,14 @@ function TokenBadge(props: {
 
     badgeValue = value.toLocaleString();
   }
+  */
+
+  // show the direct tokens, unless we exceed the limit and 'showExcess' is enabled
+  const value = (props.showExcess && (props.limit && remainingTokens <= 0))
+    ? Math.abs(remainingTokens)
+    : props.direct;
+
+  badgeValue = value.toLocaleString();
 
   const shallHide = !props.direct && remainingTokens >= 0 && !showAltCosts;
   if (shallHide) return null;
