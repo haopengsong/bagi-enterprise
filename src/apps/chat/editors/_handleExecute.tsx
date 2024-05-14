@@ -33,7 +33,7 @@ export async function _handleExecute(chatModeId: ChatModeId, conversationId: DCo
   // console.log( chatLLMId );
 
   if ( chatLLMId?.includes("04-09") && chatLLMId.includes("gpt") ) {
-    alert( "<GPT-4 Turbo 2024-04-09>停用，请刷新模型后使用<GPT-4o 2024-05-13>" );
+    alert( "<GPT-4 Turbo 2024-04-09>停用 \n请在<配置模型>页面 选择<OpenAI>后 <刷新> 使用\n<GPT-4o 2024-05-13>" );
     return;
   }
 
