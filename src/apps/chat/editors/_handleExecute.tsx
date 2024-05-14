@@ -27,7 +27,15 @@ export async function _handleExecute(chatModeId: ChatModeId, conversationId: DCo
     return;
   }
 
+
   const chatLLMId = getChatLLMId();
+
+  // console.log( chatLLMId );
+
+  if ( chatLLMId?.includes("04-09") && chatLLMId.includes("gpt") ) {
+    alert( "<GPT-4 Turbo 2024-04-09>停用，请刷新模型后使用<GPT-4o 2024-05-13>" );
+    return;
+  }
 
   // Update the system message from the active persona to the history
   // NOTE: this does NOT call setMessages anymore (optimization). make sure to:
