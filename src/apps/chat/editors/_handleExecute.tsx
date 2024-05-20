@@ -22,7 +22,7 @@ export async function _handleExecute(chatModeId: ChatModeId, conversationId: DCo
   if (!conversationId)
     return 'err-no-conversation';
 
-  if (history.length >= 22) {
+  if (history.length >= 20) {
     alert("对话条数过长，请新建对话再提问");
     return;
   }
