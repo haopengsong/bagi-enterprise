@@ -32,8 +32,8 @@ export async function _handleExecute(chatModeId: ChatModeId, conversationId: DCo
 
   // console.log( chatLLMId );
 
-  if ( chatLLMId?.includes("04-09") && chatLLMId.includes("gpt") ) {
-    alert( "<GPT-4 Turbo 2024-04-09>停用 \n新模型启用方式： \n1. 请在<配置模型>页面 \n2. 点击模型: 下拉菜单 \n3. 选择<OpenAI> \n4. <刷新> \n5. 选用<GPT-4o (2024-05-13)>" );
+  if ( chatLLMId?.includes("05-13") && chatLLMId.includes("gpt") ) {
+    alert( "<GPT-4o 2024-05-13>准确率过低停用 \n请切换使用GPT-4 Turbo 2024-04-09： \n1. 请在<配置模型>页面 \n2. 点击模型: 下拉菜单 \n3. 选择<OpenAI> \n4. <刷新> \n5. 选用<GPT-4 Turbo (2024-04-09)>" );
     return;
   }
 
