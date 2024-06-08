@@ -135,7 +135,6 @@ function ModelItem(props: {
             <SettingsOutlinedIcon />
           </IconButton>
         </GoodTooltip>
-       */}
 
       </ListItemButton>
     </ListItem>
