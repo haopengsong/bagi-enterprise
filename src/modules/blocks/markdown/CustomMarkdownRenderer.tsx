@@ -74,7 +74,7 @@ function TableRenderer({ children, node, ...props }: TableRendererProps) {
             mb: '1rem',
             backgroundColor: 'background.popup', // make this button 'pop' a bit from the page
           }}>
-            Download table as .csv
+            下载 .csv 格式表格
           </Button>
         </CSVLink>
       )}
