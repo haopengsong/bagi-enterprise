@@ -174,7 +174,9 @@ export const llmAnthropicRouter = createTRPCRouter({
   listModels: publicProcedure
     .input(listModelsInputSchema)
     .output(llmsListModelsOutputSchema)
-    .query(() => ({ models: hardcodedAnthropicModels })),
+    .query(() => ({ models: hardcodedAnthropicModels.filter( m => m.label.toLocaleLowerCase().includes('sonnet')) })),
+    // filter models
+    
 
   /* [Anthropic] Message generation (non-streaming) */
   chatGenerateMessage: publicProcedure

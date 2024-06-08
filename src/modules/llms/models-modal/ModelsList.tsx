@@ -124,6 +124,7 @@ function ModelItem(props: {
 
         {/* Action Buttons */}
 
+        {/*
         <GoodTooltip title={llm.hidden ? 'Hidden' : 'Shown in Chat'}>
           <IconButton aria-label={llm.hidden ? 'Unhide' : 'Hide in Chat'} size='sm' onClick={llm.hidden ? handleLLMUnhide : handleLLMHide} sx={absorbListPadding}>
             {llm.hidden ? <VisibilityOffOutlinedIcon sx={{ opacity: 0.5, fontSize: 'md' }} /> : <VisibilityOutlinedIcon />}
@@ -135,6 +136,7 @@ function ModelItem(props: {
             <SettingsOutlinedIcon />
           </IconButton>
         </GoodTooltip>
+        */}
 
       </ListItemButton>
     </ListItem>
