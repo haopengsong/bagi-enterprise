@@ -194,6 +194,11 @@ export function PageBar(props: { component: React.ElementType, currentApp?: NavI
 
     {/*</Box>*/}
 
+        <Box>
+          <div> 
+            模型更新：Anthropic Cladue 3.5 Sonnet
+          </div> 
+        </Box>
 
     {/* Page Menu */}
     <CloseableMenu
