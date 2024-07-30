@@ -196,7 +196,7 @@ export function PageBar(props: { component: React.ElementType, currentApp?: NavI
 
         <Box>
           <div> 
-            模型更新：Anthropic Cladue 3.5 Sonnet
+            推荐模型：Anthropic Cladue 3.5 Sonnet
           </div> 
         </Box>
 
