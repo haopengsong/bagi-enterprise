@@ -22,7 +22,7 @@ export async function _handleExecute(chatModeId: ChatModeId, conversationId: DCo
   if (!conversationId)
     return 'err-no-conversation';
 
-  if (history.length >= 16) {
+  if (history.length >= 30) {
     alert("对话条数过长，请新建对话再提问");
     return;
   }
@@ -32,8 +32,8 @@ export async function _handleExecute(chatModeId: ChatModeId, conversationId: DCo
 
   // console.log( chatLLMId );
 
-  if ( chatLLMId?.includes("05-13") && chatLLMId.includes("gpt") ) {
-    alert( "<GPT-4o 2024-05-13>准确率过低停用 \n请切换使用GPT-4 Turbo 2024-04-09： \n1. 请在<配置模型>页面 \n2. 点击模型: 下拉菜单 \n3. 选择<OpenAI> \n4. <刷新> \n5. 选用<GPT-4 Turbo (2024-04-09)>" );
+  if ( chatLLMId?.includes("2024-04-09") ) {
+    alert( "<GPT-4 Turbo 2024-04-09>停用 \n请切换使用最新ChatGPT-4o Latest \n1. 请在<配置模型>页面 \n2. 点击<模型>出现下拉菜单 \n3. 选择<OpenAI> \n4. 点击<刷新> \n5. 选用<ChatGPT-4o Latest>" );
     return;
   }
 

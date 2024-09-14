@@ -211,8 +211,8 @@ export const llmOpenAIRouter = createTRPCRouter({
             // limit to only 'gpt' and 'non instruct' models
             .filter(openAIModelFilter)
 
-            // Only take gpt4 Turbo
-            .filter(model => model.id.includes('04-09'))
+            // Only take the chatgpt model
+            .filter(model => model.id.includes('chatgpt'))
 
             // to model description
             .map((model): ModelDescriptionSchema => openAIModelToModelDescription(model.id, model.created))
