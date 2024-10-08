@@ -177,7 +177,7 @@ export const llmAnthropicRouter = createTRPCRouter({
     .input(listModelsInputSchema)
     .output(llmsListModelsOutputSchema)
     //.query(() => ({ models: hardcodedAnthropicModels })),
-    .query(() => ({ models: hardcodedAnthropicModels.filter( m => m.label.toLocaleLowerCase().includes('sonnet')) })),
+    .query(() => ({ models: hardcodedAnthropicModels.filter( m => m.label.toLocaleLowerCase().includes('3.5')) })),
     // filter models
     
 

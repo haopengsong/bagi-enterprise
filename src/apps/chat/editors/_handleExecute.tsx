@@ -30,10 +30,15 @@ export async function _handleExecute(chatModeId: ChatModeId, conversationId: DCo
 
   const chatLLMId = getChatLLMId();
 
-  // console.log( chatLLMId );
+  //console.log( chatLLMId );
 
   if ( chatLLMId?.includes("2024-04-09") ) {
     alert( "<GPT-4 Turbo 2024-04-09>停用 \n请切换使用最新ChatGPT-4o Latest \n1. 请在<配置模型>页面 \n2. 点击<模型>出现下拉菜单 \n3. 选择<OpenAI> \n4. 点击<刷新> \n5. 选用<ChatGPT-4o Latest>" );
+    return;
+  }
+
+  if ( chatLLMId?.includes("claude-3-sonnet") ) {
+    alert( "<Claude 3 Sonnet>停用 \n请切换使用最新Claude 3.5 Sonnet \n1. 请在<配置模型>页面 \n2. 点击<模型>出现下拉菜单 \n3. 选择<Anthropic> \n4. 点击<刷新> \n5. 选用<Claude 3.5 Sonnet>" );
     return;
   }
 
