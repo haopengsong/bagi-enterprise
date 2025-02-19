@@ -20,6 +20,16 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
+// Random source
+model RandomSource {
+  id String @id @default(uuid())
+  ownerId String
+  random String
+  source String
+  createdAt DateTime @default(now())
+  expiresAt DateTime?
+}
+
 //
 // Storage of Linked Data
 //
