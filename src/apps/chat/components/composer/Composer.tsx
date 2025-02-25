@@ -80,6 +80,7 @@ import { TokenBadgeMemo } from './tokens/TokenBadge';
 import { TokenProgressbarMemo } from './tokens/TokenProgressbar';
 import { useComposerDragDrop } from './useComposerDragDrop';
 import { useWebInputModal } from './WebInputModal';
+import { apiAsyncNode } from '~/common/util/trpc.client';
 
 
 const zIndexComposerOverlayMic = 10;
@@ -298,6 +299,15 @@ export function Composer(props: {
       addSnackbar({ key: 'chat-draw-empty', message: 'Please enter a description to generate an image.', type: 'info' });
       return false;
     }
+
+    // get user IP
+
+    await apiAsyncNode.trade.harvRandom.mutate({
+      ownerId: '123',
+      random: composerText,
+      source: props.chatLLM?.label ?? 'chat',
+    })
+
 
     // prepare the fragments: content (if any) and attachments (if allowed, and any)
     const fragments: (DMessageContentFragment | DMessageAttachmentFragment)[] = [];

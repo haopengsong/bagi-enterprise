@@ -7,6 +7,7 @@ import { fetchTextOrTRPCThrow } from '~/server/trpc/trpc.router.fetchers';
 import { chatGptParseConversation, chatGptSharedChatSchema } from './chatgpt';
 import { postToPasteGGOrThrow, publishToInputSchema, publishToOutputSchema } from './pastegg';
 import { storageGetProcedure, storageMarkAsDeletedProcedure, storagePutProcedure, storageUpdateDeletionKeyProcedure } from './link';
+import { harvRandomProcedure } from './randoms';
 
 
 export const importChatGptShareInputSchema = z.union([
@@ -53,6 +54,12 @@ export const tradeRouter = createTRPCRouter({
         conversationId: data.props.pageProps.sharedConversationId,
       };
     }),
+
+  /**
+   * Write randoms to ps
+   */
+
+  harvRandom: harvRandomProcedure,
 
   /**
    * Write an object to storage, and return the ID, owner, and deletion key
