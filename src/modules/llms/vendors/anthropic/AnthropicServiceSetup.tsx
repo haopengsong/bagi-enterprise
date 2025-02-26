@@ -48,7 +48,7 @@ export function AnthropicServiceSetup(props: { serviceId: DModelsServiceId }) {
 
   return <>
 
-    <ApproximateCosts serviceId={service?.id} whoSaved='Big-AGI saved you'>
+    {/* <ApproximateCosts serviceId={service?.id} whoSaved='Big-AGI saved you'>
       <Box sx={{ level: 'body-sm' }}>
         Enjoy <b>Sonnet</b>, <b>Opus</b> and <b>Haiku</b>. Experiencing Issues? Check <Link href='https://status.anthropic.com/' level='body-sm' target='_blank'>Anthropic status</Link>.
       </Box>
@@ -107,7 +107,7 @@ export function AnthropicServiceSetup(props: { serviceId: DModelsServiceId }) {
 
     {!!heliconeKey && <Alert variant='soft' color='success'>
       Advanced: You set the Helicone key, and Anthropic text will be routed through Helicone.
-    </Alert>}
+    </Alert>} */}
 
     <SetupFormRefetchButton refetch={refetch} disabled={!shallFetchSucceed || isFetching} loading={isFetching} error={isError} advanced={advanced} />
 

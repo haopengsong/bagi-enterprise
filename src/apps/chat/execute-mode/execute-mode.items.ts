@@ -26,7 +26,7 @@ export const ExecuteModeItems: { [key in ChatExecuteMode]: ModeDescription } = {
     description: 'Persona replies',
     canAttach: true,
     sendColor: 'primary',
-    sendText: 'Chat',
+    sendText: '发送',
   },
   'beam-content': {
     label: 'Beam', // Best of, Auto-Prime, Top Pick, Select Best

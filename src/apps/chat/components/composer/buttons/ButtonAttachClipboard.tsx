@@ -37,7 +37,7 @@ function ButtonAttachClipboard(props: {
         onClick={props.onAttachClipboard}
         sx={buttonAttachSx.desktop}
       >
-        Paste
+        粘贴
       </Button>
     </Tooltip>
   );

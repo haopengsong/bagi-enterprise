@@ -118,7 +118,7 @@ function ModelsConfiguratorModal(props: {
       ) : (
         // <>Configure <b>AI Models</b></>
         <AppBreadcrumbs size='md' rootTitle='Configure'>
-          <AppBreadcrumbs.Leaf><b>AI Models</b></AppBreadcrumbs.Leaf>
+          <AppBreadcrumbs.Leaf><b>AI 模型</b></AppBreadcrumbs.Leaf>
           {/*<Box sx={{ display: 'flex', gap: 1 }}>*/}
           {/*  {!hasLLMs ? <AppBreadcrumbs.Leaf>Setup</AppBreadcrumbs.Leaf> : <>*/}
           {/*    <Chip size='lg' variant={isTabSetup ? 'solid' : 'outlined'} color='neutral' onClick={isTabSetup ? undefined : handleToggleDefaults} sx={{}}>*/}
@@ -147,7 +147,7 @@ function ModelsConfiguratorModal(props: {
       {isTabWizard && <ModelsWizard isMobile={isMobile} onSkip={optimaActions().closeModels} onSwitchToAdvanced={handleShowAdvanced} />}
 
       {isTabSetup && <ModelsServiceSelector modelsServices={modelsServices} selectedServiceId={activeServiceId} setSelectedServiceId={setConfServiceId} />}
-      {isTabSetup && <Divider sx={activeService ? undefined : { visibility: 'hidden' }} />}
+      {!isTabSetup && <Divider sx={activeService ? undefined : { visibility: 'hidden' }} />}
       {isTabSetup && (
         <Box sx={{ display: 'grid', gap: 'var(--Card-padding)' }}>
           {activeService

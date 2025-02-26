@@ -159,11 +159,15 @@ export const llmAnthropicRouter = createTRPCRouter({
       const wireModels = await anthropicGETOrThrow(access, undefined, '/v1/models?limit=1000');
       const { data: availableModels } = AnthropicWire_API_Models_List.Response_schema.parse(wireModels);
 
+      const filteredModels = availableModels.filter(m => m.display_name.includes('3.7'));
       // cast the models to the common schema
-      const models = availableModels.reduce((acc, model) => {
+      const models = filteredModels.reduce((acc, model) => {
 
         // find the model description
+        // filter for models with id contains '3.7'
+        
         const hardcodedModel = hardcodedAnthropicModels.find(m => m.id === model.id);
+        
         if (hardcodedModel) {
 
           // update creation date
@@ -193,7 +197,7 @@ export const llmAnthropicRouter = createTRPCRouter({
 
       // developers warning for obsoleted models (we have them, but they are not in the API response anymore)
       const apiModelIds = new Set(availableModels.map(m => m.id));
-      const additionalModels = hardcodedAnthropicModels.filter(m => !apiModelIds.has(m.id));
+      const additionalModels = hardcodedAnthropicModels.filter(m => !apiModelIds.has(m.id) && m.label.includes('3.7'));
       if (additionalModels.length > 0)
         console.log('[DEV] anthropic.router: obsoleted models:', additionalModels.map(m => m.id).join(', '));
       // additionalModels.forEach(m => {

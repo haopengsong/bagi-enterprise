@@ -705,8 +705,8 @@ export function Composer(props: {
 
   // stable randomization of the /verb, between '/draw', '/react'
   const placeholderAction = React.useMemo(() => {
-    const actions: string[] = ['/react'];
-    if (props.capabilityHasT2I) actions.push('/draw');
+    const actions: string[] = [''];
+    if (props.capabilityHasT2I) actions.push('');
     return actions[Math.floor(Math.random() * actions.length)];
   }, [props.capabilityHasT2I]);
 
@@ -715,12 +715,12 @@ export function Composer(props: {
       : isReAct ? 'Ask a multi-step reasoning question...'
         : isTextBeam ? 'Combine insights from multiple AI models...'
           : showChatInReferenceTo ? 'Chat about this...'
-            : 'Type'
+            : '文字'
             + (props.isDeveloperMode ? ' · attach code' : '')
-            + (isDesktop ? ` · drop ${props.isDeveloperMode ? 'source' : 'files'}` : '')
+            + (isDesktop ? ` · 文件 ${props.isDeveloperMode ? 'source' : ''}` : '')
             + ` · ${placeholderAction}`
-            + (recognitionState.isAvailable ? ' · ramble' : '')
-            + '...';
+            + (recognitionState.isAvailable ? ' ' : '')
+            + '';
 
   if (isDesktop && timeToShowTips && !isDraw) {
     if (explainShiftEnter)
@@ -741,7 +741,7 @@ export function Composer(props: {
   return (
     <Box aria-label='User Message' component='section' sx={props.sx}>
 
-      {!isMobile && labsShowShortcutBar && <StatusBarMemo toggleMinimized={handleToggleMinimized} isMinimized={isMinimized} />}
+      {!isMobile && !labsShowShortcutBar && <StatusBarMemo toggleMinimized={handleToggleMinimized} isMinimized={isMinimized} />}
 
       {/* This container is here just to let the potential statusbar fill the whole space, so we moved the padding here and not in the parent */}
       <Box sx={(!isMinimized || isMobile || !labsShowShortcutBar) ? paddingBoxSx : minimizedSx}>
@@ -762,10 +762,10 @@ export function Composer(props: {
               <Box sx={{ flexGrow: 0, display: 'grid', gap: 1, alignSelf: 'flex-start' }}>
 
                 {/* [mobile] Mic button */}
-                {recognitionState.isAvailable && <ButtonMicMemo variant={micVariant} color={micColor} errorMessage={recognitionState.errorMessage} onClick={handleToggleMic} />}
+                {!recognitionState.isAvailable && <ButtonMicMemo variant={micVariant} color={micColor} errorMessage={recognitionState.errorMessage} onClick={handleToggleMic} />}
 
                 {/* Responsive Camera OCR button */}
-                {showChatAttachments && <ButtonAttachCameraMemo isMobile onOpenCamera={openCamera} />}
+                {!showChatAttachments && <ButtonAttachCameraMemo isMobile onOpenCamera={openCamera} />}
 
                 {/* [mobile] [+] button */}
                 {showChatAttachments && (
@@ -905,7 +905,7 @@ export function Composer(props: {
                     mr: isDesktop ? 1 : 0.25,
                     display: 'flex', flexDirection: 'column', gap: isDesktop ? 1 : 0.25,
                   }}>
-                    {isDesktop && <ButtonMicMemo variant={micVariant} color={micColor} errorMessage={recognitionState.errorMessage} onClick={handleToggleMic} noBackground={!recognitionState.isActive} />}
+                    {!isDesktop && <ButtonMicMemo variant={micVariant} color={micColor} errorMessage={recognitionState.errorMessage} onClick={handleToggleMic} noBackground={!recognitionState.isActive} />}
 
                     {micIsRunning && (
                       <ButtonMicContinuationMemo
@@ -1033,7 +1033,7 @@ export function Composer(props: {
                       endDecorator={<StopOutlinedIcon sx={{ fontSize: 18 }} />}
                       sx={{ animation: `${animationEnterBelow} 0.1s ease-out` }}
                     >
-                      Stop
+                     停止 
                     </Button>
                   )}
 
@@ -1053,17 +1053,17 @@ export function Composer(props: {
                   {/*</Tooltip>}*/}
 
                   {/* Mode expander */}
-                  <IconButton
+                  {/* <IconButton
                     variant={assistantAbortible ? 'soft' : isDraw ? undefined : undefined}
                     disabled={noConversation || noLLM || chatExecuteMenuShown}
                     onClick={showChatExecuteMenu}
                   >
                     <ExpandLessIcon />
-                  </IconButton>
+                  </IconButton> */}
                 </ButtonGroup>
 
                 {/* [desktop] secondary-top buttons */}
-                {isDesktop && showChatExtras && !assistantAbortible && (
+                {!isDesktop && showChatExtras && !assistantAbortible && (
                   <ButtonBeamMemo
                     color={beamButtonColor}
                     disabled={noConversation || noLLM}
@@ -1084,7 +1084,7 @@ export function Composer(props: {
               {isDesktop && <Box sx={{ mt: 'auto', display: 'grid', gap: 1 }}>
 
                 {/* [desktop] Call secondary button */}
-                {showChatExtras && <ButtonCallMemo disabled={noConversation || noLLM || assistantAbortible} onClick={handleCallClicked} />}
+                {!showChatExtras && <ButtonCallMemo disabled={noConversation || noLLM || assistantAbortible} onClick={handleCallClicked} />}
 
                 {/* [desktop] Draw Options secondary button */}
                 {isDraw && <ButtonOptionsDraw onClick={handleDrawOptionsClicked} />}

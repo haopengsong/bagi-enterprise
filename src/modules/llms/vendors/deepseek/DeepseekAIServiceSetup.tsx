@@ -44,7 +44,7 @@ export function DeepseekAIServiceSetup(props: { serviceId: DModelsServiceId }) {
 
   return <>
 
-    <ApproximateCosts serviceId={service?.id} />
+    {/* <ApproximateCosts serviceId={service?.id} />
 
     <FormInputKey
       autoCompleteId='deepseek-key' label='Deepseek Key'
@@ -55,7 +55,7 @@ export function DeepseekAIServiceSetup(props: { serviceId: DModelsServiceId }) {
       value={deepseekKey} onChange={value => updateSettings({ deepseekKey: value })}
       required={needsUserKey} isError={showKeyError}
       placeholder='...'
-    />
+    /> */}
 
     <SetupFormRefetchButton refetch={refetch} disabled={/*!shallFetchSucceed ||*/ isFetching} loading={isFetching} error={isError} advanced={advanced} />
 

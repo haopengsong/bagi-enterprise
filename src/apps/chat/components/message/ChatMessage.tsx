@@ -666,7 +666,7 @@ export function ChatMessage(props: {
               </IconButton>
             </Tooltip>
             <Typography level='body-xs' sx={editButtonWrapSx}>
-              Done
+             完成 
             </Typography>
           </Box>
         )}
@@ -771,7 +771,7 @@ export function ChatMessage(props: {
               </IconButton>
             </Tooltip>
             <Typography level='body-xs' sx={editButtonWrapSx}>
-              Cancel
+              取消
             </Typography>
           </Box>
         )}
@@ -817,13 +817,13 @@ export function ChatMessage(props: {
             {!!props.onMessageFragmentReplace && (
               <MenuItem variant='plain' disabled={!!messagePendingIncomplete} onClick={handleOpsEditToggle} sx={{ flex: 1 }}>
                 <ListItemDecorator>{isEditingText ? <CloseRoundedIcon /> : <EditRoundedIcon />}</ListItemDecorator>
-                {isEditingText ? 'Discard' : 'Edit'}
+                {isEditingText ? '取消' : '编辑'}
               </MenuItem>
             )}
             {/* Copy */}
             <MenuItem onClick={handleOpsCopy} sx={{ flex: 1 }}>
               <ListItemDecorator><ContentCopyIcon /></ListItemDecorator>
-              Copy
+              复制
             </MenuItem>
             {/* Starred */}
             {!!onMessageToggleUserFlag && (
@@ -865,59 +865,7 @@ export function ChatMessage(props: {
               Auto-Cached <span style={{ opacity: 0.5 }}>for 5 min</span>
             </MenuItem>
           )}
-          {/* Aix Skip Message */}
-          {!messagePendingIncomplete && !!props.onMessageToggleUserFlag && (
-            <MenuItem onClick={handleOpsToggleSkipMessage}>
-              <ListItemDecorator>{isUserMessageSkipped ? <VisibilityOffIcon sx={{ color: 'danger.plainColor' }} /> : <VisibilityIcon />}</ListItemDecorator>
-              {isUserMessageSkipped ? 'Unskip' : 'Skip AI processing'}
-            </MenuItem>
-          )}
 
-          {/* Delete / Branch / Truncate */}
-          {!!props.onMessageBranch && <ListDivider />}
-          {!!props.onMessageBranch && (
-            <MenuItem onClick={handleOpsBranch} disabled={fromSystem}>
-              <ListItemDecorator>
-                <ForkRightIcon />
-              </ListItemDecorator>
-              Branch
-              {!props.isBottom && <span style={{ opacity: 0.5 }}>from here</span>}
-            </MenuItem>
-          )}
-          {!!props.onMessageDelete && (
-            <MenuItem onClick={handleOpsDelete} disabled={false /*fromSystem*/}>
-              <ListItemDecorator><DeleteOutlineIcon /></ListItemDecorator>
-              Delete
-              <span style={{ opacity: 0.5 }}>message</span>
-            </MenuItem>
-          )}
-          {!!props.onMessageTruncate && (
-            <MenuItem onClick={handleOpsTruncate} disabled={props.isBottom}>
-              <ListItemDecorator><VerticalAlignBottomIcon /></ListItemDecorator>
-              Truncate
-              <span style={{ opacity: 0.5 }}>after this</span>
-            </MenuItem>
-          )}
-          {/* Diagram / Draw / Speak */}
-          {!!props.onTextDiagram && <ListDivider />}
-          {!!props.onTextDiagram && (
-            <MenuItem onClick={handleOpsDiagram} disabled={!couldDiagram}>
-              <ListItemDecorator><AccountTreeOutlinedIcon /></ListItemDecorator>
-              Auto-Diagram ...
-            </MenuItem>
-          )}
-          {!!props.onTextImagine && (
-            <MenuItem onClick={handleOpsImagine} disabled={!couldImagine || props.isImagining}>
-              <ListItemDecorator>{props.isImagining ? <CircularProgress size='sm' /> : <FormatPaintOutlinedIcon />}</ListItemDecorator>
-              Auto-Draw
-            </MenuItem>
-          )}
-          {!!props.onTextSpeak && (
-            <MenuItem onClick={handleOpsSpeak} disabled={!couldSpeak || props.isSpeaking}>
-              <ListItemDecorator>{props.isSpeaking ? <CircularProgress size='sm' /> : <RecordVoiceOverOutlinedIcon />}</ListItemDecorator>
-              Speak
-            </MenuItem>
-          )}
           {/* Diff Viewer */}
           {!!props.diffPreviousText && <ListDivider />}
           {!!props.diffPreviousText && (
@@ -927,30 +875,20 @@ export function ChatMessage(props: {
               <Switch checked={showDiff} onChange={handleOpsToggleShowDiff} sx={{ ml: 'auto' }} />
             </MenuItem>
           )}
+
           {/* Beam/Restart */}
           {(!!props.onMessageAssistantFrom || !!props.onMessageBeam) && <ListDivider />}
           {!!props.onMessageAssistantFrom && (
             <MenuItem disabled={fromSystem} onClick={handleOpsAssistantFrom}>
               <ListItemDecorator>{fromAssistant ? <ReplayIcon color='primary' /> : <TelegramIcon color='primary' />}</ListItemDecorator>
               {!fromAssistant
-                ? <>Restart <span style={{ opacity: 0.5 }}>from here</span></>
+                ? <> 重新开始 <span style={{ opacity: 0.5 }}>from here</span></>
                 : !props.isBottom
-                  ? <>Retry <span style={{ opacity: 0.5 }}>from here</span></>
-                  : <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between', gap: 1 }}>Retry<KeyStroke variant='outlined' combo='Ctrl + Shift + Z' /></Box>}
-            </MenuItem>
+                  ? <>再试 <span style={{ opacity: 0.5 }}>from here</span></>
+                : <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between', gap: 1 }}>再试<KeyStroke variant='outlined' combo='Ctrl + Shift + Z' /></Box>}
+           </MenuItem>
           )}
-          {!!props.onMessageBeam && (
-            <MenuItem disabled={fromSystem} onClick={handleOpsBeamFrom}>
-              <ListItemDecorator>
-                <ChatBeamIcon color={fromSystem ? undefined : 'primary'} />
-              </ListItemDecorator>
-              {!fromAssistant
-                ? <>Beam <span style={{ opacity: 0.5 }}>from here</span></>
-                : !props.isBottom
-                  ? <>Beam Edit</>
-                  : <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between', gap: 1 }}>Beam Edit<KeyStroke variant='outlined' combo='Ctrl + Shift + B' /></Box>}
-            </MenuItem>
-          )}
+
         </CloseablePopup>
       )}
 

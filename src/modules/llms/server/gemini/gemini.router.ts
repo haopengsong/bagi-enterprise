@@ -107,6 +107,7 @@ export const llmGeminiRouter = createTRPCRouter({
 
       // map to our output schema
       const models = filteredModels
+        .filter(model => model.displayName.includes('2.0')) // only 2.0 models
         .map(geminiModelToModelDescription)
         .filter(model => !!model)
         .sort(geminiSortModels);

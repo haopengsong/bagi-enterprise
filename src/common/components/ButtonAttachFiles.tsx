@@ -61,7 +61,7 @@ function ButtonAttachFiles(props: {
   ) : (
     <Tooltip arrow disableInteractive placement='top-start' title={props.noToolTip ? null : (
       <Box sx={buttonAttachSx.tooltip}>
-        <b>Attach files</b><br />
+        <b>添加附件</b><br />
         Drag & drop in chat for faster loads ⚡
         <KeyStroke combo='Ctrl + Shift + F' sx={{ mt: 1, mb: 0.5 }} />
       </Box>
@@ -75,7 +75,7 @@ function ButtonAttachFiles(props: {
         startDecorator={<AttachFileRoundedIcon />}
         sx={buttonAttachSx.desktop}
       >
-        File
+        附件
       </Button>
     </Tooltip>
   );

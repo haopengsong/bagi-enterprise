@@ -196,7 +196,8 @@ export function ModelsList(props: {
     // generate the list items, prepending headers when necessary
     const items: React.JSX.Element[] = [];
     for (const llm of llms) {
-
+      if (llm.hidden)
+        continue;
       // get the service label
       const serviceLabel = findModelsServiceOrNull(llm.sId)?.label ?? llm.sId;
 

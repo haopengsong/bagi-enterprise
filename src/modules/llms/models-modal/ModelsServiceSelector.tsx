@@ -220,7 +220,7 @@ export function ModelsServiceSelector(props: {
         {/*</ListItem>*/}
       </Select>
 
-      {(isMobile && !noServices) ? (
+      {/* {(isMobile && !noServices) ? (
         <IconButton variant={noServices ? 'solid' : 'outlined'} color='primary' onClick={handleShowVendors} disabled={!!vendorsMenuAnchor} sx={{ borderColor: 'neutral.outlinedBorder' }}>
           <AddIcon />
         </IconButton>
@@ -230,9 +230,9 @@ export function ModelsServiceSelector(props: {
             Add
           </Button>
         </Tooltip>
-      )}
+      )} */}
 
-      {enableDeleteButton && (
+      {!enableDeleteButton && (
         <TooltipOutlined title={`Remove ${selectedServiceItem?.service.label || 'Service'}`}>
           <IconButton
             variant='plain' color='neutral' disabled={!enableDeleteButton} sx={{ ml: 'auto' }}

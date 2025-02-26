@@ -54,7 +54,7 @@ export function GeminiServiceSetup(props: { serviceId: DModelsServiceId }) {
     useLlmUpdateModels(!serviceHasLLMs && shallFetchSucceed, service);
 
   return <>
-
+{/* 
     <ApproximateCosts serviceId={service?.id} />
 
     <FormInputKey
@@ -66,9 +66,9 @@ export function GeminiServiceSetup(props: { serviceId: DModelsServiceId }) {
       value={geminiKey} onChange={value => updateSettings({ geminiKey: value.trim() })}
       required={needsUserKey} isError={showKeyError}
       placeholder='...'
-    />
+    /> */}
 
-    {advanced.on && <FormControl orientation='horizontal' sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
+    {false && advanced.on && <FormControl orientation='horizontal' sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
       <FormLabelStart title='Safety Settings'
                       description='Threshold' />
       <Select
@@ -88,7 +88,7 @@ export function GeminiServiceSetup(props: { serviceId: DModelsServiceId }) {
       </Select>
     </FormControl>}
 
-    {advanced.on && <FormHelperText sx={{ display: 'block' }}>
+    { false && advanced.on && <FormHelperText sx={{ display: 'block' }}>
       Gemini has advanced <Link href='https://ai.google.dev/docs/safety_setting_gemini' target='_blank' noLinkStyle>
       safety settings</Link> on: harassment, hate speech,
       sexually explicit, civic integrity, and dangerous content, in addition to non-adjustable built-in filters.
@@ -96,7 +96,7 @@ export function GeminiServiceSetup(props: { serviceId: DModelsServiceId }) {
       {/*of being unsafe.*/}
     </FormHelperText>}
 
-    {advanced.on && <FormTextField
+    {false && advanced.on && <FormTextField
       autoCompleteId='gemini-host'
       title='API Endpoint'
       placeholder={`https://generativelanguage.googleapis.com`}

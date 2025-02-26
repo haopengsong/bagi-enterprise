@@ -101,7 +101,7 @@ export function GoodModal(props: {
           }}>
             {props.startButton}
             {showBottomClose && <Button aria-label='Close Dialog' variant='solid' color='neutral' onClick={props.onClose} sx={{ ml: 'auto', minWidth: 100 }}>
-              {props.closeText || 'Close'}
+              {props.closeText || '关闭'}
             </Button>}
           </Box>}
 

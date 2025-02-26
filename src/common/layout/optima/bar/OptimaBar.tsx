@@ -111,12 +111,22 @@ export function OptimaBar(props: { component: React.ElementType, currentApp?: Na
           )}
         </InvertedBarCornerItem>
       )}
-
+      <Box sx={{
+        flexGrow: 0,
+        minHeight: 'var(--Bar)',
+        display: 'flex', flexFlow: 'row wrap', justifyContent: 'flex-start', alignItems: 'center',
+        my: 'auto',
+        pl: 20,
+        pr: 0,
+        mr: 0,
+      }}>
+        <div>生成内容需确认 <b style={{color: '#6fa9ec'}}>请勿直接采用</b></div>
+      </Box>
       {/* Pluggable Toolbar Items */}
       <CenterItemsPortal currentApp={props.currentApp} />
 
       {/* Panel/Menu button */}
-      {panelHasContent && (
+      {!panelHasContent && (
         <InvertedBarCornerItem>
           {/*<Tooltip disableInteractive title={contentToPopup ? (panelIsOpen ? 'Close' : 'Open') + ' Menu' : (panelIsOpen ? 'Close' : 'Open')}>*/}
           <IconButton

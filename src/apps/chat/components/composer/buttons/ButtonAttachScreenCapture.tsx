@@ -65,7 +65,7 @@ function ButtonAttachScreenCapture(props: {
         onClick={handleTakeScreenCapture}
         sx={buttonAttachSx.desktop}
       >
-        Screen
+        截屏
       </Button>
     </Tooltip>
   );

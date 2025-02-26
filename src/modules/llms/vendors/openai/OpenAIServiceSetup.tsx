@@ -47,7 +47,7 @@ export function OpenAIServiceSetup(props: { serviceId: DModelsServiceId }) {
 
   return <>
 
-    <ApproximateCosts serviceId={service?.id} />
+    {/* <ApproximateCosts serviceId={service?.id} />
 
     <FormInputKey
       autoCompleteId='openai-key' label='API Key'
@@ -103,7 +103,7 @@ export function OpenAIServiceSetup(props: { serviceId: DModelsServiceId }) {
       </>}
       checked={moderationCheck}
       onChange={on => updateSettings({ moderationCheck: on })}
-    />}
+    />} */}
 
     <SetupFormRefetchButton refetch={refetch} disabled={isFetching} error={isError} loading={isFetching} advanced={advanced} />
 
