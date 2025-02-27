@@ -26,6 +26,11 @@ export async function _handleExecute(chatExecuteMode: ChatExecuteMode, conversat
   const cHandler = ConversationsManager.getHandler(conversationId);
   const initialHistory = cHandler.historyViewHeadOrThrow('handle-execute-' + executeCallerNameDebug) as Readonly<DMessage[]>;
 
+  // prevent chat history from getting too long
+  if ( initialHistory.length >= 36 ) {
+    alert('对话记录过长，请新建一个对话');
+    return;
+  }
   // Update the system message from the active persona to the history
   // NOTE: this does NOT call setMessages anymore (optimization). make sure to:
   //       1. all the callers need to pass a new array
