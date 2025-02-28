@@ -17,7 +17,7 @@
  */
 export const Brand = {
   Title: {
-    Base: 'xChat',
+    Base: 'xChat V4.0.0',
     Common: (process.env.NODE_ENV === 'development' ? '[DEV] ' : '') + 'xChat',
   },
   Meta: {

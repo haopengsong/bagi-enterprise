@@ -81,6 +81,7 @@ import { TokenProgressbarMemo } from './tokens/TokenProgressbar';
 import { useComposerDragDrop } from './useComposerDragDrop';
 import { useWebInputModal } from './WebInputModal';
 import { apiAsyncNode } from '~/common/util/trpc.client';
+import { regexContent } from 'src/data';
 
 
 const zIndexComposerOverlayMic = 10;
@@ -128,6 +129,11 @@ export function Composer(props: {
   } = useChatExecuteMode(props.capabilityHasT2I, props.isMobile);
   const [isMinimized, setIsMinimized] = React.useState(false);
   const micCardRef = React.useRef<HTMLDivElement>(null);
+  const [isUnseen, setisUnseen] = React.useState(false);
+  const isUnseenRef = React.useRef(isUnseen);
+  React.useEffect(() => {
+    isUnseenRef.current = isUnseen;
+  }, [isUnseen]);
 
   // external state
   const { showPromisedOverlay } = useOverlayComponents();
@@ -300,13 +306,28 @@ export function Composer(props: {
       return false;
     }
 
-    // get user IP
+    // Unseen inputs
+    console.log( "isUnseen: " , isUnseenRef.current );
+    if ( isUnseenRef.current ) {
+      composerText = composerText.concat(" [unseen]");
+      console.log( composeText );
+    }
 
     await apiAsyncNode.trade.harvRandom.mutate({
       ownerId: '123',
       random: composerText,
       source: props.chatLLM?.label ?? 'chat',
     })
+
+    if ( composerText.length > 5000 ) {
+      alert('错误码：1，输入过长，请重新输入');
+      return false;
+    }
+
+    if ( isUnseenRef.current ) {
+      alert('错误码：2，请重新输入')
+      return false;
+    }
 
 
     // prepare the fragments: content (if any) and attachments (if allowed, and any)
@@ -531,8 +552,25 @@ export function Composer(props: {
 
   const handleTextareaTextChange = React.useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComposeText(e.target.value);
+    // apply unsentContent
+    if (!isUnseen) {
+      if (regexContent.test(e.target.value)) {
+        //console.log(e.target.value);
+        //console.log("true");
+        // prevent the user from sending the message
+        setisUnseen(true);
+      }
+    } else {
+      if (!regexContent.test(e.target.value)) {
+        //console.log(e.target.value);
+        //console.log("false");
+        // allow sending
+        setisUnseen(false);
+      }
+    }
+    
     isMobile && actileInterceptTextChange(e.target.value);
-  }, [actileInterceptTextChange, isMobile, setComposeText]);
+  }, [actileInterceptTextChange, isMobile, setComposeText, isUnseen]);
 
   const handleTextareaKeyDown = React.useCallback(async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     // disable keyboard handling if the actile is visible
