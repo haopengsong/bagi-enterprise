@@ -33,5 +33,8 @@ export const Brand = {
     OpenProject: 'https://www.bing.com',
     SupportInvite: 'https://www.bing.com',
     PrivacyPolicy: 'https://www.bing.com',
-  },
+  }, 
+    Docs: {
+    Public: (docPage: string) => `https://big-agi.com/docs/${docPage}`,
+  }
 } as const ;
