@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 //export type SystemPurposeId = 'Catalyst' | 'Custom' | 'Designer' | 'Developer' | 'DeveloperPreview' | 'Executive' | 'Generic' | 'Scientist' | 'YouTubeTranscriber';
-export type SystemPurposeId = 'Developer' | 'Generic' | 'Scientist' ;
+export type SystemPurposeId = 'DeveloperPreview' | 'Developer' | 'Generic' | 'Scientist' | 'Custom'  ;
 
 export const defaultSystemPurposeId: SystemPurposeId = 'Generic';
 
@@ -38,27 +38,27 @@ Current date: {{LocaleNow}}
     call: { starters: ['Hey, how can I assist?', 'AI assistant ready. What do you need?', 'Ready to assist.', 'Hello.'] },
     voices: { elevenLabs: { voiceId: 'z9fAnlkpzviPz146aGWa' } },
   },
-//   DeveloperPreview: {
-//     title: 'Developer',
-//     description: 'Extended-capabilities Developer',
-//     // systemMessageNotes: 'Knowledge cutoff is set to "Current" instead of "{{Cutoff}}" to lower push backs',
-//     systemMessage: `You are a sophisticated, accurate, and modern AI programming assistant.
-// When updating code please follow code conventions, do not collapse whitespace and do not elide comments.
-// Knowledge cutoff: {{LLM.Cutoff}}
-// Current date: {{LocaleNow}}
+  DeveloperPreview: {
+    title: '开发者',
+    description: 'Extended-capabilities Developer',
+    // systemMessageNotes: 'Knowledge cutoff is set to "Current" instead of "{{Cutoff}}" to lower push backs',
+    systemMessage: `You are a sophisticated, accurate, and modern AI programming assistant.
+When updating code please follow code conventions, do not collapse whitespace and do not elide comments.
+Knowledge cutoff: {{LLM.Cutoff}}
+Current date: {{LocaleNow}}
 
-// {{RenderPlantUML}}
-// {{RenderMermaid}}
-// {{RenderSVG}}
-// {{PreferTables}}
-// `, // {{InputImage0}} {{ToolBrowser0}}
-//     symbol: '👨‍💻',
-//     imageUri: '/images/personas/dev_preview_icon_120x120.webp',
-//     examples: ['show me an OAuth2 diagram', 'draw a capybara as svg code', 'implement a custom hook in my React app', 'migrate a React app to Next.js', 'optimize my AI model for energy efficiency', 'optimize serverless architectures'],
-//     call: { starters: ['Dev here. Got code?', 'Developer on call. What\'s the issue?', 'Ready to code.', 'Hello.'] },
-//     voices: { elevenLabs: { voiceId: 'yoZ06aMxZJJ28mfd3POQ' } },
-//     // highlighted: true,
-//   },
+{{RenderPlantUML}}
+{{RenderMermaid}}
+{{RenderSVG}}
+{{PreferTables}}
+`, // {{InputImage0}} {{ToolBrowser0}}
+    symbol: '👨‍💻',
+    imageUri: '/images/personas/cto1.jpg',
+    examples: ['show me an OAuth2 diagram', 'draw a capybara as svg code', 'implement a custom hook in my React app', 'migrate a React app to Next.js', 'optimize my AI model for energy efficiency', 'optimize serverless architectures'],
+    call: { starters: ['Dev here. Got code?', 'Developer on call. What\'s the issue?', 'Ready to code.', 'Hello.'] },
+    voices: { elevenLabs: { voiceId: 'yoZ06aMxZJJ28mfd3POQ' } },
+    // highlighted: true,
+  },
   Developer: {
     title: '开发者',
     description: 'Helps you code',
@@ -118,14 +118,14 @@ Current date: {{LocaleNow}}
 //     call: { starters: ['Enter a YouTube URL to begin.', 'Ready to transcribe YouTube content.', 'Paste the YouTube link here.'] },
 //     voices: { elevenLabs: { voiceId: 'z9fAnlkpzviPz146aGWa' } },
 //   },
-//   Custom: {
-//     title: 'Custom',
-//     description: 'Define the persona, or task:',
-//     systemMessage: 'You are ChatGPT, a large language model trained by OpenAI, based on the GPT-4 architecture.\nCurrent date: {{Today}}',
-//     symbol: '⚡',
-//     call: { starters: ['What\'s the task?', 'What can I do?', 'Ready for your task.', 'Yes?'] },
-//     voices: { elevenLabs: { voiceId: 'flq6f7yk4E4fJM5XTYuZ' } },
-//   },
+  Custom: {
+    title: 'Custom',
+    description: 'Define the persona, or task:',
+    systemMessage: 'You are ChatGPT, a large language model trained by OpenAI, based on the GPT-4 architecture.\nCurrent date: {{Today}}',
+    symbol: '⚡',
+    call: { starters: ['What\'s the task?', 'What can I do?', 'Ready for your task.', 'Yes?'] },
+    voices: { elevenLabs: { voiceId: 'flq6f7yk4E4fJM5XTYuZ' } },
+  },
 
 };
 

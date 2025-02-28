@@ -41,50 +41,50 @@ export function tokenCountsMathAndMessage(tokenLimit: number | 0, directTokens: 
       `          - History: ${_alignRight(historyTokens || 0)}\n` +
       `     - Max response: ${_alignRight(responseMaxTokens || 0)}`;
 
-    // add the price, if available
-    if (chatPricing) {
-      const inputPrice = getLlmCostForTokens(usedInputTokens, usedInputTokens, chatPricing.input);
-      const outputPrice = getLlmCostForTokens(usedInputTokens, responseMaxTokens || 0, chatPricing.output);
+    // // add the price, if available
+    // if (chatPricing) {
+    //   const inputPrice = getLlmCostForTokens(usedInputTokens, usedInputTokens, chatPricing.input);
+    //   const outputPrice = getLlmCostForTokens(usedInputTokens, responseMaxTokens || 0, chatPricing.output);
 
-      costMin = inputPrice;
-      const costOutMax = outputPrice;
+    //   costMin = inputPrice;
+    //   const costOutMax = outputPrice;
 
-      if (costMin !== undefined || costOutMax !== undefined) {
-        message += `\n\n\n▶ Chat Turn Cost (max, approximate)\n`;
+    //   if (costMin !== undefined || costOutMax !== undefined) {
+    //     message += `\n\n\n▶ Chat Turn Cost (max, approximate)\n`;
 
-        if (costMin !== undefined) {
-          const inputPricePerM = costMin * 1e6 / usedInputTokens;
-          message += '\n' +
-            `       Input tokens: ${_alignRight(usedInputTokens)}\n` +
-            `    Input Price $/M: ${inputPricePerM.toFixed(2).padStart(8)}\n` +
-            `         Input cost: ${('$' + costMin.toFixed(4)).padStart(8)}\n`;
-        }
+    //     if (costMin !== undefined) {
+    //       const inputPricePerM = costMin * 1e6 / usedInputTokens;
+    //       message += '\n' +
+    //         `       Input tokens: ${_alignRight(usedInputTokens)}\n` +
+    //         `    Input Price $/M: ${inputPricePerM.toFixed(2).padStart(8)}\n` +
+    //         `         Input cost: ${('$' + costMin.toFixed(4)).padStart(8)}\n`;
+    //     }
 
-        if (costOutMax !== undefined) {
-          const outputPricePerM = costOutMax * 1e6 / (responseMaxTokens || 1);
-          message += '\n' +
-            `  Max output tokens: ${_alignRight(responseMaxTokens!)}\n` +
-            `   Output Price $/M: ${outputPricePerM.toFixed(2).padStart(8)}\n` +
-            `    Max output cost: ${('$' + costOutMax.toFixed(4)).padStart(8)}\n`;
-        }
+    //     if (costOutMax !== undefined) {
+    //       const outputPricePerM = costOutMax * 1e6 / (responseMaxTokens || 1);
+    //       message += '\n' +
+    //         `  Max output tokens: ${_alignRight(responseMaxTokens!)}\n` +
+    //         `   Output Price $/M: ${outputPricePerM.toFixed(2).padStart(8)}\n` +
+    //         `    Max output cost: ${('$' + costOutMax.toFixed(4)).padStart(8)}\n`;
+    //     }
 
-        if (costMin !== undefined) {
-          message += '\n' +
-            ` > Min message cost: <span class="highlight-cost yellow">${formatModelsCost(costMin).padStart(8)}</span>`;
-        }
+    //     if (costMin !== undefined) {
+    //       message += '\n' +
+    //         ` > Min message cost: <span class="highlight-cost yellow">${formatModelsCost(costMin).padStart(8)}</span>`;
+    //     }
 
-        costMax = (costMin !== undefined && costOutMax !== undefined) ? costMin + costOutMax : undefined;
-        if (costMax !== undefined) {
-          message += '\n' +
-            ` < Max message cost: <span>${formatModelsCost(costMax).padStart(8)}</span>\n` +
-            '   (depends on assistant response)';
-        }
+    //     costMax = (costMin !== undefined && costOutMax !== undefined) ? costMin + costOutMax : undefined;
+    //     if (costMax !== undefined) {
+    //       message += '\n' +
+    //         ` < Max message cost: <span>${formatModelsCost(costMax).padStart(8)}</span>\n` +
+    //         '   (depends on assistant response)';
+    //     }
 
-        // if (hack_lastMessageCosts)
-        //   message += '\n\n  ' +
-        //     `Last message cost: ${hack_lastMessageCosts}\n`;
-      }
-    }
+    //     // if (hack_lastMessageCosts)
+    //     //   message += '\n\n  ' +
+    //     //     `Last message cost: ${hack_lastMessageCosts}\n`;
+    //   }
+    // }
   }
   // Cleaner mode: d + ? < R (total is the remaining in this case)
   else {

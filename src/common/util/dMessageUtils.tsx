@@ -4,6 +4,9 @@ import TimeAgo from 'react-timeago';
 import type { SxProps } from '@mui/joy/styles/types';
 import { Avatar, Box } from '@mui/joy';
 import Face6Icon from '@mui/icons-material/Face6';
+import HiveIcon from '@mui/icons-material/Hive';
+import CloudCircleIcon from '@mui/icons-material/CloudCircle';
+import EqualizerIcon from '@mui/icons-material/Equalizer';
 import FormatPaintOutlinedIcon from '@mui/icons-material/FormatPaintOutlined';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActiveOutlined';
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
@@ -19,7 +22,8 @@ import type { DMessage, DMessageGenerator, DMessageRole } from '~/common/stores/
 import type { UIComplexityMode } from '~/common/app.theme';
 import { animationColorRainbow } from '~/common/util/animUtils';
 import { formatModelsCost } from '~/common/util/costUtils';
-
+import openaiSvg from '~/public/icons/openai-svgrepo-com.png';
+import { AlibabaCloudIcon } from '../components/icons/vendors/AlibabaCloudIcon';
 
 // configuration
 export const ANIM_BUSY_TYPING = 'https://i.giphy.com/media/jJxaUysjzO9ri/giphy.webp';
@@ -123,7 +127,10 @@ export function makeMessageAvatarIcon(
       return <SettingsSuggestIcon sx={avatarIconSx} />;  // https://em-content.zobj.net/thumbs/120/apple/325/robot_1f916.png
 
     case 'user':
-      return <Face6Icon sx={avatarIconSx} />;            // https://www.svgrepo.com/show/306500/openai.svg
+      // return <Face6Icon sx={avatarIconSx} />;            // https://www.svgrepo.com/show/306500/openai.svg
+      //return <HiveIcon sx={avatarIconSx} />;               // https://www.svgrepo.com/show/306500/openai.svg
+      //return <CloudCircleIcon sx={avatarIconSx} />;        // https://www.svgrepo.com/show/306500/openai.svg
+      return <EqualizerIcon sx={avatarIconSx} />;           // https://www.svgrepo.com/show/306500/openai.svg
 
     case 'assistant':
       const isDownload = messageGeneratorName === 'web';
@@ -284,12 +291,13 @@ function _prettyMetrics(metrics: DMessageGenerator['metrics'], uiComplexityMode:
     {/* Costs */}
     {metrics?.$c !== undefined && <div>Costs:</div>}
     {metrics?.$c !== undefined && <div>
-      <b>{formatModelsCost(metrics.$c / 100)}</b>
+      <b>{/* formatModelsCost(metrics.$c / 100) */}</b>
+      <b>0 $</b>
       {metrics.$cdCache !== undefined && <>
         {' '}<small>(
         {metrics.$cdCache > 0
-          ? <>cache savings: <b>{formatModelsCost(metrics.$cdCache / 100)}</b></>
-          : <>cache costs: <b>{formatModelsCost(-metrics.$cdCache / 100)}</b></>
+          ? <>cache savings: <b>0</b></>
+          : <>cache costs: <b>0</b></>
         })</small>
       </>}
     </div>}

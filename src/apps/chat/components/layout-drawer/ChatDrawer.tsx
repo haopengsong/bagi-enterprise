@@ -254,7 +254,7 @@ function ChatDrawer(props: {
   return <>
 
     {/* Drawer Header */}
-    <OptimaDrawerHeader title='Chats' onClose={optimaCloseDrawer}>
+    <OptimaDrawerHeader title='所有对话' onClose={optimaCloseDrawer}>
       <Tooltip title={enableFolders ? 'Hide Folders' : 'Use Folders'}>
         <IconButton size='sm' onClick={toggleEnableFolders}>
           {enableFolders ? <FoldersToggleOn /> : <FoldersToggleOff />}
@@ -330,7 +330,7 @@ function ChatDrawer(props: {
           }}
         >
           <ListItemDecorator><AddIcon sx={{ fontSize: '' }} /></ListItemDecorator>
-          New chat
+          新建对话
         </Button>
 
       </Box>

@@ -132,8 +132,8 @@ export function PersonaSelector(props: {
     complexityMode: state.complexityMode,
     showPersonaFinder: state.showPersonaFinder,
   })));
-  const [showExamples, showExamplescomponent] = useChipBoolean('Examples', complexityMode === 'extra' && !props.isMobile);
-  const [showPrompt, showPromptComponent] = useChipBoolean('Prompt', false);
+  const [showExamples, showExamplescomponent] = useChipBoolean('示例', complexityMode === 'extra' && !props.isMobile);
+  const [showPrompt, showPromptComponent] = useChipBoolean('角色', false);
   const { systemPurposeId, setSystemPurposeId } = useChatStore(useShallow(state => {
     const conversation = state.conversations.find(conversation => conversation.id === props.conversationId);
     return {
@@ -152,7 +152,7 @@ export function PersonaSelector(props: {
   // derived state
 
   const isCustomPurpose = systemPurposeId === 'Custom';
-  const isYouTubeTranscriber = systemPurposeId === 'YouTubeTranscriber';
+  // const isYouTubeTranscriber = systemPurposeId === 'YouTubeTranscriber';
 
   const { selectedPurpose, fourExamples } = React.useMemo(() => {
     const selectedPurpose: SystemPurposeData | null = systemPurposeId ? (SystemPurposes[systemPurposeId] ?? null) : null;
@@ -287,13 +287,14 @@ export function PersonaSelector(props: {
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         }}>
           <Typography level='title-sm'>
-            AI Persona
+            角色选择
           </Typography>
-          <Tooltip disableInteractive title={editMode ? 'Done Editing' : 'Edit Tiles'}>
+          { false && (<Tooltip disableInteractive title={editMode ? 'Done Editing' : 'Edit Tiles'}>
             <IconButton size='sm' onClick={toggleEditMode} sx={{ my: '-0.25rem' /* absorb the button padding */ }}>
               {editMode ? <DoneIcon /> : <EditRoundedIcon />}
             </IconButton>
           </Tooltip>
+          )}
         </Box>
 
         {/* Personas Tiles */}
@@ -316,7 +317,7 @@ export function PersonaSelector(props: {
         })}
 
         {/* Persona Creator Tile */}
-        {(editMode || !hidePersonaCreator) && (
+        { false && (editMode || !hidePersonaCreator) && (
           <Tile
             text='Persona Creator'
             symbol='🎭'
@@ -449,14 +450,14 @@ export function PersonaSelector(props: {
         )}
 
         {/* [row -1] YouTube URL */}
-        {isYouTubeTranscriber && (
+        {/* {isYouTubeTranscriber && (
           <YouTubeURLInput
             onSubmit={handleAppendTranscriptAsMessage}
             sx={{
               gridColumn: '1 / -1',
             }}
           />
-        )}
+        )} */}
 
       </Box>
 
