@@ -36,7 +36,7 @@ export function SetupFormRefetchButton(props: {
         onClick={props.refetch}
         sx={{ minWidth: 120, ml: 'auto' }}
       >
-        Models
+        刷新
       </Button>
 
     </Box>

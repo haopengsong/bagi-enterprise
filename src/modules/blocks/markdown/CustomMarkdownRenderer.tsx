@@ -116,7 +116,7 @@ function TableRenderer({ children, node, ...props }: TableRendererProps) {
             // endDecorator={<DownloadIcon />}
             sx={_styles.button}
           >
-            Download CSV
+            下载 CSV
           </Chip>
 
           {/* Button to copy markdown */}
@@ -128,7 +128,7 @@ function TableRenderer({ children, node, ...props }: TableRendererProps) {
             // endDecorator={<ContentCopyIcon />}
             sx={_styles.button}
           >
-            Copy Markdown
+            复制 Markdown
           </Chip>
         </Box>
       )}

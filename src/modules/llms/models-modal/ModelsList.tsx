@@ -147,13 +147,13 @@ function ModelItem(props: {
         {/* Action Buttons */}
 
         <GoodTooltip title={llm.hidden ? 'Hidden' : 'Shown in Chat'}>
-          <IconButton aria-label={llm.hidden ? 'Unhide' : 'Hide in Chat'} size='sm' onClick={llm.hidden ? handleLLMUnhide : handleLLMHide} sx={absorbListPadding}>
+          <IconButton disabled aria-label={llm.hidden ? 'Unhide' : 'Hide in Chat'} size='sm' onClick={llm.hidden ? handleLLMUnhide : handleLLMHide} sx={absorbListPadding}>
             {llm.hidden ? <VisibilityOffOutlinedIcon sx={{ opacity: 0.5, fontSize: 'md' }} /> : <VisibilityOutlinedIcon />}
           </IconButton>
         </GoodTooltip>
 
-        <GoodTooltip title='Options'>
-          <IconButton aria-label='Configure LLM' size='sm' sx={absorbListPadding} onClick={handleLLMConfigure}>
+        <GoodTooltip title='Options'  >
+          <IconButton disabled aria-label='Configure LLM' size='sm' sx={absorbListPadding} onClick={true ? () => { } : handleLLMConfigure}>
             <SettingsOutlinedIcon />
           </IconButton>
         </GoodTooltip>
@@ -224,7 +224,7 @@ export function ModelsList(props: {
           chipChat={llm.id === primaryChatLlmId}
           chipCode={false /* do not show the CODE chip for now, to not confuse users llm.id === codeApplyLlmId*/}
           chipFast={llm.id === fastUtilLlmId}
-          onModelClicked={handleModelClicked}
+          onModelClicked={true ? () => { } : handleModelClicked}
           onModelSetHidden={handleModelSetHidden}
         />,
       );

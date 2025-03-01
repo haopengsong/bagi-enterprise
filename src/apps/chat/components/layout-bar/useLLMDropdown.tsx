@@ -110,12 +110,12 @@ function LLMDropdown(props: {
   // "Model Options" button (only on the active item)
   const llmDropdownButton = React.useMemo(() => (
     <GoodTooltip title={
-      <Box sx={{ px: 1, py: 0.75, lineHeight: '1.5rem' }}>
+      <Box  sx={{ px: 1, py: 0.75, lineHeight: '1.5rem' }}>
         Model Options
         <KeyStroke variant='outlined' combo='Ctrl + Shift + O' sx={{ my: 0.5 }} />
       </Box>
     }>
-      <IconButton
+      <IconButton disabled
         variant='outlined' color='neutral'
         onClick={handleOpenLLMOptions}
         sx={{
