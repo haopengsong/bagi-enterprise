@@ -26,6 +26,10 @@ export async function _handleExecute(chatExecuteMode: ChatExecuteMode, conversat
   const cHandler = ConversationsManager.getHandler(conversationId);
   const initialHistory = cHandler.historyViewHeadOrThrow('handle-execute-' + executeCallerNameDebug) as Readonly<DMessage[]>;
 
+  if (chatLLMId?.includes("4.5")) {
+    alert("<GPT-4.5>停用 \n请切换使用其他模型 \n1. 请在<配置模型>页面 \n2. 点击<Service>出现下拉菜单 \n3. 选择提供商 \n4. 点击<刷新> \n5. 选用<ChatGPT-4o Latest>");
+    return;
+  }
   // prevent chat history from getting too long
   if ( initialHistory.length >= 36 ) {
     alert('对话记录过长，请新建一个对话');
