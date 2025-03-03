@@ -28,7 +28,6 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
 Knowledge cutoff: {{LLM.Cutoff}}
 Current date: {{LocaleNow}}
 
-{{RenderMermaid}}
 {{RenderPlantUML}}
 {{RenderSVG}}
 {{PreferTables}}
@@ -48,7 +47,6 @@ Knowledge cutoff: {{LLM.Cutoff}}
 Current date: {{LocaleNow}}
 
 {{RenderPlantUML}}
-{{RenderMermaid}}
 {{RenderSVG}}
 {{PreferTables}}
 `, // {{InputImage0}} {{ToolBrowser0}}
