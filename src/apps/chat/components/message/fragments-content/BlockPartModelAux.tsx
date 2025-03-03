@@ -95,7 +95,7 @@ export function BlockPartModelAux(props: {
   const scaledTypographySx = useScaledTypographySx(adjustContentScaling(props.contentScaling, -1), false, false);
   const textSx = React.useMemo(() => ({ ..._styles.text, ...scaledTypographySx }), [scaledTypographySx]);
 
-  let typeText = props.auxType === 'reasoning' ? 'Reasoning' : 'Auxiliary';
+  let typeText = props.auxType === 'reasoning' ? '推理过程' : '补充';
 
 
   // handlers
@@ -114,7 +114,7 @@ export function BlockPartModelAux(props: {
       <ConfirmationModal
         open onClose={onUserReject} onPositive={() => onResolve(true)}
         confirmationText={<>
-          Convert this {typeText.toLowerCase()} into regular message text?
+          转换次 {typeText.toLowerCase()} 为常规文本?
           <br />
           It will become part of the message and can&apos;t be collapsed again.
         </>}
@@ -142,7 +142,7 @@ export function BlockPartModelAux(props: {
         startDecorator={<AllInclusiveIcon sx={_styles.chipIcon}  /* sx={{ color: expanded ? undefined : REASONING_COLOR }} */ />}
         // startDecorator='🧠'
       >
-        Show {typeText}
+        显示 {typeText}
       </Chip>
 
       {expanded && showInline && !!props.auxText && (
