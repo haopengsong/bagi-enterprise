@@ -128,8 +128,6 @@ Current date: {{LocaleNow}}
 };
 
 // unseen
-const unsentContent = ['党', '政', '军',  '警' , '共产党', '中国', '中华人民共和国' , '中华民国' , '习近平' , '中共' ,
-   '中央政府' , '武警' , '警察', '中国军队', '六四' , '1964' , '六四动荡' , '天安门', '法轮',
-    '中国政府' , 'jinping','近平','毛泽东','邓小平','江泽民','胡锦涛','李克强'];
+const unsentContent = [];
 const escapedContent = unsentContent.map((content) => content.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
 export const regexContent = new RegExp(escapedContent.join('|'));
