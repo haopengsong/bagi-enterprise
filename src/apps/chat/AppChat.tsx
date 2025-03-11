@@ -40,8 +40,8 @@ import { useLLM } from '~/common/stores/llms/llms.hooks';
 import { useModelDomain } from '~/common/stores/llms/hooks/useModelDomain';
 import { useOverlayComponents } from '~/common/layout/overlays/useOverlayComponents';
 import { useRouterQuery } from '~/common/app.routes';
-import { useUIComplexityIsMinimal } from '~/common/state/store-ui';
-import { useUXLabsStore } from '~/common/state/store-ux-labs';
+import { useUIComplexityIsMinimal } from '~/common/stores/store-ui';
+import { useUXLabsStore } from '~/common/stores/store-ux-labs';
 
 import { ChatPane } from './components/layout-pane/ChatPane';
 import { ChatBarAltBeam } from './components/layout-bar/ChatBarAltBeam';
@@ -93,7 +93,8 @@ const chatBeamWrapperSx: SxProps = {
 };
 
 const composerOpenSx: SxProps = {
-  zIndex: 21, // just to allocate a surface, and potentially have a shadow
+  // NOTE: disabled on 2025-03-05: conflicts with the GlobalDragOverlay's
+  // zIndex: 21, // just to allocate a surface, and potentially have a shadow
   minWidth: { md: 480 }, // don't get compresses too much on desktop
   backgroundColor: themeBgAppChatComposer,
   borderTop: `1px solid`,
@@ -640,7 +641,7 @@ export function AppChat() {
                 borderStyle: 'solid',
                 borderColor: _paneIsFocused
                   ? ((willMulticast || !isMultiConversationId) ? theme.palette.primary.solidBg : theme.palette.primary.solidBg)
-                  : ((willMulticast || !isMultiConversationId) ? theme.palette.primary.softActiveBg : theme.palette.background.level1),
+                  : ((willMulticast || !isMultiConversationId) ? theme.palette.primary.softActiveBg : theme.palette.divider),
                 borderWidth: '2px',
                 // borderBottomWidth: '3px',
                 // DISABLED on 2024-03-13, it gets in the way quite a lot
@@ -665,8 +666,10 @@ export function AppChat() {
 
             {isMultiPane && !isZenMode && (
               <PaneTitleOverlay
+                paneIdx={idx}
                 conversationId={_paneConversationId}
                 isFocused={_paneIsFocused}
+                onConversationDelete={handleDeleteConversations}
               />
             )}
 
