@@ -119,11 +119,11 @@ export function AppNews() {
       }}>
 
         <Typography level='h1' sx={{ fontSize: '2.9rem', mb: 4 }}>
-          Welcome to {Brand.Title.Base} <Box component='span' sx={{ animation: `${animationColorBlues} 10s infinite`, zIndex: 1 /* perf-opt */ }}>{firstNews?.versionCode}</Box>!
+          欢迎使用AI助理 {Brand.Title.Base} <Box component='span' sx={{ animation: `${animationColorBlues} 10s infinite`, zIndex: 1 /* perf-opt */ }}></Box>!
         </Typography>
 
         <Typography sx={{ mb: 2 }} level='title-sm'>
-          {capitalizeFirstLetter(Brand.Title.Base)} has been updated to version {firstNews?.versionCode}
+          {capitalizeFirstLetter(Brand.Title.Base)} 已升级至 {firstNews?.versionCode}
         </Typography>
 
         <Box sx={{ mb: 5 }}>
@@ -136,7 +136,7 @@ export function AppNews() {
               minWidth: 180,
             }}
           >
-            Continue
+           进入AI助理 
           </Button>
         </Box>
 
