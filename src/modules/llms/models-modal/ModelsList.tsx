@@ -157,7 +157,7 @@ function ModelItem(props: {
           <IconButton disabled aria-label={llm.hidden ? 'Unhide' : 'Hide in Chat'} size='sm' onClick={llm.hidden ? handleLLMUnhide : handleLLMHide} sx={absorbListPadding}>
             {llm.hidden ? <VisibilityOffOutlinedIcon sx={{ opacity: 0.5, fontSize: 'md' }} /> : <VisibilityOutlinedIcon />}
           </IconButton>
-        </GoodTooltip>}
+        </GoodTooltip>
 
         <GoodTooltip title='Options'  >
           <IconButton disabled aria-label='Configure LLM' size='sm' sx={absorbListPadding} onClick={true ? () => { } : handleLLMConfigure}>
@@ -225,6 +225,7 @@ export function ModelsList(props: {
       const vendor = findModelVendor(llm.vId);
       !!vendor && items.push(
         <ModelItem
+          isMobile={isMobile}
           key={'llm-' + llm.id}
           llm={llm}
           serviceLabel={serviceLabel}
