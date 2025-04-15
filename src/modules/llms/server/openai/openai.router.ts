@@ -176,6 +176,7 @@ export const llmOpenAIRouter = createTRPCRouter({
         // [OpenAI]: chat-only models, custom sort, manual mapping
         case 'openai':
 
+            //console.log('openAIModels', openAIModels.map(m => m.id));
           // [FireworksAI] special case for model enumeration
           if (fireworksAIHeuristic(access.oaiHost))
             return { models: fireworksAIModelsToModelDescriptions(openAIModels) };
@@ -184,7 +185,8 @@ export const llmOpenAIRouter = createTRPCRouter({
 
             // limit to only 'gpt' and 'non instruct' models
             .filter(openAIModelFilter)
-            .filter( model => !model.id.includes("4.5") )
+            //.filter( model => !model.id.includes("4.5") )
+            .filter(model => model.id.includes("4.1") || model.id.includes("search-preview") || model.id.includes("o1"))
 
             // to model description
             .map((model): ModelDescriptionSchema => openAIModelToModelDescription(model.id, model.created))

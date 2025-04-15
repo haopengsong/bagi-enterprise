@@ -4,6 +4,7 @@ import type { SxProps } from '@mui/joy/styles/types';
 import { Box, Chip, IconButton, List, ListItem, ListItemButton, Typography } from '@mui/joy';
 import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
 import SdCardOutlinedIcon from '@mui/icons-material/SdCardOutlined';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import TextsmsOutlinedIcon from '@mui/icons-material/TextsmsOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
