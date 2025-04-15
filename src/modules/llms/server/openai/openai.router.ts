@@ -201,9 +201,11 @@ export const llmOpenAIRouter = createTRPCRouter({
           break;
 
         case 'openrouter':
+          // openRouterStatTokenizers(openAIModels);
           models = openAIModels
             .sort(openRouterModelFamilySortFn)
-            .map(openRouterModelToModelDescription);
+            .map(openRouterModelToModelDescription)
+            .filter(desc => !!desc);
           break;
 
       }
@@ -349,15 +351,15 @@ const DEFAULT_XAI_HOST = 'https://api.x.ai';
 function getRandomKeyFromMultiKey(multiKeyString: string): string {
   if (!multiKeyString.includes(','))
     return multiKeyString;
-  
+
   const multiKeys = multiKeyString
     .split(',')
     .map(key => key.trim())
     .filter(Boolean);
-  
+
   if (!multiKeys.length)
     return '';
-    
+
   return multiKeys[Math.floor(Math.random() * multiKeys.length)];
 }
 
