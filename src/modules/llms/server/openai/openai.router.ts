@@ -176,7 +176,7 @@ export const llmOpenAIRouter = createTRPCRouter({
         // [OpenAI]: chat-only models, custom sort, manual mapping
         case 'openai':
 
-            //console.log('openAIModels', openAIModels.map(m => m.id));
+            console.log('openAIModels', openAIModels.map(m => m.id));
           // [FireworksAI] special case for model enumeration
           if (fireworksAIHeuristic(access.oaiHost))
             return { models: fireworksAIModelsToModelDescriptions(openAIModels) };
